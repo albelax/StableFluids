@@ -23,7 +23,6 @@ Mesh::Mesh(std::string _address, std::string _name)
 	int len = (int)Source.tellg();
 	Source.seekg(0);
 
-	bool testuv = true;
 	/* set min and max to arbitrary values,
 	 * it is necessary to update them to somethong meaningful later on
 	 */

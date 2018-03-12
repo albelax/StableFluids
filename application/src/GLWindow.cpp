@@ -27,6 +27,7 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
 
   m_solver.init();
   m_solver.reset();
+  std::cout << sizeof(m_solver) << " = solver size\n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -54,13 +55,6 @@ void GLWindow::initializeGL()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void GLWindow::resizeGL( int _w, int _h )
-{
-
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-
 GLWindow::~GLWindow()
 {
 
@@ -73,8 +67,12 @@ void GLWindow::mouseMove(QMouseEvent * _event)
   m_solver.cleanBuffer();
 
   m_camera.handleMouseMove( _event->pos().x(), _event->pos().y() );
-  int x = (int) ( _event->pos().x()/ (float)width() * 127.0f ) > 127 ? x = 127 : x = (int) ( _event->pos().x()/ (float)width() * 127.0f );
-  int y = (int) ( _event->pos().y()/ (float)height() * 127.0f ) > 127 ? y = 127 : y = (int) ( _event->pos().y()/ (float)height() * 127.0f );
+
+  float posx = _event->pos().x() / static_cast<float>(width()) * 127.0f;
+  float posy = _event->pos().y() / static_cast<float>(height()) * 127.0f;
+
+  int x = static_cast<int>(posx) > 127 ? 127 : static_cast<int>(posx);
+  int y = static_cast<int>(posy) > 127 ? 127 : static_cast<int>(posy);
 
   if ( x < 1 ) x = 1;
   if ( y < 1 ) y = 1;

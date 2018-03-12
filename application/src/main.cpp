@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
     gettimeofday( &time, NULL );
     before = time.tv_sec + ( time.tv_usec * 1e-6 );
     Rand_CPU::randFloats( vec_cpu );
+
     gettimeofday( &time, NULL );
     after = time.tv_sec + ( time.tv_usec * 1e-6 );
     double cpuTime = after - before;
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
     gettimeofday( &time, NULL );
     before = time.tv_sec + ( time.tv_usec * 1e-6 );
     Rand_GPU::randFloats( vec_gpu );
+
     gettimeofday( &time, NULL );
     after = time.tv_sec + ( time.tv_usec * 1e-6 );
     double gpuTime = after - before;

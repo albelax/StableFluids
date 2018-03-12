@@ -51,11 +51,10 @@ int Rand_GPU::randFloatsInternal(float *&devData, const size_t n)
 int Rand_GPU::randFloats(std::vector<float>& tgt)
 {
     int ret_val = EXIT_SUCCESS;
-
     // Create a device array using CUDA
     float *d_Rand_ptr;
     CUDA_CALL(cudaMalloc(&d_Rand_ptr, tgt.size() * sizeof(float)));
-    
+
     // Fill the thrust vector using the randFloats() function    
     //randSphereCoords(d_Rand_ptr, tgt.size());
     randFloatsInternal(d_Rand_ptr, tgt.size());

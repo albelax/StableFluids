@@ -3,7 +3,8 @@
 
 #include <vector>
 
-namespace Rand_GPU {
+namespace Rand_GPU
+{
     /// Fill up a vector on the device with n floats. Memory is arrumed to have been preallocated.
     int randFloatsInternal(float *&/*devData*/, const size_t /*n*/);
 

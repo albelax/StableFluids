@@ -25,6 +25,16 @@
 #include <glm.hpp>
 #include <stdio.h>
 
+
+template <class T>
+class vec2
+{
+public:
+    vec2() = default;
+    T x;
+    T y;
+};
+
 class StableSolverCpu
 {
 public:
@@ -50,75 +60,68 @@ public:
     void animDen();
 
     //getter
-    int getRowCell(){ return rowCell; }
-    int getColCell(){ return colCell; }
+    int getRowCell(){ return gridSize.x; }
+    int getColCell(){ return gridSize.y; }
     int getTotCell(){ return totCell; }
-    int getRowVelX(){ return rowVelX; }
-    int getcolVelX(){ return colVelX; }
+    int getRowVelX(){ return rowVelocity.x; }
+    int getcolVelX(){ return columnVelocity.x; }
     int getTotVelX(){ return totVelX; }
-    int getRowVelY(){ return rowVelY; }
-    int getColVelY(){ return colVelY; }
+    int getRowVelY(){ return rowVelocity.y; }
+    int getColVelY(){ return columnVelocity.y; }
     int getTotVelY(){ return totVelY; }
-    float* getVX(){ return vx; }
-    float* getVY(){ return vy; }
-    float* getD(){ return d; }
+    float* getVX(){ return velocity.x; }
+    float* getVY(){ return velocity.y; }
+    float* getD(){ return density; }
+    int vxIdx(int i, int j){ return j*rowVelocity.x+i; }
+    int vyIdx(int i, int j){ return j*rowVelocity.y+i; }
+    int cIdx(int i, int j){ return j*gridSize.x+i; }
     glm::vec2* getPVX(){ return pvx; }
     glm::vec2* getPVY(){ return pvy; }
-    int vxIdx(int i, int j){ return j*rowVelX+i; }
-    int vyIdx(int i, int j){ return j*rowVelY+i; }
-    int cIdx(int i, int j){ return j*rowCell+i; }
-    glm::vec2 getCellVel(int i, int j){ return glm::vec2((vx[vxIdx(i, j)]+vx[vxIdx(i+1, j)])/2, (vy[vyIdx(i, j)]+vy[vyIdx(i, j+1)])/2); }
+    glm::vec2 getCellVel(int i, int j){ return glm::vec2((velocity.x[vxIdx(i, j)]+velocity.x[vxIdx(i+1, j)])/2, (velocity.y[vyIdx(i, j)]+velocity.y[vyIdx(i, j+1)])/2); }
     
     float getDens(int i, int j) // calculates density of cell
     { 
         return (
-        d[cIdx(i-1, j-1)] +
-        d[cIdx(i, j-1)] + 
-        d[cIdx(i-1, j)] + 
-        d[cIdx(i, j)])/4.0f; 
+        density[cIdx(i-1, j-1)] +
+        density[cIdx(i, j-1)] +
+        density[cIdx(i-1, j)] +
+        density[cIdx(i, j)])/4.0f;
 }
 
     //setter
     void setVel0(int i, int j, float _vx0, float _vy0)
     { 
-        vx0[vxIdx(i, j)] += _vx0;
-        vx0[vxIdx(i+1, j)] += _vx0;
-        vy0[vyIdx(i, j)] += _vy0;
-        vy0[vyIdx(i, j+1)] += _vy0;
+        previousVelocity.x[vxIdx(i, j)] += _vx0;
+        previousVelocity.x[vxIdx(i+1, j)] += _vx0;
+        previousVelocity.y[vyIdx(i, j)] += _vy0;
+        previousVelocity.y[vyIdx(i, j+1)] += _vy0;
     }
-    void setD0(int i, int j, float _d0){ d0[cIdx(i, j)]=_d0; }
-
+    void setD0(int i, int j, float _d0){ previousDensity[cIdx(i, j)]=_d0; }
 private:
-    int rowCell;
-    int colCell;
+    bool running;
     int totCell;
-    int rowVelX;
-    int colVelX;
     int totVelX;
-    int rowVelY;
-    int colVelY;
     int totVelY;
-    float minX;
-    float maxX;
-    float minY;
-    float maxY;
-
-    //params
-    int running;
     float timeStep;
-    float diff;
-    float visc;
+    float diffusion;
+    float viscosity;
 
-    float *vx; // velocity x
-    float *vy; // velocity y
-    float *vx0; // input velocity x
-    float *vy0; // inbput velocity y
-    float *d; // density 
-    float *d0; // density input
-    float *div; // divergence
-    float *p; // pressure
-    glm::vec2 *pvx;
-    glm::vec2 *pvy;
+    float *density;
+    float *previousDensity;
+    float *divergence;
+    float *pressure;
+    vec2<int> gridSize;
+    vec2<int> rowVelocity;
+    vec2<int> columnVelocity;
+    vec2<float> min;
+    vec2<float> max;
+    vec2<float *> velocity;
+    vec2<float *> previousVelocity;
+    glm::vec2 * pvx;
+    glm::vec2 * pvy;
 };
+
+
+
 
 #endif
