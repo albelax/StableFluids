@@ -1,4 +1,4 @@
-/** File:    MacStableSolver.h
+﻿/** File:    MacStableSolver.h
  ** Author:  Dongli Zhang
  ** Contact: dongli.zhang0129@gmail.com
  **
@@ -22,15 +22,16 @@
 #ifndef __MACSTABLESOLVER_H__
 #define __MACSTABLESOLVER_H__
 
-#include <glm.hpp>
 #include <stdio.h>
 
 
 template <class T>
 class vec2
 {
+// I genuinly just wanted a generic struct...
 public:
     vec2() = default;
+    vec2( T _x, T _y ) { x = _x; y = _y; }
     T x;
     T y;
 };
@@ -43,9 +44,6 @@ public:
     void init();
     void reset();
     void cleanBuffer();
-    void start(){ running=1; }
-    void stop(){ running=0; }
-    int isRunning(){ return running; }
 
     //animation
     void setVelBoundary(int flag);
@@ -60,65 +58,71 @@ public:
     void animDen();
 
     //getter
-    int getRowCell(){ return gridSize.x; }
-    int getColCell(){ return gridSize.y; }
-    int getTotCell(){ return totCell; }
-    int getRowVelX(){ return rowVelocity.x; }
-    int getcolVelX(){ return columnVelocity.x; }
-    int getTotVelX(){ return totVelX; }
-    int getRowVelY(){ return rowVelocity.y; }
-    int getColVelY(){ return columnVelocity.y; }
-    int getTotVelY(){ return totVelY; }
-    float* getVX(){ return velocity.x; }
-    float* getVY(){ return velocity.y; }
-    float* getD(){ return density; }
-    int vxIdx(int i, int j){ return j*rowVelocity.x+i; }
-    int vyIdx(int i, int j){ return j*rowVelocity.y+i; }
-    int cIdx(int i, int j){ return j*gridSize.x+i; }
-    glm::vec2* getPVX(){ return pvx; }
-    glm::vec2* getPVY(){ return pvy; }
-    glm::vec2 getCellVel(int i, int j){ return glm::vec2((velocity.x[vxIdx(i, j)]+velocity.x[vxIdx(i+1, j)])/2, (velocity.y[vyIdx(i, j)]+velocity.y[vyIdx(i, j+1)])/2); }
+    int getRowCell(){ return m_gridSize.x; }
+    int getColCell(){ return m_gridSize.y; }
+    int getTotCell(){ return m_totCell; }
+    int getRowVelX(){ return m_rowVelocity.x; }
+    int getcolVelX(){ return m_columnVelocity.x; }
+    int getTotVelX(){ return m_totVelX; }
+    int getRowVelY(){ return m_rowVelocity.y; }
+    int getColVelY(){ return m_columnVelocity.y; }
+    int getTotVelY(){ return m_totVelY; }
+    float* getVX(){ return m_velocity.x; }
+    float* getVY(){ return m_velocity.y; }
+    float* getD(){ return m_density; }
+    int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
+    int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
+    int cIdx(int i, int j){ return j*m_gridSize.x+i; }
+    vec2<float> * getPVX(){ return m_pvx; }
+    vec2<float> * getPVY(){ return m_pvy; }
+    vec2<float> getCellVel(int i, int j)
+    {
+        float x = (m_velocity.x[vxIdx(i, j)]+m_velocity.x[vxIdx(i+1, j)]) / 2.0f;
+        float y = (m_velocity.y[vyIdx(i, j)]+m_velocity.y[vyIdx(i, j+1)]) / 2.0f;
+        vec2<float> ret( x, y );
+        return ret;
+    }
     
     float getDens(int i, int j) // calculates density of cell
     { 
         return (
-        density[cIdx(i-1, j-1)] +
-        density[cIdx(i, j-1)] +
-        density[cIdx(i-1, j)] +
-        density[cIdx(i, j)])/4.0f;
+        m_density[cIdx(i-1, j-1)] +
+        m_density[cIdx(i, j-1)] +
+        m_density[cIdx(i-1, j)] +
+        m_density[cIdx(i, j)])/4.0f;
 }
 
     //setter
     void setVel0(int i, int j, float _vx0, float _vy0)
     { 
-        previousVelocity.x[vxIdx(i, j)] += _vx0;
-        previousVelocity.x[vxIdx(i+1, j)] += _vx0;
-        previousVelocity.y[vyIdx(i, j)] += _vy0;
-        previousVelocity.y[vyIdx(i, j+1)] += _vy0;
+        m_previousVelocity.x[vxIdx(i, j)] += _vx0;
+        m_previousVelocity.x[vxIdx(i+1, j)] += _vx0;
+        m_previousVelocity.y[vyIdx(i, j)] += _vy0;
+        m_previousVelocity.y[vyIdx(i, j+1)] += _vy0;
     }
-    void setD0(int i, int j, float _d0){ previousDensity[cIdx(i, j)]=_d0; }
+    void setD0(int i, int j, float _d0){ m_previousDensity[cIdx(i, j)]=_d0; }
 private:
-    bool running;
-    int totCell;
-    int totVelX;
-    int totVelY;
-    float timeStep;
-    float diffusion;
-    float viscosity;
+    int m_totCell;
+    int m_totVelX;
+    int m_totVelY;
+    float m_timeStep;
+    float m_diffusion;
+    float m_viscosity;
 
-    float *density;
-    float *previousDensity;
-    float *divergence;
-    float *pressure;
-    vec2<int> gridSize;
-    vec2<int> rowVelocity;
-    vec2<int> columnVelocity;
-    vec2<float> min;
-    vec2<float> max;
-    vec2<float *> velocity;
-    vec2<float *> previousVelocity;
-    glm::vec2 * pvx;
-    glm::vec2 * pvy;
+    float * m_density;
+    float * m_previousDensity; // d0
+    float * m_divergence;
+    float * m_pressure;
+    vec2<int> m_gridSize;
+    vec2<int> m_rowVelocity;
+    vec2<int> m_columnVelocity;
+    vec2<float> m_min;
+    vec2<float> m_max;
+    /// \brief velocity, stores to pointers to chunks of memory storing the velocities in x and y
+    vec2<float *> m_velocity;
+    vec2<float *> m_previousVelocity;
+    vec2<float> * m_pvx;
+    vec2<float> * m_pvy;
 };
 
 

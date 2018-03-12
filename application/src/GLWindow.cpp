@@ -24,10 +24,7 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
   m_image.fill(Qt::white);
 
   m_solver = StableSolverCpu();
-
-  m_solver.init();
   m_solver.reset();
-  std::cout << sizeof(m_solver) << " = solver size\n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
