@@ -67,12 +67,12 @@ public:
     int getRowVelY(){ return m_rowVelocity.y; }
     int getColVelY(){ return m_columnVelocity.y; }
     int getTotVelY(){ return m_totVelY; }
-    float* getVX(){ return m_velocity.x; }
-    float* getVY(){ return m_velocity.y; }
-    float* getD(){ return m_density; }
     int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
     int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
     int cIdx(int i, int j){ return j*m_gridSize.x+i; }
+    float* getVX(){ return m_velocity.x; }
+    float* getVY(){ return m_velocity.y; }
+    float* getD(){ return m_density; }
     vec2<float> * getPVX(){ return m_pvx; }
     vec2<float> * getPVY(){ return m_pvy; }
     vec2<float> getCellVel(int i, int j)
@@ -89,10 +89,9 @@ public:
         m_density[cIdx(i-1, j-1)] +
         m_density[cIdx(i, j-1)] +
         m_density[cIdx(i-1, j)] +
-        m_density[cIdx(i, j)])/4.0f;
-}
+        m_density[cIdx(i, j)]) / 4.0f;
+    }
 
-    //setter
     void setVel0(int i, int j, float _vx0, float _vy0)
     { 
         m_previousVelocity.x[vxIdx(i, j)] += _vx0;

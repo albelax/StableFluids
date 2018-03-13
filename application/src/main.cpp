@@ -57,6 +57,8 @@ int main(int argc, char *argv[])
     after = time.tv_sec + ( time.tv_usec * 1e-6 );
     double cpuTime = after - before;
     std::cout << "CPU took " << cpuTime << '\n';
+    Pippo p;
+    p.print();
   }
 
   if ( mode != CPU )

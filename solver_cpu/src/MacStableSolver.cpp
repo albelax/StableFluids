@@ -384,7 +384,7 @@ void StableSolverCpu::addSource()
 
   setVelBoundary(1);
   setVelBoundary(2);
-  setCellBoundary(m_density);
+  setCellBoundary( m_density );
 }
 
 void StableSolverCpu::animVel()
