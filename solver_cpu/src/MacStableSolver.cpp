@@ -21,20 +21,25 @@
 
 #include "MacStableSolver.h"
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <string.h>
 
-#define SWAP(value0,value) { float *tmp=value0; value0=value; value=tmp; }
+//----------------------------------------------------------------------------------------------------------------------
 
 StableSolverCpu::StableSolverCpu()
 {
     init();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 StableSolverCpu::~StableSolverCpu()
 {
 
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 void StableSolverCpu::init()
 {
@@ -59,7 +64,7 @@ void StableSolverCpu::init()
   //params
   m_timeStep = 1.0f;
   m_diffusion = 0.0f;
-  m_viscosity = 0.0f;;
+  m_viscosity = 0.0f;
 
   m_velocity.x = (float *)malloc(sizeof(float)*m_totVelX);
   m_velocity.y = (float *)malloc(sizeof(float)*m_totVelY);
@@ -72,18 +77,20 @@ void StableSolverCpu::init()
   m_pvx = (vec2<float> *)malloc(sizeof(vec2<float>)*m_totVelX);
   m_pvy = (vec2<float> *)malloc(sizeof(vec2<float>)*m_totVelY);
 
+//  std::cout << "x = " << m_rowVelocity.x << " " << m_columnVelocity.x << "\n";
   for(int i=0; i<m_rowVelocity.x; ++i)
   {
     for(int j=0; j<m_columnVelocity.x; ++j)
     {
       m_pvx[vxIdx(i, j)].x = (float)i;
       m_pvx[vxIdx(i, j)].y = (float)j+0.5f;
-      m_pvy[vyIdx(i, j)].x = (float)i+0.5f;
-      m_pvy[vyIdx(i, j)].y = (float)j;
+//      std::cout << "( " << m_pvx[vxIdx(i, j)].x << "," << m_pvx[vxIdx(i, j)].y << " )  ";
     }
+//    std::cout << " \n";
   }
 
-  for(int i = 0; i < m_rowVelocity.y; ++i)
+//  std::cout << "y = " << m_rowVelocity.y << " " << m_columnVelocity.y << "\n";
+  for(int i=0; i<m_rowVelocity.y; ++i)
   {
     for(int j=0; j<m_columnVelocity.y; ++j)
     {
@@ -93,6 +100,8 @@ void StableSolverCpu::init()
   }
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::reset()
 {
   for(int i=0; i<m_totCell; ++i) m_density[i] = 0.0f;
@@ -100,12 +109,16 @@ void StableSolverCpu::reset()
   for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0.0f;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::cleanBuffer()
 {
   for(int i=0; i<m_totCell; ++i) m_previousDensity[i] = 0.0f;
   for(int i=0; i<m_totVelX; ++i) m_previousVelocity.x[i] = 0.0f;
   for(int i=0; i<m_totVelY; ++i) m_previousVelocity.y[i] = 0.0f;
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 void StableSolverCpu::setVelBoundary(int flag)
 {
@@ -148,6 +161,8 @@ void StableSolverCpu::setVelBoundary(int flag)
   }
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::setCellBoundary(float *value)
 {
   for(int i=1; i<=m_gridSize.x-2; ++i)
@@ -165,6 +180,8 @@ void StableSolverCpu::setCellBoundary(float *value)
   value[cIdx(0, m_gridSize.y-1)] = (value[cIdx(1, m_gridSize.y-1)]+value[cIdx(0, m_gridSize.y-2)])/2;
   value[cIdx(m_gridSize.x-1, m_gridSize.y-1)] = (value[cIdx(m_gridSize.x-1, m_gridSize.y-2)]+value[cIdx(m_gridSize.x-1, m_gridSize.y-2)])/2;
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 void StableSolverCpu::projection()
 {
@@ -212,6 +229,8 @@ void StableSolverCpu::projection()
   setVelBoundary(1);
   setVelBoundary(2);
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 void StableSolverCpu::advectVel()
 {
@@ -281,6 +300,8 @@ void StableSolverCpu::advectVel()
   setVelBoundary(2);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::advectCell(float *value, float *value0)
 {
   float oldX;
@@ -327,6 +348,8 @@ void StableSolverCpu::advectCell(float *value, float *value0)
   setCellBoundary(m_density);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::diffuseVel()
 {
   for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0.0f;
@@ -358,6 +381,8 @@ void StableSolverCpu::diffuseVel()
   }
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::diffuseCell(float *value, float *value0)
 {
   for(int i=0; i<m_totCell; ++i) value[i] = 0.0f;
@@ -376,6 +401,8 @@ void StableSolverCpu::diffuseCell(float *value, float *value0)
   }
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::addSource()
 {
   for(int i=0; i<m_totCell; ++i) m_density[i] += m_previousDensity[i];
@@ -386,6 +413,8 @@ void StableSolverCpu::addSource()
   setVelBoundary(2);
   setCellBoundary( m_density );
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 void StableSolverCpu::animVel()
 {
@@ -405,6 +434,8 @@ void StableSolverCpu::animVel()
   projection();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::animDen()
 {
   if(m_viscosity > 0.0f)
@@ -416,3 +447,5 @@ void StableSolverCpu::animDen()
   SWAP(m_previousDensity, m_density);
   advectCell(m_density, m_previousDensity);
 }
+
+//----------------------------------------------------------------------------------------------------------------------

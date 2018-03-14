@@ -23,6 +23,7 @@
 #define __MACSTABLESOLVER_H__
 
 #include <stdio.h>
+#define SWAP(value0,value) { float *tmp = value0; value0 = value; value = tmp; }
 
 
 template <class T>

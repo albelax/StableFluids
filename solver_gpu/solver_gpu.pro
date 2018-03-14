@@ -16,10 +16,25 @@ QMAKE_CXXFLAGS += -std=c++11 -fPIC
 # Directories
 INCLUDEPATH += include ${CUDA_PATH}/include ${CUDA_PATH}/include/cuda ${CUDA_PATH}/samples/common/inc
 
-HEADERS += include/*
+HEADERS += include/GpuSolver.h \
+           include/GpuSolver.cuh \
+           include/rand_gpu.h
+
+## CUDA_SOURCES - the source (generally .cu) files for nvcc. No spaces in path names
+CUDA_SOURCES += cudasrc/GpuSolver.cu \
+#                cudasrc/GpuSolver.cuh \
+                cudasrc/rand_gpu.cu
+
+
 
 # Link with the following libraries
-LIBS += -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand 
+#LIBS += -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand
+LIBS += -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt \
+                                                         -lcuda \
+                                                         -lcudart \
+                                                         -lcurand \
+                                                         -licudata \
+                                                         -lcudart_static
  
 # CUDA_COMPUTE_ARCH - This will enable nvcc to compiler appropriate architecture specific code for different compute versions
 # Set your local CUDA_ARCH environment variable to compile for your particular architecture.
@@ -38,8 +53,6 @@ isEmpty(CUDA_DIR) {
     message(CUDA_DIR not set - set this to the base directory of your local CUDA install (on the labs this should be /usr))
 }
  
-## CUDA_SOURCES - the source (generally .cu) files for nvcc. No spaces in path names
-CUDA_SOURCES += cudasrc/*.cu
 
 ## CUDA_INC - all incldues needed by the cuda files (such as CUDA\<version-number\include)
 CUDA_INC+= $$join(INCLUDEPATH,' -I','-I',' ')

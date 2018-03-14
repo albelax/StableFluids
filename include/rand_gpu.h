@@ -3,8 +3,6 @@
 
 #include <vector>
 
-#define CUDA_CALLABLE_MEMBER __host__ __device__
-
 namespace Rand_GPU
 {
     /// Fill up a vector on the device with n floats. Memory is arrumed to have been preallocated.
@@ -12,8 +10,8 @@ namespace Rand_GPU
 
     /// Given an stl vector of floats, fill it up with random numbers
     int randFloats(std::vector<float>&);
-
-    void hello();
+    int randFloats(float *&devData, const size_t n);
+    void sort();
 }
 
 class Pippo
@@ -21,6 +19,14 @@ class Pippo
 public:
     Pippo() = default;
     void print();
+private:
+    unsigned int N = 5000;
+    unsigned int maxThreadsPerBlock = 1024;
+    unsigned int numBlocks = N / maxThreadsPerBlock + 1;
+    float *host_A;
+    float *dev_A;
+    float *dev_B;
+    float *dev_C;
 };
 
 #endif //_RAND_GPU_H

@@ -24,10 +24,13 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include <ext.hpp>
+#include <GpuSolver.h>
+
+#define test 0
 
 int main(int argc, char *argv[])
 {
-
+#if test
   //------------------------------------------------------------------------------------------------- begin test
   enum MODE { CPU, GPU, BOTH };
   MODE mode = BOTH;
@@ -76,6 +79,8 @@ int main(int argc, char *argv[])
     std::cout << "GPU took " << gpuTime << '\n';
   }
   //------------------------------------------------------------------------------------------------- end test
+#endif
+   GpuSolver gps;
 
   // create an OpenGL format specifier
   QSurfaceFormat format;
