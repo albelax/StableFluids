@@ -29,7 +29,7 @@
 
 StableSolverCpu::StableSolverCpu()
 {
-    init();
+  init();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -77,19 +77,26 @@ void StableSolverCpu::init()
   m_pvx = (vec2<float> *)malloc(sizeof(vec2<float>)*m_totVelX);
   m_pvy = (vec2<float> *)malloc(sizeof(vec2<float>)*m_totVelY);
 
-//  std::cout << "x = " << m_rowVelocity.x << " " << m_columnVelocity.x << "\n";
+  //  std::cout << "x = " << m_rowVelocity.x << " " << m_columnVelocity.x << "\n";
   for(int i=0; i<m_rowVelocity.x; ++i)
   {
     for(int j=0; j<m_columnVelocity.x; ++j)
     {
       m_pvx[vxIdx(i, j)].x = (float)i;
       m_pvx[vxIdx(i, j)].y = (float)j+0.5f;
-//      std::cout << "( " << m_pvx[vxIdx(i, j)].x << "," << m_pvx[vxIdx(i, j)].y << " )  ";
     }
-//    std::cout << " \n";
   }
 
-//  std::cout << "y = " << m_rowVelocity.y << " " << m_columnVelocity.y << "\n";
+//  for(int i=0; i<m_rowVelocity.x; ++i)
+//  {
+//    for(int j=0; j<m_columnVelocity.x; ++j)
+//    {
+//      std::cout << "( " << m_pvx[vxIdx(i, j)].x << "," << m_pvx[vxIdx(i, j)].y << " )  ";
+//    }
+//    std::cout << " \n";
+//  }
+
+  //  std::cout << "y = " << m_rowVelocity.y << " " << m_columnVelocity.y << "\n";
   for(int i=0; i<m_rowVelocity.y; ++i)
   {
     for(int j=0; j<m_columnVelocity.y; ++j)

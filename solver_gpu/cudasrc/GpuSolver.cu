@@ -9,7 +9,7 @@
 
 GpuSolver::GpuSolver()
 {
-    init();
+  init();
 }
 
 
@@ -40,25 +40,29 @@ void GpuSolver::init()
   m_diffusion = 0.0f;
   m_viscosity = 0.0f;
 
-//  cudaMalloc( &m_density, sizeof(float)*m_totCell );
-//  cudaMalloc( &m_pressure, sizeof(float)*m_totCell );
-//  cudaMalloc( &m_divergence, sizeof(float)*m_totCell );
-//  cudaMalloc( &m_velocity.x, sizeof(float)*m_totVelX );
-//  cudaMalloc( &m_velocity.y, sizeof(float)*m_totVelY );
-//  cudaMalloc( &m_previousVelocity.x, sizeof(float)*m_totVelX );
-//  cudaMalloc( &m_previousVelocity.y, sizeof(float)*m_totVelY );
-//  cudaMalloc( &m_previousDensity, sizeof(float)*m_totCell );
+  //  cudaMalloc( &m_density, sizeof(float)*m_totCell );
+  //  cudaMalloc( &m_pressure, sizeof(float)*m_totCell );
+  //  cudaMalloc( &m_divergence, sizeof(float)*m_totCell );
+  //  cudaMalloc( &m_velocity.x, sizeof(float)*m_totVelX );
+  //  cudaMalloc( &m_velocity.y, sizeof(float)*m_totVelY );
+  //  cudaMalloc( &m_previousVelocity.x, sizeof(float)*m_totVelX );
+  //  cudaMalloc( &m_previousVelocity.y, sizeof(float)*m_totVelY );
+  //  cudaMalloc( &m_previousDensity, sizeof(float)*m_totCell );
   //  cudaMalloc( &m_pvy, sizeof(vec2<float>)*m_totVelY );
 
-  unsigned int N = 5000;
-  unsigned int maxThreadsPerBlock = 1024;
-  unsigned int numBlocks = m_totVelX / maxThreadsPerBlock + 1;
+  unsigned int threads = 32;
+  unsigned int blocks = m_totVelX / (threads * threads);
+  dim3 block(threads, threads); // block 32x32 threads
+  dim3 grid(blocks, blocks); // grid 2x2 blocks
 
   cudaMalloc( &m_pvx, sizeof(tuple<float>)*m_totVelX );
-  setPvx<<<numBlocks, maxThreadsPerBlock>>>( m_pvx, m_rowVelocity.x );
-  tuple<float> * result =(tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelX);
+
+  setPvx<<<grid, block>>>( m_pvx, m_rowVelocity.x );
+
+  cudaThreadSynchronize();
+  tuple<float> * result = (tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelX);
   if( cudaMemcpy(result, m_pvx, m_totVelX * sizeof(tuple<float>), cudaMemcpyDeviceToHost) != cudaSuccess)
-      exit(0);
+    exit(0);
 
   for(int i=0; i<m_rowVelocity.x; ++i)
   {
@@ -80,31 +84,34 @@ void GpuSolver::init()
 // pvy[i,j] = pvy[j * size +i]
 __global__ void setPvx( tuple<float> * _pvx, unsigned int _size )
 {
-    int idx = threadIdx.x + blockDim.x * blockIdx.x;
-    int j = idx % _size;
-    _pvx[idx].x = (float) idx;
-    _pvx[idx].y = (float) j + 0.5f;
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+  int i = idy * _size + idx;
+  _pvx[i].x = idx;
+  _pvx[i].y = idy + 0.5f;
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
 __global__ void setPvy( tuple<float> * _pvy, unsigned int _size )
 {
-    int idx = threadIdx.x + blockDim.x * blockIdx.x;
-    int j = idx % _size;
-    _pvy[idx].x = (float) idx + 0.5f;
-    _pvy[idx].y = (float) j;
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+  int i = idy * _size + idx;
+  _pvy[i].x = (float) idx + 0.5f;
+  _pvy[i].y = (float) j;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
 __global__ void vectorAdd( float *sum, float *A, float *B, size_t arrayLength )
 {
-    int idx = threadIdx.x + blockDim.x * blockIdx.x;
-    if ( idx < arrayLength )
-    {
-        sum[idx] = A[idx] + B[idx];
-    }
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  if ( idx < arrayLength )
+  {
+    sum[idx] = A[idx] + B[idx];
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
