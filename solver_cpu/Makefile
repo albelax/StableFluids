@@ -15,7 +15,7 @@ CXX           = /usr/bin/g++
 DEFINES       = -DQT_QML_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++11 -fPIC -Wall -Wextra -pedantic -g -std=gnu++0x -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -Iinclude -I../glm -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-g++
+INCPATH       = -I. -Iinclude -I../Common -I../Common/glm -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake-qt5
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -160,7 +160,7 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		../.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
-		../common.pri \
+		../Common/common.pri \
 		/usr/lib64/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib64/qt5/mkspecs/features/default_post.prf \
 		/usr/lib64/qt5/mkspecs/features/qml_debug.prf \
@@ -323,7 +323,7 @@ Makefile: solver_cpu.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/
 		../.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
-		../common.pri \
+		../Common/common.pri \
 		/usr/lib64/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib64/qt5/mkspecs/features/default_post.prf \
 		/usr/lib64/qt5/mkspecs/features/qml_debug.prf \
@@ -450,7 +450,7 @@ Makefile: solver_cpu.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/
 ../.qmake.stash:
 /usr/lib64/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib64/qt5/mkspecs/features/default_pre.prf:
-../common.pri:
+../Common/common.pri:
 /usr/lib64/qt5/mkspecs/features/resolve_config.prf:
 /usr/lib64/qt5/mkspecs/features/default_post.prf:
 /usr/lib64/qt5/mkspecs/features/qml_debug.prf:
@@ -501,7 +501,7 @@ distclean: clean
 ####### Sub-libraries
 
 includeinstall:
-	mkdir -p /home/alberto/stableFluids/include && cp include/*.h /home/alberto/stableFluids/include
+	mkdir -p /home/alberto/stableFluids/Common/../include && cp include/*.h /home/alberto/stableFluids/Common/../include
 
 mocclean: compiler_moc_header_clean compiler_moc_source_clean
 
@@ -533,7 +533,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-obj/MacStableSolver.o: src/MacStableSolver.cpp include/MacStableSolver.h
+obj/MacStableSolver.o: src/MacStableSolver.cpp include/MacStableSolver.h \
+		../Common/tuple.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MacStableSolver.o src/MacStableSolver.cpp
 
 obj/rand_cpu.o: src/rand_cpu.cpp include/rand_cpu.h

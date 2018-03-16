@@ -3,21 +3,11 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 #include <iostream>
+#include "tuple.h"
 
 #define SWAP(value0,value) { float *tmp = value0; value0 = value; value = tmp; }
-
-
-template <class T>
-class tuple
-{
-// I genuinly just wanted a generic struct...
-public:
-    tuple() = default;
-    tuple( T _x, T _y ) { x = _x; y = _y; }
-    T x;
-    T y;
-};
 
 class GpuSolver
 {
@@ -29,6 +19,8 @@ public:
     int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
     int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
     int cIdx(int i, int j){ return j*m_gridSize.x+i; }
+    void exportCSV( std::string _file );
+
 private:
     int m_totCell;
     int m_totVelX;
@@ -51,7 +43,7 @@ private:
     tuple<float *> m_previousVelocity;
     tuple<float> * m_pvx;
     tuple<float> * m_pvy;
-//    thrust::device_vector<float> d_px; // here just to remind me that I can use thrust here as well :)
+    tuple<float> * m_result;
 };
 
 #endif // _GPUSOLVER_H

@@ -1,5 +1,5 @@
 # Read shared environment settings from the common include file
-include(../common.pri)
+include(../Common/common.pri)
 
 # Use this setting to build a shared lib (add staticlib to CONFIG if you want one)
 TEMPLATE = lib
@@ -21,7 +21,8 @@ SOURCES += src/*.cpp
 
 # Set up the include path
 INCLUDEPATH += include \
-               $$PWD/../glm
+							 $$PWD/../Common \
+							 $$PWD/../Common/glm
 
 # Set up the post install script to copy the headers into the appropriate directory
 includeinstall.commands = mkdir -p $$INC_INSTALL_DIR && cp include/*.h $$INC_INSTALL_DIR

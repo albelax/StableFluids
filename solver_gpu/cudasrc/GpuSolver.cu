@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <iostream>
-
+#include <fstream>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -50,9 +50,10 @@ void GpuSolver::init()
   //  cudaMalloc( &m_previousDensity, sizeof(float)*m_totCell );
   //  cudaMalloc( &m_pvy, sizeof(vec2<float>)*m_totVelY );
 
-  unsigned int threads = 32;
-  unsigned int blocks = m_totVelX / (threads * threads);
-  dim3 block(threads, threads); // block 32x32 threads
+  int threads = 32;
+  int threadsPerAxis = 16; // half of total threads if we fire a 2x2 block
+  int blocks = m_totVelX / (threads * threads);
+  dim3 block(threadsPerAxis, threadsPerAxis); // block of (X,Y) threads
   dim3 grid(blocks, blocks); // grid 2x2 blocks
 
   cudaMalloc( &m_pvx, sizeof(tuple<float>)*m_totVelX );
@@ -60,21 +61,33 @@ void GpuSolver::init()
   setPvx<<<grid, block>>>( m_pvx, m_rowVelocity.x );
 
   cudaThreadSynchronize();
-  tuple<float> * result = (tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelX);
-  if( cudaMemcpy(result, m_pvx, m_totVelX * sizeof(tuple<float>), cudaMemcpyDeviceToHost) != cudaSuccess)
+  m_result = (tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelX);
+  if( cudaMemcpy(m_result, m_pvx, m_totVelX * sizeof(tuple<float>), cudaMemcpyDeviceToHost) != cudaSuccess)
     exit(0);
 
+  exportCSV("gpu_pvx.csv");
+  free( m_result );
+  cudaFree( m_pvx );
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::exportCSV( std::string _file )
+{
+  std::ofstream out;
+  out.open( _file );
+  out.clear();
   for(int i=0; i<m_rowVelocity.x; ++i)
   {
     for(int j=0; j<m_columnVelocity.x; ++j)
     {
-      std::cout << "( " << result[vxIdx(i, j)].x << "," << result[vxIdx(i, j)].y << " )  ";
+      out << "( " << m_result[vxIdx(i, j)].x << ", " << m_result[vxIdx(i, j)].y << " )" << "; ";
     }
-    std::cout << " \n";
+    out << "\n";
   }
-  free( result );
-  cudaFree( m_pvx );
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------
 // KERNELS -------------------------------------------------------------------------------------------------------------
@@ -100,7 +113,7 @@ __global__ void setPvy( tuple<float> * _pvy, unsigned int _size )
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
   int i = idy * _size + idx;
   _pvy[i].x = (float) idx + 0.5f;
-  _pvy[i].y = (float) j;
+  _pvy[i].y = (float) idy;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -114,5 +127,4 @@ __global__ void vectorAdd( float *sum, float *A, float *B, size_t arrayLength )
   }
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 

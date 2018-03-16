@@ -1,4 +1,4 @@
-include(../common.pri)
+include(../Common/common.pri)
 
 QT += core gui
 CONFIG += console c++11
@@ -17,8 +17,9 @@ CONFIG -= app_bundle
 
 INCLUDEPATH += include \
                ui \
-               $$PWD/../glm \
-               $$INC_INSTALL_DIR
+							 $$PWD/../Common \
+							 $$PWD/../Common/glm \
+							 $$INC_INSTALL_DIR
 
 HEADERS += include/MainWindow.h \
            include/GLWindow.h \

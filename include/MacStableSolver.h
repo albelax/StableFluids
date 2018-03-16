@@ -21,21 +21,13 @@
 
 #ifndef __MACSTABLESOLVER_H__
 #define __MACSTABLESOLVER_H__
-
+#include <string.h>
 #include <stdio.h>
+#include <iostream>
+#include "tuple.h"
+
 #define SWAP(value0,value) { float *tmp = value0; value0 = value; value = tmp; }
 
-
-template <class T>
-class vec2
-{
-// I genuinly just wanted a generic struct...
-public:
-    vec2() = default;
-    vec2( T _x, T _y ) { x = _x; y = _y; }
-    T x;
-    T y;
-};
 
 class StableSolverCpu
 {
@@ -74,13 +66,13 @@ public:
     float* getVX(){ return m_velocity.x; }
     float* getVY(){ return m_velocity.y; }
     float* getD(){ return m_density; }
-    vec2<float> * getPVX(){ return m_pvx; }
-    vec2<float> * getPVY(){ return m_pvy; }
-    vec2<float> getCellVel(int i, int j)
+    tuple<float> * getPVX(){ return m_pvx; }
+    tuple<float> * getPVY(){ return m_pvy; }
+    tuple<float> getCellVel(int i, int j)
     {
         float x = (m_velocity.x[vxIdx(i, j)]+m_velocity.x[vxIdx(i+1, j)]) / 2.0f;
         float y = (m_velocity.y[vyIdx(i, j)]+m_velocity.y[vyIdx(i, j+1)]) / 2.0f;
-        vec2<float> ret( x, y );
+        tuple<float> ret( x, y );
         return ret;
     }
     
@@ -101,6 +93,7 @@ public:
         m_previousVelocity.y[vyIdx(i, j+1)] += _vy0;
     }
     void setD0(int i, int j, float _d0){ m_previousDensity[cIdx(i, j)]=_d0; }
+    void exportCSV( std::string _file );
 private:
     int m_totCell;
     int m_totVelX;
@@ -113,16 +106,16 @@ private:
     float * m_previousDensity; // d0
     float * m_divergence;
     float * m_pressure;
-    vec2<int> m_gridSize;
-    vec2<int> m_rowVelocity;
-    vec2<int> m_columnVelocity;
-    vec2<float> m_min;
-    vec2<float> m_max;
+    tuple<int> m_gridSize;
+    tuple<int> m_rowVelocity;
+    tuple<int> m_columnVelocity;
+    tuple<float> m_min;
+    tuple<float> m_max;
     /// \brief velocity, stores to pointers to chunks of memory storing the velocities in x and y
-    vec2<float *> m_velocity;
-    vec2<float *> m_previousVelocity;
-    vec2<float> * m_pvx;
-    vec2<float> * m_pvy;
+    tuple<float *> m_velocity;
+    tuple<float *> m_previousVelocity;
+    tuple<float> * m_pvx;
+    tuple<float> * m_pvy;
 };
 
 

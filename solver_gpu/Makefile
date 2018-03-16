@@ -15,7 +15,7 @@ CXX           = /usr/bin/g++
 DEFINES       = -DQT_QML_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++11 -fPIC -g -std=gnu++0x -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-g++
+INCPATH       = -I. -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I../Common -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake-qt5
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -160,7 +160,7 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		../.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
-		../common.pri \
+		../Common/common.pri \
 		/usr/lib64/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib64/qt5/mkspecs/features/default_post.prf \
 		/usr/lib64/qt5/mkspecs/features/qml_debug.prf \
@@ -323,7 +323,7 @@ Makefile: solver_gpu.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/
 		../.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
-		../common.pri \
+		../Common/common.pri \
 		/usr/lib64/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib64/qt5/mkspecs/features/default_post.prf \
 		/usr/lib64/qt5/mkspecs/features/qml_debug.prf \
@@ -450,7 +450,7 @@ Makefile: solver_gpu.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/
 ../.qmake.stash:
 /usr/lib64/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib64/qt5/mkspecs/features/default_pre.prf:
-../common.pri:
+../Common/common.pri:
 /usr/lib64/qt5/mkspecs/features/resolve_config.prf:
 /usr/lib64/qt5/mkspecs/features/default_post.prf:
 /usr/lib64/qt5/mkspecs/features/qml_debug.prf:
@@ -502,7 +502,7 @@ distclean: clean
 ####### Sub-libraries
 
 includeinstall:
-	mkdir -p /home/alberto/stableFluids/include && cp include/*.h /home/alberto/stableFluids/include
+	mkdir -p /home/alberto/stableFluids/Common/../include && cp include/*.h /home/alberto/stableFluids/Common/../include
 
 mocclean: compiler_moc_header_clean compiler_moc_source_clean
 
@@ -516,17 +516,17 @@ compiler_cuda_make_all: cudaobj/GpuSolver.o cudaobj/rand_gpu.o
 compiler_cuda_clean:
 	-$(DEL_FILE) cudaobj/*.o
 cudaobj/GpuSolver.o: cudasrc/GpuSolver.cu
-	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/GpuSolver.cu -o cudaobj/GpuSolver.o
+	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/GpuSolver.cu -o cudaobj/GpuSolver.o
 
 cudaobj/rand_gpu.o: cudasrc/rand_gpu.cu
-	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/rand_gpu.cu -o cudaobj/rand_gpu.o
+	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/rand_gpu.cu -o cudaobj/rand_gpu.o
 
 compiler_cudalink_make_all: obj/cuda_link.o
 compiler_cudalink_clean:
 	-$(DEL_FILE) obj/cuda_link.o
 obj/cuda_link.o: cudaobj/GpuSolver.o \
 		cudaobj/rand_gpu.o 
-	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc  -dlink cudaobj/GpuSolver.o cudaobj/rand_gpu.o -o obj/cuda_link.o
+	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -dlink cudaobj/GpuSolver.o cudaobj/rand_gpu.o -o obj/cuda_link.o
 
 compiler_rcc_make_all:
 compiler_rcc_clean:

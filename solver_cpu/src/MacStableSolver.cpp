@@ -21,10 +21,8 @@
 
 #include "MacStableSolver.h"
 #include <stdio.h>
-#include <iostream>
 #include <stdlib.h>
-#include <string.h>
-
+#include <fstream>
 //----------------------------------------------------------------------------------------------------------------------
 
 StableSolverCpu::StableSolverCpu()
@@ -74,10 +72,9 @@ void StableSolverCpu::init()
   m_previousDensity = (float *)malloc(sizeof(float)*m_totCell);
   m_divergence = (float *)malloc(sizeof(float)*m_totCell);
   m_pressure = (float *)malloc(sizeof(float)*m_totCell);
-  m_pvx = (vec2<float> *)malloc(sizeof(vec2<float>)*m_totVelX);
-  m_pvy = (vec2<float> *)malloc(sizeof(vec2<float>)*m_totVelY);
+  m_pvx = (tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelX);
+  m_pvy = (tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelY);
 
-  //  std::cout << "x = " << m_rowVelocity.x << " " << m_columnVelocity.x << "\n";
   for(int i=0; i<m_rowVelocity.x; ++i)
   {
     for(int j=0; j<m_columnVelocity.x; ++j)
@@ -86,17 +83,8 @@ void StableSolverCpu::init()
       m_pvx[vxIdx(i, j)].y = (float)j+0.5f;
     }
   }
+  exportCSV("cpu_pvx.csv");
 
-//  for(int i=0; i<m_rowVelocity.x; ++i)
-//  {
-//    for(int j=0; j<m_columnVelocity.x; ++j)
-//    {
-//      std::cout << "( " << m_pvx[vxIdx(i, j)].x << "," << m_pvx[vxIdx(i, j)].y << " )  ";
-//    }
-//    std::cout << " \n";
-//  }
-
-  //  std::cout << "y = " << m_rowVelocity.y << " " << m_columnVelocity.y << "\n";
   for(int i=0; i<m_rowVelocity.y; ++i)
   {
     for(int j=0; j<m_columnVelocity.y; ++j)
@@ -455,4 +443,20 @@ void StableSolverCpu::animDen()
   advectCell(m_density, m_previousDensity);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
+void StableSolverCpu::exportCSV( std::string _file )
+{
+  std::ofstream out;
+  out.open( _file );
+  out.clear();
+  for(int i=0; i<m_rowVelocity.x; ++i)
+  {
+    for(int j=0; j<m_columnVelocity.x; ++j)
+    {
+      out << "( " << m_pvx[vxIdx(i, j)].x << ", " << m_pvx[vxIdx(i, j)].y << " )" << "; ";
+    }
+    out << "\n";
+  }
+}
 //----------------------------------------------------------------------------------------------------------------------

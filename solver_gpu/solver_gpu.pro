@@ -1,5 +1,5 @@
 # Read shared environment settings from the common include file
-include(../common.pri)
+include(../Common/common.pri)
 
 # This is set to build a dynamic library
 TEMPLATE = lib
@@ -14,7 +14,10 @@ TARGET = $$LIB_INSTALL_DIR/solver_gpu
 QMAKE_CXXFLAGS += -std=c++11 -fPIC 
 
 # Directories
-INCLUDEPATH += include ${CUDA_PATH}/include ${CUDA_PATH}/include/cuda ${CUDA_PATH}/samples/common/inc
+INCLUDEPATH += include ${CUDA_PATH}/include \
+							 ${CUDA_PATH}/include/cuda \
+							 ${CUDA_PATH}/samples/common/inc \
+							 $$PWD/../Common
 
 HEADERS += include/GpuSolver.h \
            include/GpuSolver.cuh \
@@ -22,7 +25,6 @@ HEADERS += include/GpuSolver.h \
 
 ## CUDA_SOURCES - the source (generally .cu) files for nvcc. No spaces in path names
 CUDA_SOURCES += cudasrc/GpuSolver.cu \
-#                cudasrc/GpuSolver.cuh \
                 cudasrc/rand_gpu.cu
 
 

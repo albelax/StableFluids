@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.0
+** Created by: Qt User Interface Compiler version 5.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -119,11 +119,11 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Mandarin", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Mandarin", 0));
         s_transformGB->setTitle(QString());
         label->setText(QString());
         s_drawGB->setTitle(QString());
-        generate->setText(QApplication::translate("MainWindow", "Generate", Q_NULLPTR));
+        generate->setText(QApplication::translate("MainWindow", "Generate", 0));
     } // retranslateUi
 
 };
