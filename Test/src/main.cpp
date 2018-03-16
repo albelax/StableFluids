@@ -25,15 +25,12 @@ TEST( pvx, isEqual )
   gps.copy( gps.m_pvx, p, gps.m_totVelX );
 
   StableSolverCpu cps;
-  bool same = true;
   for ( int i = 0; i < cps.m_totVelX -1 ; ++i )
   {
-
-    if ( p[i].x != cps.m_pvx[i].x || p[i].y != cps.m_pvx->y )
-      same = false;
+    EXPECT_FLOAT_EQ(p[i].x, cps.m_pvx[i].x );
+    EXPECT_FLOAT_EQ(p[i].y, cps.m_pvx[i].y );
   }
   free( p );
-  EXPECT_TRUE( same );
 }
 
 ////----------------------------------------------------------------------------------------------------------------------
