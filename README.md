@@ -1,5 +1,5 @@
 # Stable Fluids
-Third year programming assignment, [original cpu solver]https://github.com/finallyjustice/stablefluids
+Third year programming assignment, original cpu solver [here](https://github.com/finallyjustice/stablefluids)
 
 ## Configuration
 The following environment variables are needed to compile this out of the box:
