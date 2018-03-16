@@ -12,6 +12,7 @@ GpuSolver::GpuSolver()
   setParameters();
   allocateArrays();
   init();
+//  std::cout << "GPUUUU!! \n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -52,7 +53,7 @@ void GpuSolver::setParameters()
 void GpuSolver::allocateArrays()
 {
   cudaMalloc( &m_pvx, sizeof(tuple<float>) * m_totVelX );
-  cudaMalloc( &m_pvy, sizeof(tuple<float>)*m_totVelY );
+  cudaMalloc( &m_pvy, sizeof(tuple<float>) * m_totVelY );
   //  cudaMalloc( &m_density, sizeof(float)*m_totCell );
   //  cudaMalloc( &m_pressure, sizeof(float)*m_totCell );
   //  cudaMalloc( &m_divergence, sizeof(float)*m_totCell );
@@ -68,7 +69,7 @@ void GpuSolver::allocateArrays()
 void GpuSolver::init()
 {
   int threads = 32;
-  int threadsPerAxis = 16; // half of total threads if we fire a 2x2 block
+  int threadsPerAxis = 8; // half of total threads if we fire a 2x2 block
   int blocks = m_totVelX / (threads * threads);
   dim3 block(threadsPerAxis, threadsPerAxis); // block of (X,Y) threads
   dim3 grid(blocks, blocks); // grid 2x2 blocks
@@ -77,7 +78,6 @@ void GpuSolver::init()
   cudaThreadSynchronize();
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Error: %s\n", cudaGetErrorString(err));
-
   exportCSV( "gpu_pvx.csv", m_pvx, m_rowVelocity.x, m_columnVelocity.x );
 }
 
@@ -88,7 +88,7 @@ void GpuSolver::exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int
   std::ofstream out;
   out.open( _file );
   out.clear();
-  int totSize =  _sizeX * _sizeY;
+  int totSize = _sizeX * _sizeY;
   tuple<float> * result = (tuple<float> *) malloc( sizeof( tuple<float> ) * totSize );
   if( cudaMemcpy( result, _t, totSize * sizeof(tuple<float>), cudaMemcpyDeviceToHost) != cudaSuccess )
     exit(0);
@@ -104,6 +104,16 @@ void GpuSolver::exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int
   }
   free( result );
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::copy( tuple<float> * _src, tuple<float> * _dst, int _size )
+{
+  if( cudaMemcpy( _dst, _src, _size * sizeof(tuple<float>), cudaMemcpyDeviceToHost) != cudaSuccess )
+    exit(0);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------
 // KERNELS -------------------------------------------------------------------------------------------------------------
@@ -141,3 +151,4 @@ __global__ void vectorAdd( float *sum, float *A, float *B, size_t arrayLength )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+

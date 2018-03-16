@@ -26,11 +26,12 @@
 #include <ext.hpp>
 #include <GpuSolver.h>
 
-#define test 0
+#define randomTest 0
 
-int main(int argc, char *argv[])
+int main( int argc, char *argv[] )
 {
-#if test
+
+#if randomTest
   //------------------------------------------------------------------------------------------------- begin test
   enum MODE { CPU, GPU, BOTH };
   MODE mode = BOTH;
