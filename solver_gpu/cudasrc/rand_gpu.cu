@@ -107,7 +107,8 @@ int Rand_GPU::randFloats(std::vector<float>& tgt)
     return ret_val;
 }
 
-int Rand_GPU::randFloats(float *&devData, const size_t n) {
+int Rand_GPU::randFloats(float *&devData, const size_t n)
+{
     // The generator, used for random numbers
     curandGenerator_t gen;
 
@@ -143,7 +144,8 @@ __global__ void pointHash(unsigned int *hash,
                           const float *Py,
                           const float *Pz,
                           const unsigned int N,
-                          const unsigned int res) {
+                          const unsigned int res)
+{
     // Compute the index of this thread: i.e. the point we are testing
     uint idx = blockIdx.x * blockDim.x + threadIdx.x;
 

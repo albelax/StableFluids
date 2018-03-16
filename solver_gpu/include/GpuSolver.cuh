@@ -14,6 +14,8 @@
 
 __global__ void vectorAdd( float *sum, float *A, float *B, size_t arrayLength );
 
-__global__ void setPvx(tuple<float> * _pvx, unsigned int _size );
+__global__ void setPvx(tuple<float> * _pvx, int _size );
 
-__global__ void setPvy(tuple<float> * _pvy, unsigned int _size );
+__global__ void setPvy( tuple<float> * _pvy, unsigned int _size );
+
+//__global__ void pippo();

@@ -13,15 +13,17 @@ class GpuSolver
 {
 public:
     GpuSolver();
-    ~GpuSolver() = default;
+    ~GpuSolver();
     void init();
     void cleanBuffer();
     int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
     int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
     int cIdx(int i, int j){ return j*m_gridSize.x+i; }
-    void exportCSV( std::string _file );
+    void exportCSV(std::string _file, tuple<float> * _t, int _sizeX , int _sizeY );
 
 private:
+    void setParameters();
+    void allocateArrays();
     int m_totCell;
     int m_totVelX;
     int m_totVelY;
@@ -43,7 +45,6 @@ private:
     tuple<float *> m_previousVelocity;
     tuple<float> * m_pvx;
     tuple<float> * m_pvy;
-    tuple<float> * m_result;
 };
 
 #endif // _GPUSOLVER_H
