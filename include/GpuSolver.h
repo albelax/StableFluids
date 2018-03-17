@@ -53,12 +53,9 @@ private:
   tuple<float> * m_pvy;
   void copy( tuple<float> * _src, tuple<float> * _dst, int _size );
 
-#if TESTING
-//  tuple<float> * m_pvxHost;
-
-
-  // I know friend is bad, but it is only to allow tesats to run :(
-  FRIEND_TEST(pvx, isEqual);
+#if TESTING // I know friend is bad, but it is only to allow tesats to run :(
+  FRIEND_TEST( pvx, isEqual );
+  FRIEND_TEST( pvy, isEqual );
 #endif // TESTING
 };
 

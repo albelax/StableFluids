@@ -21,16 +21,62 @@ int main(int argc, char **argv)
 TEST( pvx, isEqual )
 {
   GpuSolver gps;
-  tuple<float> * p = (tuple<float> *) malloc( sizeof( tuple<float> ) * gps.m_totVelX );
-  gps.copy( gps.m_pvx, p, gps.m_totVelX );
+  StableSolverCpu cpu;
+  tuple<float> * gpu = (tuple<float> *) malloc( sizeof( tuple<float> ) * gps.m_totVelX );
+  gps.copy( gps.m_pvx, gpu, gps.m_totVelX );
+  gps.exportCSV( "results/gpu_pvx.csv", gps.m_pvx, gps.m_rowVelocity.x, gps.m_columnVelocity.x );
+//  cpu.exportCSV("results/cpu_pvx.csv");
+  cpu.exportCSV( "results/cpu_pvx.csv", cpu.m_pvx, cpu.m_rowVelocity.x, cpu.m_columnVelocity.x );
 
-  StableSolverCpu cps;
-  for ( int i = 0; i < cps.m_totVelX -1 ; ++i )
+
+  for ( int i = 0; i < cpu.m_rowVelocity.x; ++i )
   {
-    EXPECT_FLOAT_EQ(p[i].x, cps.m_pvx[i].x );
-    EXPECT_FLOAT_EQ(p[i].y, cps.m_pvx[i].y );
+    for ( int j = 0; j < cpu.m_columnVelocity.x; ++j )
+    {
+      int idx = j * cpu.m_rowVelocity.x + i;
+
+      EXPECT_FLOAT_EQ( gpu[idx].x, cpu.m_pvx[idx].x );
+      if ( gpu[idx].x != cpu.m_pvx[idx].x )
+        std::cout << "[ TEST FAILED AT pvx[" << i+1 << "][" << j+1 << "].x ]\n\n"; // indices + 1 so they match excel file
+
+      EXPECT_FLOAT_EQ(gpu[idx].y, cpu.m_pvx[idx].y );
+      if ( gpu[idx].y != cpu.m_pvx[idx].y )
+        std::cout << "[ TEST FAILED AT pvx[" << i+1 << "][" << j+1 << "].y ]\n\n";
+    }
   }
-  free( p );
+
+  free( gpu );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
+
+TEST( pvy, isEqual )
+{
+  GpuSolver gps;
+  StableSolverCpu cpu;
+  tuple<float> * gpu = (tuple<float> *) malloc( sizeof( tuple<float> ) * gps.m_totVelX );
+  gps.copy( gps.m_pvy, gpu, gps.m_totVelX );
+  gps.exportCSV( "results/gpu_pvy.csv", gps.m_pvy, gps.m_rowVelocity.y, gps.m_columnVelocity.y );
+  cpu.exportCSV( "results/cpu_pvy.csv", cpu.m_pvy, cpu.m_rowVelocity.y, cpu.m_columnVelocity.y );
+
+  for ( int i = 0; i < cpu.m_rowVelocity.y; ++i )
+  {
+    for ( int j = 0; j < cpu.m_columnVelocity.y; ++j )
+    {
+      int idx = j * cpu.m_rowVelocity.y + i;
+
+      EXPECT_FLOAT_EQ( gpu[idx].x, cpu.m_pvy[idx].x );
+      if ( gpu[idx].x != cpu.m_pvy[idx].x )
+        std::cout << "[ TEST FAILED AT pvx[" << i+1 << "][" << j+1 << "].x ]\n\n"; // indices + 1 so they match excel file
+
+      EXPECT_FLOAT_EQ(gpu[idx].y, cpu.m_pvy[idx].y );
+      if ( gpu[idx].y != cpu.m_pvy[idx].y )
+        std::cout << "[ TEST FAILED AT pvx[" << i+1 << "][" << j+1 << "].y ]\n\n";
+    }
+  }
+
+  free( gpu );
 }
 
 ////----------------------------------------------------------------------------------------------------------------------

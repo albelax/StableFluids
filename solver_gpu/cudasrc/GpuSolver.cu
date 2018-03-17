@@ -12,7 +12,7 @@ GpuSolver::GpuSolver()
   setParameters();
   allocateArrays();
   init();
-//  std::cout << "GPUUUU!! \n";
+  //  std::cout << "GPUUUU!! \n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -69,16 +69,19 @@ void GpuSolver::allocateArrays()
 void GpuSolver::init()
 {
   int threads = 32;
-  int threadsPerAxis = 8; // half of total threads if we fire a 2x2 block
-  int blocks = m_totVelX / (threads * threads);
-  dim3 block(threadsPerAxis, threadsPerAxis); // block of (X,Y) threads
-  dim3 grid(blocks, blocks); // grid 2x2 blocks
+  int blockDim = 9;
+  int nBlocks = m_totVelX / (threads * threads); // 16
+
+  dim3 block(blockDim, blockDim); // block of (X,Y) threads
+  dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
   setPvx<<<grid, block>>>( m_pvx, m_rowVelocity.x );
+  setPvy<<<grid, block>>>( m_pvy, m_rowVelocity.y );
+
   cudaThreadSynchronize();
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Error: %s\n", cudaGetErrorString(err));
-  exportCSV( "gpu_pvx.csv", m_pvx, m_rowVelocity.x, m_columnVelocity.x );
+  //  exportCSV( "gpu_pvx.csv", m_pvx, m_rowVelocity.x, m_columnVelocity.x );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -123,9 +126,17 @@ __global__ void setPvx( tuple<float> * _pvx, int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
-  int i = idy * _size + idx;
-  _pvx[i].x = idx;
-  _pvx[i].y = idy + 0.5f;
+  if ( idx < _size )
+  {
+    int i = idy * _size + idx;
+    _pvx[i].x = idx;
+    _pvx[i].y = idy + 0.5f;
+  }
+  //  printf("i: %d, blockDim.x: %d, blockIdx.x: %d, threadIdx.x: %d, pvx.x: %d \ni: %d, blockDim.y: %d, blockIdx.y: %d, threadIdx.y: %d, pvx.y: %.1f \n",
+  //         i, blockDim.x, blockIdx.x, threadIdx.x, idx, i, blockDim.y, blockIdx.y, threadIdx.y, idy + 0.5f);
+  //  printf("%d; %d; %d; %d; %d; %d; %d; %d; %.1f \n",
+  //         i, blockDim.x, blockDim.y, blockIdx.x, blockIdx.y, threadIdx.x, threadIdx.y, idx, idy + 0.5f);
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -134,9 +145,12 @@ __global__ void setPvy( tuple<float> * _pvy, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
-  int i = idy * _size + idx;
-  _pvy[i].x = (float) idx + 0.5f;
-  _pvy[i].y = (float) idy;
+  if ( idx < _size )
+  {
+    int i = idy * _size + idx;
+    _pvy[i].x = (float)idx + 0.5f;
+    _pvy[i].y = idy;
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------

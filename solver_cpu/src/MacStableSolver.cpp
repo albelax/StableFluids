@@ -83,7 +83,7 @@ void StableSolverCpu::init()
       m_pvx[vxIdx(i, j)].y = (float)j+0.5f;
     }
   }
-  exportCSV("cpu_pvx.csv");
+//  exportCSV("cpu_pvx.csv");
 
   for(int i=0; i<m_rowVelocity.y; ++i)
   {
@@ -445,18 +445,37 @@ void StableSolverCpu::animDen()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void StableSolverCpu::exportCSV( std::string _file )
+//void StableSolverCpu::exportCSV( std::string _file )
+//{
+//  std::ofstream out;
+//  out.open( _file );
+//  out.clear();
+
+//  for(int i=0; i<m_rowVelocity.x; ++i)
+//  {
+//    for(int j=0; j<m_columnVelocity.x; ++j)
+//    {
+//      out << "( " << m_pvx[vxIdx(i, j)].x << ", " << m_pvx[vxIdx(i, j)].y << " )" << "; ";
+//    }
+//    out << "\n";
+//  }
+//}
+//----------------------------------------------------------------------------------------------------------------------
+void StableSolverCpu::exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int _sizeY )
 {
   std::ofstream out;
   out.open( _file );
   out.clear();
-  for(int i=0; i<m_rowVelocity.x; ++i)
+
+//  int totSize = _sizeX * _sizeY;
+
+  for(int i = 0; i < _sizeX; ++i)
   {
-    for(int j=0; j<m_columnVelocity.x; ++j)
+    for(int j = 0; j < _sizeY; ++j)
     {
-      out << "( " << m_pvx[vxIdx(i, j)].x << ", " << m_pvx[vxIdx(i, j)].y << " )" << "; ";
+      int idx = j * _sizeX + i;
+      out << "( " << _t[idx].x << ", " << _t[idx].y << " )" << "; ";
     }
     out << "\n";
   }
 }
-//----------------------------------------------------------------------------------------------------------------------

@@ -99,7 +99,9 @@ public:
     m_previousVelocity.y[vyIdx(i, j+1)] += _vy0;
   }
   void setD0(int i, int j, float _d0){ m_previousDensity[cIdx(i, j)]=_d0; }
-  void exportCSV( std::string _file );
+//  void exportCSV( std::string _file );
+  void exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int _sizeY );
+
 private:
   int m_totCell;
   int m_totVelX;
@@ -124,7 +126,9 @@ private:
   tuple<float> * m_pvy;
 
 #if TESTING
-  FRIEND_TEST(pvx, isEqual);
+  FRIEND_TEST( pvx, isEqual );
+  FRIEND_TEST( pvy, isEqual )
+;
 #endif // TESTING
 };
 
