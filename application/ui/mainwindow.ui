@@ -108,6 +108,13 @@
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="7" column="2">
+        <widget class="QLabel" name="DensityLabel">
+         <property name="text">
+          <string>Density</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="4">
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
@@ -120,20 +127,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="TimestepLabel">
-         <property name="text">
-          <string>TimeStep</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
        </item>
        <item row="2" column="2">
         <widget class="QDoubleSpinBox" name="timestep">
@@ -148,6 +141,30 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="TimestepLabel">
+         <property name="text">
+          <string>TimeStep</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QDoubleSpinBox" name="Diffusion">
+         <property name="maximum">
+          <double>10.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="reset">
          <property name="text">
@@ -155,15 +172,8 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
-        <widget class="QLabel" name="ViscosityLabel">
-         <property name="text">
-          <string>Viscosity</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QDoubleSpinBox" name="Diffusion">
+       <item row="6" column="2">
+        <widget class="QDoubleSpinBox" name="Viscosity">
          <property name="maximum">
           <double>10.000000000000000</double>
          </property>
@@ -179,30 +189,23 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
-        <widget class="QDoubleSpinBox" name="Viscosity">
-         <property name="maximum">
-          <double>10.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <widget class="QLabel" name="DensityLabel">
+       <item row="5" column="2">
+        <widget class="QLabel" name="ViscosityLabel">
          <property name="text">
-          <string>Density</string>
+          <string>Viscosity</string>
          </property>
         </widget>
        </item>
        <item row="8" column="2">
-        <widget class="QSpinBox" name="Density">
+        <widget class="QDoubleSpinBox" name="Density">
          <property name="maximum">
-          <number>300</number>
+          <double>250.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>1.000000000000000</double>
          </property>
          <property name="value">
-          <number>100</number>
+          <double>100.000000000000000</double>
          </property>
         </widget>
        </item>

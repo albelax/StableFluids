@@ -46,6 +46,7 @@ public:
   void setTimestep( float _timeStep ) { m_timeStep = _timeStep; }
   void setDiffusion( float _diffusion ) { m_diffusion = _diffusion; }
   void setViscosity( float _viscosity ) { m_viscosity = _viscosity; }
+  void setDensity( float _density ) { m_inputDensity = _density; }
 
   //animation
   void setVelBoundary(int flag);
@@ -99,7 +100,7 @@ public:
     m_previousVelocity.y[vyIdx(i, j)] += _vy0;
     m_previousVelocity.y[vyIdx(i, j+1)] += _vy0;
   }
-  void setD0(int i, int j, float _d0){ m_previousDensity[cIdx(i, j)]=_d0; }
+  void setD0(int i, int j ){ m_previousDensity[cIdx(i, j)] = m_inputDensity; }
   void exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int _sizeY );
 
 private:
@@ -109,6 +110,7 @@ private:
   float m_timeStep;
   float m_diffusion;
   float m_viscosity;
+  float m_inputDensity;
 
   float * m_density;
   float * m_previousDensity; // d0

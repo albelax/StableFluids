@@ -63,6 +63,7 @@ void StableSolverCpu::init()
   m_timeStep = 1.0f;
   m_diffusion = 0.0f;
   m_viscosity = 0.0f;
+  m_inputDensity = 100.0f;
 
   m_velocity.x = (float *)malloc(sizeof(float)*m_totVelX);
   m_velocity.y = (float *)malloc(sizeof(float)*m_totVelY);

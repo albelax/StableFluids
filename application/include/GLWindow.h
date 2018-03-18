@@ -41,6 +41,7 @@ public slots:
   void setTimestep( double _timeStep ) { m_solver.setTimestep( static_cast<float>( _timeStep ) ); }
   void setDiffusion( double _diffusion ) { m_solver.setDiffusion( static_cast<float>( _diffusion ) ); }
   void setViscosity( double _viscosity ) { m_solver.setViscosity( static_cast<float>( _viscosity ) ); }
+  void setDensity( double _density ) { m_solver.setDensity( static_cast<float>( _density ) ); }
 
 protected:
   /// @brief  The following methods must be implimented in the sub class

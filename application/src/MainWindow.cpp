@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( m_ui->timestep, SIGNAL(valueChanged( double )), m_gl, SLOT(setTimestep(double)));
     connect( m_ui->Diffusion, SIGNAL(valueChanged( double )), m_gl, SLOT(setDiffusion(double)));
     connect( m_ui->Viscosity, SIGNAL(valueChanged( double )), m_gl, SLOT(setViscosity(double)));
+    connect( m_ui->Density, SIGNAL(valueChanged( double )), m_gl, SLOT(setDensity(double)));
 
 }
 
