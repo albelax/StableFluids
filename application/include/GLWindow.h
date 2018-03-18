@@ -37,7 +37,11 @@ public :
 public slots:
   //  void rotating( const bool _rotating ) { m_rotating = _rotating; }
   void init();
-  void generateNewGeometry();
+  void reset();
+  void setTimestep( double _timeStep ) { m_solver.setTimestep( static_cast<float>( _timeStep ) ); }
+  void setDiffusion( double _diffusion ) { m_solver.setDiffusion( static_cast<float>( _diffusion ) ); }
+  void setViscosity( double _viscosity ) { m_solver.setViscosity( static_cast<float>( _viscosity ) ); }
+
 protected:
   /// @brief  The following methods must be implimented in the sub class
   /// this is called when the window is created

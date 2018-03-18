@@ -77,7 +77,7 @@ void GLWindow::mouseMove(QMouseEvent * _event)
   if ( _event->buttons() == Qt::RightButton )
     m_solver.setVel0(x,y, _event->pos().x() - prevX, _event->pos().y() - prevY );
   else if ( _event->buttons() == Qt::LeftButton )
-    m_solver.setD0(x, y, 150.0f);
+    m_solver.setD0(x, y, 100.0f);
 
   m_solver.addSource();
 
@@ -95,7 +95,7 @@ void GLWindow::mouseClick(QMouseEvent * _event)
 
 
   if ( _event->buttons() == Qt::LeftButton )
-    m_solver.setD0(prevX, prevY, 150.0f);
+    m_solver.setD0(prevX, prevY, 100.0f);
   update();
 }
 
@@ -230,10 +230,9 @@ void GLWindow::renderScene()
 
 //------------------------------------------------------------------------------------------------------------------------------
 
-void GLWindow::generateNewGeometry()
+void GLWindow::reset()
 {
-
-
+  m_solver.reset();
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

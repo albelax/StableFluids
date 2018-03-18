@@ -1,0 +1,4116 @@
+[==========] Running 2 tests from 2 test cases.
+[----------] Global test environment set-up.
+[----------] 1 test from pvx
+[ RUN      ] pvx.isEqual
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][1].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 0.5
+[ TEST FAILED AT pvx[129][1].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][2].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 1.5
+[ TEST FAILED AT pvx[129][2].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][3].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 2.5
+[ TEST FAILED AT pvx[129][3].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][4].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 3.5
+[ TEST FAILED AT pvx[129][4].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][5].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 4.5
+[ TEST FAILED AT pvx[129][5].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][6].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 5.5
+[ TEST FAILED AT pvx[129][6].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][7].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 6.5
+[ TEST FAILED AT pvx[129][7].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][8].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 7.5
+[ TEST FAILED AT pvx[129][8].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][9].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 8.5
+[ TEST FAILED AT pvx[129][9].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][10].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 9.5
+[ TEST FAILED AT pvx[129][10].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][11].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 10.5
+[ TEST FAILED AT pvx[129][11].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][12].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 11.5
+[ TEST FAILED AT pvx[129][12].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][13].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 12.5
+[ TEST FAILED AT pvx[129][13].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][14].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 13.5
+[ TEST FAILED AT pvx[129][14].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][15].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 14.5
+[ TEST FAILED AT pvx[129][15].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][16].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 15.5
+[ TEST FAILED AT pvx[129][16].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][17].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 16.5
+[ TEST FAILED AT pvx[129][17].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][18].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 17.5
+[ TEST FAILED AT pvx[129][18].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][19].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 18.5
+[ TEST FAILED AT pvx[129][19].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][20].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 19.5
+[ TEST FAILED AT pvx[129][20].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][21].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 20.5
+[ TEST FAILED AT pvx[129][21].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][22].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 21.5
+[ TEST FAILED AT pvx[129][22].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][23].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 22.5
+[ TEST FAILED AT pvx[129][23].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][24].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 23.5
+[ TEST FAILED AT pvx[129][24].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][25].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 24.5
+[ TEST FAILED AT pvx[129][25].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][26].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 25.5
+[ TEST FAILED AT pvx[129][26].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][27].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 26.5
+[ TEST FAILED AT pvx[129][27].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][28].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 27.5
+[ TEST FAILED AT pvx[129][28].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][29].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 28.5
+[ TEST FAILED AT pvx[129][29].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][30].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 29.5
+[ TEST FAILED AT pvx[129][30].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][31].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 30.5
+[ TEST FAILED AT pvx[129][31].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][32].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 31.5
+[ TEST FAILED AT pvx[129][32].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][33].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 32.5
+[ TEST FAILED AT pvx[129][33].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][34].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 33.5
+[ TEST FAILED AT pvx[129][34].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][35].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 34.5
+[ TEST FAILED AT pvx[129][35].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][36].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 35.5
+[ TEST FAILED AT pvx[129][36].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][37].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 36.5
+[ TEST FAILED AT pvx[129][37].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][38].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 37.5
+[ TEST FAILED AT pvx[129][38].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][39].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 38.5
+[ TEST FAILED AT pvx[129][39].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][40].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 39.5
+[ TEST FAILED AT pvx[129][40].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][41].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 40.5
+[ TEST FAILED AT pvx[129][41].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][42].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 41.5
+[ TEST FAILED AT pvx[129][42].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][43].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 42.5
+[ TEST FAILED AT pvx[129][43].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][44].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 43.5
+[ TEST FAILED AT pvx[129][44].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][45].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 44.5
+[ TEST FAILED AT pvx[129][45].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][46].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 45.5
+[ TEST FAILED AT pvx[129][46].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][47].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 46.5
+[ TEST FAILED AT pvx[129][47].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][48].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 47.5
+[ TEST FAILED AT pvx[129][48].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][49].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 48.5
+[ TEST FAILED AT pvx[129][49].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][50].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 49.5
+[ TEST FAILED AT pvx[129][50].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][51].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 50.5
+[ TEST FAILED AT pvx[129][51].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][52].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 51.5
+[ TEST FAILED AT pvx[129][52].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][53].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 52.5
+[ TEST FAILED AT pvx[129][53].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][54].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 53.5
+[ TEST FAILED AT pvx[129][54].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][55].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 54.5
+[ TEST FAILED AT pvx[129][55].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][56].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 55.5
+[ TEST FAILED AT pvx[129][56].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][57].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 56.5
+[ TEST FAILED AT pvx[129][57].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][58].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 57.5
+[ TEST FAILED AT pvx[129][58].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][59].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 58.5
+[ TEST FAILED AT pvx[129][59].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][60].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 59.5
+[ TEST FAILED AT pvx[129][60].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][61].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 60.5
+[ TEST FAILED AT pvx[129][61].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][62].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 61.5
+[ TEST FAILED AT pvx[129][62].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][63].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 62.5
+[ TEST FAILED AT pvx[129][63].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][64].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 63.5
+[ TEST FAILED AT pvx[129][64].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][65].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 64.5
+[ TEST FAILED AT pvx[129][65].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][66].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 65.5
+[ TEST FAILED AT pvx[129][66].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][67].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 66.5
+[ TEST FAILED AT pvx[129][67].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][68].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 67.5
+[ TEST FAILED AT pvx[129][68].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][69].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 68.5
+[ TEST FAILED AT pvx[129][69].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][70].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 69.5
+[ TEST FAILED AT pvx[129][70].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][71].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 70.5
+[ TEST FAILED AT pvx[129][71].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][72].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 71.5
+[ TEST FAILED AT pvx[129][72].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][73].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 72.5
+[ TEST FAILED AT pvx[129][73].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][74].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 73.5
+[ TEST FAILED AT pvx[129][74].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][75].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 74.5
+[ TEST FAILED AT pvx[129][75].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][76].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 75.5
+[ TEST FAILED AT pvx[129][76].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][77].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 76.5
+[ TEST FAILED AT pvx[129][77].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][78].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 77.5
+[ TEST FAILED AT pvx[129][78].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][79].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 78.5
+[ TEST FAILED AT pvx[129][79].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][80].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 79.5
+[ TEST FAILED AT pvx[129][80].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][81].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 80.5
+[ TEST FAILED AT pvx[129][81].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][82].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 81.5
+[ TEST FAILED AT pvx[129][82].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][83].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 82.5
+[ TEST FAILED AT pvx[129][83].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][84].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 83.5
+[ TEST FAILED AT pvx[129][84].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][85].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 84.5
+[ TEST FAILED AT pvx[129][85].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][86].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 85.5
+[ TEST FAILED AT pvx[129][86].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][87].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 86.5
+[ TEST FAILED AT pvx[129][87].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][88].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 87.5
+[ TEST FAILED AT pvx[129][88].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][89].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 88.5
+[ TEST FAILED AT pvx[129][89].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][90].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 89.5
+[ TEST FAILED AT pvx[129][90].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][91].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 90.5
+[ TEST FAILED AT pvx[129][91].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][92].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 91.5
+[ TEST FAILED AT pvx[129][92].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][93].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 92.5
+[ TEST FAILED AT pvx[129][93].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][94].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 93.5
+[ TEST FAILED AT pvx[129][94].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][95].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 94.5
+[ TEST FAILED AT pvx[129][95].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][96].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 95.5
+[ TEST FAILED AT pvx[129][96].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][97].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 96.5
+[ TEST FAILED AT pvx[129][97].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][98].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 97.5
+[ TEST FAILED AT pvx[129][98].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][99].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 98.5
+[ TEST FAILED AT pvx[129][99].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][100].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 99.5
+[ TEST FAILED AT pvx[129][100].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][101].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 100.5
+[ TEST FAILED AT pvx[129][101].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][102].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 101.5
+[ TEST FAILED AT pvx[129][102].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][103].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 102.5
+[ TEST FAILED AT pvx[129][103].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][104].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 103.5
+[ TEST FAILED AT pvx[129][104].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][105].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 104.5
+[ TEST FAILED AT pvx[129][105].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][106].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 105.5
+[ TEST FAILED AT pvx[129][106].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][107].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 106.5
+[ TEST FAILED AT pvx[129][107].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][108].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 107.5
+[ TEST FAILED AT pvx[129][108].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][109].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 108.5
+[ TEST FAILED AT pvx[129][109].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][110].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 109.5
+[ TEST FAILED AT pvx[129][110].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][111].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 110.5
+[ TEST FAILED AT pvx[129][111].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][112].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 111.5
+[ TEST FAILED AT pvx[129][112].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][113].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 112.5
+[ TEST FAILED AT pvx[129][113].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][114].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 113.5
+[ TEST FAILED AT pvx[129][114].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][115].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 114.5
+[ TEST FAILED AT pvx[129][115].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][116].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 115.5
+[ TEST FAILED AT pvx[129][116].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][117].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 116.5
+[ TEST FAILED AT pvx[129][117].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][118].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 117.5
+[ TEST FAILED AT pvx[129][118].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][119].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 118.5
+[ TEST FAILED AT pvx[129][119].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][120].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 119.5
+[ TEST FAILED AT pvx[129][120].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][121].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 120.5
+[ TEST FAILED AT pvx[129][121].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][122].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 121.5
+[ TEST FAILED AT pvx[129][122].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][123].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 122.5
+[ TEST FAILED AT pvx[129][123].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][124].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 123.5
+[ TEST FAILED AT pvx[129][124].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][125].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 124.5
+[ TEST FAILED AT pvx[129][125].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][126].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 125.5
+[ TEST FAILED AT pvx[129][126].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][127].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 126.5
+[ TEST FAILED AT pvx[129][127].y ]
+
+src/main.cpp:37: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvx[idx].x
+    Which is: 128
+[ TEST FAILED AT pvx[129][128].x ]
+
+src/main.cpp:41: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvx[idx].y
+    Which is: 127.5
+[ TEST FAILED AT pvx[129][128].y ]
+
+[  FAILED  ] pvx.isEqual (184 ms)
+[----------] 1 test from pvx (184 ms total)
+
+[----------] 1 test from pvy
+[ RUN      ] pvy.isEqual
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 0.5
+[ TEST FAILED AT pvy[1][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[1][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 1.5
+[ TEST FAILED AT pvy[2][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[2][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 2.5
+[ TEST FAILED AT pvy[3][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[3][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 3.5
+[ TEST FAILED AT pvy[4][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[4][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 4.5
+[ TEST FAILED AT pvy[5][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[5][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 5.5
+[ TEST FAILED AT pvy[6][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[6][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 6.5
+[ TEST FAILED AT pvy[7][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[7][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 7.5
+[ TEST FAILED AT pvy[8][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[8][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 8.5
+[ TEST FAILED AT pvy[9][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[9][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 9.5
+[ TEST FAILED AT pvy[10][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[10][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 10.5
+[ TEST FAILED AT pvy[11][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[11][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 11.5
+[ TEST FAILED AT pvy[12][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[12][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 12.5
+[ TEST FAILED AT pvy[13][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[13][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 13.5
+[ TEST FAILED AT pvy[14][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[14][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 14.5
+[ TEST FAILED AT pvy[15][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[15][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 15.5
+[ TEST FAILED AT pvy[16][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[16][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 16.5
+[ TEST FAILED AT pvy[17][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[17][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 17.5
+[ TEST FAILED AT pvy[18][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[18][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 18.5
+[ TEST FAILED AT pvy[19][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[19][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 19.5
+[ TEST FAILED AT pvy[20][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[20][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 20.5
+[ TEST FAILED AT pvy[21][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[21][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 21.5
+[ TEST FAILED AT pvy[22][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[22][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 22.5
+[ TEST FAILED AT pvy[23][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[23][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 23.5
+[ TEST FAILED AT pvy[24][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[24][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 24.5
+[ TEST FAILED AT pvy[25][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[25][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 25.5
+[ TEST FAILED AT pvy[26][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[26][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 26.5
+[ TEST FAILED AT pvy[27][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[27][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 27.5
+[ TEST FAILED AT pvy[28][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[28][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 28.5
+[ TEST FAILED AT pvy[29][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[29][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 29.5
+[ TEST FAILED AT pvy[30][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[30][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 30.5
+[ TEST FAILED AT pvy[31][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[31][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 31.5
+[ TEST FAILED AT pvy[32][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[32][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 32.5
+[ TEST FAILED AT pvy[33][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[33][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 33.5
+[ TEST FAILED AT pvy[34][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[34][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 34.5
+[ TEST FAILED AT pvy[35][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[35][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 35.5
+[ TEST FAILED AT pvy[36][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[36][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 36.5
+[ TEST FAILED AT pvy[37][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[37][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 37.5
+[ TEST FAILED AT pvy[38][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[38][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 38.5
+[ TEST FAILED AT pvy[39][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[39][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 39.5
+[ TEST FAILED AT pvy[40][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[40][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 40.5
+[ TEST FAILED AT pvy[41][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[41][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 41.5
+[ TEST FAILED AT pvy[42][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[42][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 42.5
+[ TEST FAILED AT pvy[43][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[43][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 43.5
+[ TEST FAILED AT pvy[44][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[44][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 44.5
+[ TEST FAILED AT pvy[45][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[45][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 45.5
+[ TEST FAILED AT pvy[46][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[46][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 46.5
+[ TEST FAILED AT pvy[47][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[47][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 47.5
+[ TEST FAILED AT pvy[48][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[48][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 48.5
+[ TEST FAILED AT pvy[49][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[49][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 49.5
+[ TEST FAILED AT pvy[50][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[50][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 50.5
+[ TEST FAILED AT pvy[51][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[51][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 51.5
+[ TEST FAILED AT pvy[52][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[52][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 52.5
+[ TEST FAILED AT pvy[53][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[53][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 53.5
+[ TEST FAILED AT pvy[54][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[54][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 54.5
+[ TEST FAILED AT pvy[55][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[55][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 55.5
+[ TEST FAILED AT pvy[56][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[56][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 56.5
+[ TEST FAILED AT pvy[57][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[57][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 57.5
+[ TEST FAILED AT pvy[58][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[58][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 58.5
+[ TEST FAILED AT pvy[59][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[59][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 59.5
+[ TEST FAILED AT pvy[60][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[60][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 60.5
+[ TEST FAILED AT pvy[61][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[61][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 61.5
+[ TEST FAILED AT pvy[62][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[62][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 62.5
+[ TEST FAILED AT pvy[63][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[63][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 63.5
+[ TEST FAILED AT pvy[64][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[64][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 64.5
+[ TEST FAILED AT pvy[65][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[65][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 65.5
+[ TEST FAILED AT pvy[66][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[66][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 66.5
+[ TEST FAILED AT pvy[67][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[67][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 67.5
+[ TEST FAILED AT pvy[68][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[68][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 68.5
+[ TEST FAILED AT pvy[69][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[69][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 69.5
+[ TEST FAILED AT pvy[70][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[70][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 70.5
+[ TEST FAILED AT pvy[71][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[71][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 71.5
+[ TEST FAILED AT pvy[72][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[72][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 72.5
+[ TEST FAILED AT pvy[73][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[73][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 73.5
+[ TEST FAILED AT pvy[74][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[74][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 74.5
+[ TEST FAILED AT pvy[75][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[75][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 75.5
+[ TEST FAILED AT pvy[76][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[76][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 76.5
+[ TEST FAILED AT pvy[77][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[77][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 77.5
+[ TEST FAILED AT pvy[78][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[78][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 78.5
+[ TEST FAILED AT pvy[79][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[79][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 79.5
+[ TEST FAILED AT pvy[80][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[80][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 80.5
+[ TEST FAILED AT pvy[81][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[81][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 81.5
+[ TEST FAILED AT pvy[82][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[82][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 82.5
+[ TEST FAILED AT pvy[83][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[83][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 83.5
+[ TEST FAILED AT pvy[84][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[84][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 84.5
+[ TEST FAILED AT pvy[85][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[85][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 85.5
+[ TEST FAILED AT pvy[86][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[86][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 86.5
+[ TEST FAILED AT pvy[87][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[87][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 87.5
+[ TEST FAILED AT pvy[88][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[88][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 88.5
+[ TEST FAILED AT pvy[89][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[89][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 89.5
+[ TEST FAILED AT pvy[90][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[90][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 90.5
+[ TEST FAILED AT pvy[91][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[91][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 91.5
+[ TEST FAILED AT pvy[92][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[92][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 92.5
+[ TEST FAILED AT pvy[93][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[93][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 93.5
+[ TEST FAILED AT pvy[94][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[94][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 94.5
+[ TEST FAILED AT pvy[95][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[95][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 95.5
+[ TEST FAILED AT pvy[96][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[96][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 96.5
+[ TEST FAILED AT pvy[97][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[97][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 97.5
+[ TEST FAILED AT pvy[98][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[98][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 98.5
+[ TEST FAILED AT pvy[99][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[99][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 99.5
+[ TEST FAILED AT pvy[100][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[100][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 100.5
+[ TEST FAILED AT pvy[101][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[101][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 101.5
+[ TEST FAILED AT pvy[102][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[102][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 102.5
+[ TEST FAILED AT pvy[103][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[103][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 103.5
+[ TEST FAILED AT pvy[104][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[104][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 104.5
+[ TEST FAILED AT pvy[105][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[105][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 105.5
+[ TEST FAILED AT pvy[106][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[106][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 106.5
+[ TEST FAILED AT pvy[107][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[107][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 107.5
+[ TEST FAILED AT pvy[108][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[108][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 108.5
+[ TEST FAILED AT pvy[109][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[109][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 109.5
+[ TEST FAILED AT pvy[110][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[110][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 110.5
+[ TEST FAILED AT pvy[111][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[111][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 111.5
+[ TEST FAILED AT pvy[112][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[112][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 112.5
+[ TEST FAILED AT pvy[113][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[113][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 113.5
+[ TEST FAILED AT pvy[114][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[114][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 114.5
+[ TEST FAILED AT pvy[115][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[115][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 115.5
+[ TEST FAILED AT pvy[116][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[116][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 116.5
+[ TEST FAILED AT pvy[117][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[117][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 117.5
+[ TEST FAILED AT pvy[118][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[118][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 118.5
+[ TEST FAILED AT pvy[119][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[119][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 119.5
+[ TEST FAILED AT pvy[120][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[120][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 120.5
+[ TEST FAILED AT pvy[121][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[121][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 121.5
+[ TEST FAILED AT pvy[122][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[122][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 122.5
+[ TEST FAILED AT pvy[123][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[123][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 123.5
+[ TEST FAILED AT pvy[124][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[124][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 124.5
+[ TEST FAILED AT pvy[125][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[125][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 125.5
+[ TEST FAILED AT pvy[126][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[126][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 126.5
+[ TEST FAILED AT pvy[127][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[127][129].y ]
+
+src/main.cpp:68: Failure
+Expected equality of these values:
+  gpu[idx].x
+    Which is: 0
+  cpu.m_pvy[idx].x
+    Which is: 127.5
+[ TEST FAILED AT pvy[128][129].x ]
+
+src/main.cpp:72: Failure
+Expected equality of these values:
+  gpu[idx].y
+    Which is: 0
+  cpu.m_pvy[idx].y
+    Which is: 128
+[ TEST FAILED AT pvy[128][129].y ]
+
+[  FAILED  ] pvy.isEqual (24 ms)
+[----------] 1 test from pvy (25 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 2 test cases ran. (209 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 2 tests, listed below:
+[  FAILED  ] pvx.isEqual
+[  FAILED  ] pvy.isEqual
+
+ 2 FAILED TESTS

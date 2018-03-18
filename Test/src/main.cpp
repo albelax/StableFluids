@@ -25,7 +25,6 @@ TEST( pvx, isEqual )
   tuple<float> * gpu = (tuple<float> *) malloc( sizeof( tuple<float> ) * gps.m_totVelX );
   gps.copy( gps.m_pvx, gpu, gps.m_totVelX );
   gps.exportCSV( "results/gpu_pvx.csv", gps.m_pvx, gps.m_rowVelocity.x, gps.m_columnVelocity.x );
-//  cpu.exportCSV("results/cpu_pvx.csv");
   cpu.exportCSV( "results/cpu_pvx.csv", cpu.m_pvx, cpu.m_rowVelocity.x, cpu.m_columnVelocity.x );
 
 
@@ -68,11 +67,11 @@ TEST( pvy, isEqual )
 
       EXPECT_FLOAT_EQ( gpu[idx].x, cpu.m_pvy[idx].x );
       if ( gpu[idx].x != cpu.m_pvy[idx].x )
-        std::cout << "[ TEST FAILED AT pvx[" << i+1 << "][" << j+1 << "].x ]\n\n"; // indices + 1 so they match excel file
+        std::cout << "[ TEST FAILED AT pvy[" << i+1 << "][" << j+1 << "].x ]\n\n"; // indices + 1 so they match excel file
 
       EXPECT_FLOAT_EQ(gpu[idx].y, cpu.m_pvy[idx].y );
       if ( gpu[idx].y != cpu.m_pvy[idx].y )
-        std::cout << "[ TEST FAILED AT pvx[" << i+1 << "][" << j+1 << "].y ]\n\n";
+        std::cout << "[ TEST FAILED AT pvy[" << i+1 << "][" << j+1 << "].y ]\n\n";
     }
   }
 

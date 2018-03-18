@@ -9,7 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui -> setupUi(this);
     m_gl = new GLWindow(this);
     m_ui -> s_mainWindowGridLayout -> addWidget(m_gl,0,0,3,5);
-    connect( m_ui->generate, SIGNAL( clicked(bool)), m_gl, SLOT(generateNewGeometry()));
+    connect( m_ui->reset, SIGNAL( clicked(bool)), m_gl, SLOT(reset()));
+    connect( m_ui->timestep, SIGNAL(valueChanged( double )), m_gl, SLOT(setTimestep(double)));
+    connect( m_ui->Diffusion, SIGNAL(valueChanged( double )), m_gl, SLOT(setDiffusion(double)));
+    connect( m_ui->Viscosity, SIGNAL(valueChanged( double )), m_gl, SLOT(setViscosity(double)));
+
 }
 
 MainWindow::~MainWindow()

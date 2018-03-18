@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
@@ -21,6 +22,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,19 +32,27 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *s_mainWindowGridLayout;
-    QGroupBox *s_transformGB;
-    QGridLayout *gridLayout;
-    QLabel *label;
-    QSpacerItem *horizontalSpacer_4;
-    QSpacerItem *horizontalSpacer_5;
     QSpacerItem *horizontalSpacer_6;
+    QSpacerItem *horizontalSpacer_5;
     QSpacerItem *horizontalSpacer_2;
+    QSpacerItem *horizontalSpacer;
     QGroupBox *s_drawGB;
     QGridLayout *gridLayout_2;
     QSpacerItem *verticalSpacer;
     QSpacerItem *horizontalSpacer_3;
-    QPushButton *generate;
-    QSpacerItem *horizontalSpacer;
+    QGroupBox *s_transformGB;
+    QGridLayout *gridLayout;
+    QSpacerItem *horizontalSpacer_4;
+    QLabel *TimestepLabel;
+    QLabel *label;
+    QDoubleSpinBox *timestep;
+    QPushButton *reset;
+    QLabel *ViscosityLabel;
+    QDoubleSpinBox *Diffusion;
+    QLabel *DiffusionLabel;
+    QDoubleSpinBox *Viscosity;
+    QLabel *DensityLabel;
+    QSpinBox *Density;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -54,33 +64,21 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         s_mainWindowGridLayout = new QGridLayout(centralwidget);
         s_mainWindowGridLayout->setObjectName(QStringLiteral("s_mainWindowGridLayout"));
-        s_transformGB = new QGroupBox(centralwidget);
-        s_transformGB->setObjectName(QStringLiteral("s_transformGB"));
-        gridLayout = new QGridLayout(s_transformGB);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        label = new QLabel(s_transformGB);
-        label->setObjectName(QStringLiteral("label"));
+        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addWidget(label, 0, 2, 1, 1);
-
-        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout->addItem(horizontalSpacer_4, 0, 3, 1, 1);
-
-
-        s_mainWindowGridLayout->addWidget(s_transformGB, 0, 5, 1, 1);
+        s_mainWindowGridLayout->addItem(horizontalSpacer_6, 0, 1, 1, 1);
 
         horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         s_mainWindowGridLayout->addItem(horizontalSpacer_5, 0, 3, 1, 1);
 
-        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        s_mainWindowGridLayout->addItem(horizontalSpacer_6, 0, 1, 1, 1);
-
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         s_mainWindowGridLayout->addItem(horizontalSpacer_2, 0, 2, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        s_mainWindowGridLayout->addItem(horizontalSpacer, 0, 4, 1, 1);
 
         s_drawGB = new QGroupBox(centralwidget);
         s_drawGB->setObjectName(QStringLiteral("s_drawGB"));
@@ -88,23 +86,84 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_2->addItem(verticalSpacer, 1, 1, 1, 1);
+        gridLayout_2->addItem(verticalSpacer, 9, 1, 1, 1);
 
         horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout_2->addItem(horizontalSpacer_3, 0, 2, 1, 1);
 
-        generate = new QPushButton(s_drawGB);
-        generate->setObjectName(QStringLiteral("generate"));
-
-        gridLayout_2->addWidget(generate, 0, 1, 1, 1);
-
 
         s_mainWindowGridLayout->addWidget(s_drawGB, 2, 5, 1, 1);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        s_transformGB = new QGroupBox(centralwidget);
+        s_transformGB->setObjectName(QStringLiteral("s_transformGB"));
+        gridLayout = new QGridLayout(s_transformGB);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        s_mainWindowGridLayout->addItem(horizontalSpacer, 0, 4, 1, 1);
+        gridLayout->addItem(horizontalSpacer_4, 0, 4, 1, 1);
+
+        TimestepLabel = new QLabel(s_transformGB);
+        TimestepLabel->setObjectName(QStringLiteral("TimestepLabel"));
+
+        gridLayout->addWidget(TimestepLabel, 1, 2, 1, 1);
+
+        label = new QLabel(s_transformGB);
+        label->setObjectName(QStringLiteral("label"));
+
+        gridLayout->addWidget(label, 0, 3, 1, 1);
+
+        timestep = new QDoubleSpinBox(s_transformGB);
+        timestep->setObjectName(QStringLiteral("timestep"));
+        timestep->setMaximum(10);
+        timestep->setSingleStep(0.1);
+        timestep->setValue(1);
+
+        gridLayout->addWidget(timestep, 2, 2, 1, 1);
+
+        reset = new QPushButton(s_transformGB);
+        reset->setObjectName(QStringLiteral("reset"));
+
+        gridLayout->addWidget(reset, 0, 2, 1, 1);
+
+        ViscosityLabel = new QLabel(s_transformGB);
+        ViscosityLabel->setObjectName(QStringLiteral("ViscosityLabel"));
+
+        gridLayout->addWidget(ViscosityLabel, 5, 2, 1, 1);
+
+        Diffusion = new QDoubleSpinBox(s_transformGB);
+        Diffusion->setObjectName(QStringLiteral("Diffusion"));
+        Diffusion->setMaximum(10);
+        Diffusion->setSingleStep(0.1);
+
+        gridLayout->addWidget(Diffusion, 4, 2, 1, 1);
+
+        DiffusionLabel = new QLabel(s_transformGB);
+        DiffusionLabel->setObjectName(QStringLiteral("DiffusionLabel"));
+
+        gridLayout->addWidget(DiffusionLabel, 3, 2, 1, 1);
+
+        Viscosity = new QDoubleSpinBox(s_transformGB);
+        Viscosity->setObjectName(QStringLiteral("Viscosity"));
+        Viscosity->setMaximum(10);
+        Viscosity->setSingleStep(0.1);
+
+        gridLayout->addWidget(Viscosity, 6, 2, 1, 1);
+
+        DensityLabel = new QLabel(s_transformGB);
+        DensityLabel->setObjectName(QStringLiteral("DensityLabel"));
+
+        gridLayout->addWidget(DensityLabel, 7, 2, 1, 1);
+
+        Density = new QSpinBox(s_transformGB);
+        Density->setObjectName(QStringLiteral("Density"));
+        Density->setMaximum(300);
+        Density->setValue(100);
+
+        gridLayout->addWidget(Density, 8, 2, 1, 1);
+
+
+        s_mainWindowGridLayout->addWidget(s_transformGB, 0, 5, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -120,10 +179,14 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stable Fluids", 0));
-        s_transformGB->setTitle(QString());
-        label->setText(QString());
         s_drawGB->setTitle(QString());
-        generate->setText(QApplication::translate("MainWindow", "Generate", 0));
+        s_transformGB->setTitle(QString());
+        TimestepLabel->setText(QApplication::translate("MainWindow", "TimeStep", 0));
+        label->setText(QString());
+        reset->setText(QApplication::translate("MainWindow", "Reset", 0));
+        ViscosityLabel->setText(QApplication::translate("MainWindow", "Viscosity", 0));
+        DiffusionLabel->setText(QApplication::translate("MainWindow", "Diffusion", 0));
+        DensityLabel->setText(QApplication::translate("MainWindow", "Density", 0));
     } // retranslateUi
 
 };

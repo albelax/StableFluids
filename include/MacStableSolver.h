@@ -43,6 +43,9 @@ public:
   void init();
   void reset();
   void cleanBuffer();
+  void setTimestep( float _timeStep ) { m_timeStep = _timeStep; }
+  void setDiffusion( float _diffusion ) { m_diffusion = _diffusion; }
+  void setViscosity( float _viscosity ) { m_viscosity = _viscosity; }
 
   //animation
   void setVelBoundary(int flag);
@@ -84,11 +87,9 @@ public:
 
   float getDens(int i, int j) // calculates density of cell
   {
-    return (
-          m_density[cIdx(i-1, j-1)] +
-        m_density[cIdx(i, j-1)] +
-        m_density[cIdx(i-1, j)] +
-        m_density[cIdx(i, j)]) / 4.0f;
+    float dens = m_density[cIdx(i-1, j-1)] + m_density[cIdx(i, j-1)] +
+        m_density[cIdx(i-1, j)] + m_density[cIdx(i, j)];
+    return dens / 4.0f;
   }
 
   void setVel0(int i, int j, float _vx0, float _vy0)
@@ -99,7 +100,6 @@ public:
     m_previousVelocity.y[vyIdx(i, j+1)] += _vy0;
   }
   void setD0(int i, int j, float _d0){ m_previousDensity[cIdx(i, j)]=_d0; }
-//  void exportCSV( std::string _file );
   void exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int _sizeY );
 
 private:
@@ -128,7 +128,7 @@ private:
 #if TESTING
   FRIEND_TEST( pvx, isEqual );
   FRIEND_TEST( pvy, isEqual )
-;
+  ;
 #endif // TESTING
 };
 
