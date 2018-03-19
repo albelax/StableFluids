@@ -34,7 +34,16 @@ StableSolverCpu::StableSolverCpu()
 
 StableSolverCpu::~StableSolverCpu()
 {
-
+  free( m_pvx );
+  free( m_pvy );
+  free( m_density );
+  free( m_pressure );
+  free( m_divergence );
+  free( m_velocity.x );
+  free( m_velocity.y );
+  free( m_previousVelocity.x );
+  free( m_previousVelocity.y );
+  free( m_previousDensity );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
