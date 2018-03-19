@@ -40,7 +40,7 @@ public:
     virtual void handleMouseMove(double /*mouseX*/, double /*mouseY*/);
 
     /// Mouse click handler
-    virtual void handleMouseClick(double /*mouseX*/, double /*mouseY*/, int /*button*/, QMouseEvent * /*action*/, int /*mods*/);
+    virtual void handleMouseClick(double /*mouseX*/, double /*mouseY*/, QMouseEvent * /*action*/);
 
     /// Set the direction you're looking
     void setTarget(const double& x, const double& y, const double& z) {m_target = glm::dvec3(x,y,z);}
@@ -68,7 +68,7 @@ private:
     void mouseRotate(double /*xpos*/, double /*ypos*/);
 
     /// Zoom based on the current mouse position and the position of the mouse click
-    void mouseZoom(double /*xpos*/, double /*ypos*/);
+    void mouseZoom(double /*ypos*/);
 
     /// Keep track of our current trackball state
     TrackballState m_state;

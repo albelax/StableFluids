@@ -31,7 +31,7 @@ TrackballCamera::TrackballCamera() :
  * This is effectively a state machine which determines what we're currently doing. Changes to the
  * mouse behaviour would need to be done here.
  */
-void TrackballCamera::handleMouseClick(double mouseX, double mouseY, int button, QMouseEvent * action, int mods)
+void TrackballCamera::handleMouseClick(double mouseX, double mouseY, QMouseEvent * action )
 {
 //	std::cout << "handling the clicks \n";
 	switch(m_state)
@@ -39,15 +39,14 @@ void TrackballCamera::handleMouseClick(double mouseX, double mouseY, int button,
 		case TRACKBALL_PASSIVE:
 			if (action->type() == QMouseEvent::MouseButtonPress)
 			{
-				m_lastX = mouseX; m_lastY = mouseY;
+				m_lastX = mouseX;
+				m_lastY = mouseY;
 				if (action->buttons() == Qt::LeftButton)
 				{
-//					std::cout << "rotating \n";
 					m_state = TRACKBALL_ROTATING;
 				}
 				else if (action->buttons() == Qt::RightButton)
 				{
-//					std::cout << "Zooming \n";
 					m_state = TRACKBALL_ZOOMING;
 				}
 			}
@@ -82,7 +81,7 @@ void TrackballCamera::handleMouseMove(double mouseX, double mouseY)
         mouseRotate(mouseX, mouseY);
         break;
     case TRACKBALL_ZOOMING:
-        mouseZoom(mouseX, mouseY);
+        mouseZoom( mouseY );
         break;
     default:
         break;
@@ -120,7 +119,7 @@ void TrackballCamera::mouseRotate(double mouseX, double mouseY)
  * @param mouseX
  * @param mouseY
  */
-void TrackballCamera::mouseZoom(double mouseX, double mouseY)
+void TrackballCamera::mouseZoom( double mouseY )
 {
 	m_zoom = glm::clamp(m_zoom + (mouseY - m_lastY) * 0.01 * m_sensitivity, 0.0, 10.0);
 }

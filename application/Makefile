@@ -2120,55 +2120,7 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		../Common/tuple.h \
 		../Common/testing.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
-		ui/ui_mainwindow.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qspinbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGridLayout \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QGroupBox \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qgroupbox.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/QSpacerItem
+		ui/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainWindow.o src/MainWindow.cpp
 
 obj/GLWindow.o: src/GLWindow.cpp include/GLWindow.h \

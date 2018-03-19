@@ -15,7 +15,7 @@ CXX           = /usr/bin/g++
 DEFINES       = -DQT_QML_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -isystem /usr/local/include -I../Common -I../include -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -isystem /usr/local/include -I/public/devel/include -I../Common -I../include -I/opt/Qt5.9.0/5.9/gcc_64/include -I/opt/Qt5.9.0/5.9/gcc_64/include/QtGui -I/opt/Qt5.9.0/5.9/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/Qt5.9.0/5.9/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -39,7 +39,7 @@ DISTNAME      = gtest1.0.0
 DISTDIR = /home/i7434091/stableFluids/Test/obj/gtest1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/i7434091/stableFluids/Common/../lib -Wl,-rpath,/opt/Qt5.9.0/5.9/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/usr/local/lib -lgtest -L/home/i7434091/stableFluids/Common/../lib -lsolver_cpu -lsolver_gpu -L/opt/Qt5.9.0/5.9/gcc_64/lib -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/local/lib -lgtest -L/home/i7434091/stableFluids/Common/../lib -lsolver_cpu -lsolver_gpu -L/public/devel/lib -lbenchmark -L/opt/Qt5.9.0/5.9/gcc_64/lib -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -673,10 +673,33 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-obj/main.o: src/main.cpp ../include/GpuSolver.h \
+obj/main.o: src/main.cpp /public/devel/include/gtest/gtest.h \
+		/public/devel/include/gtest/internal/gtest-internal.h \
+		/public/devel/include/gtest/internal/gtest-port.h \
+		/public/devel/include/gtest/internal/gtest-port-arch.h \
+		/public/devel/include/gtest/internal/custom/gtest-port.h \
+		/public/devel/include/gtest/internal/gtest-tuple.h \
+		/public/devel/include/gtest/gtest-message.h \
+		/public/devel/include/gtest/internal/gtest-string.h \
+		/public/devel/include/gtest/internal/gtest-filepath.h \
+		/public/devel/include/gtest/internal/gtest-type-util.h \
+		/public/devel/include/gtest/gtest-death-test.h \
+		/public/devel/include/gtest/internal/gtest-death-test-internal.h \
+		/public/devel/include/gtest/gtest-param-test.h \
+		/public/devel/include/gtest/internal/gtest-param-util.h \
+		/public/devel/include/gtest/internal/gtest-linked_ptr.h \
+		/public/devel/include/gtest/gtest-printers.h \
+		/public/devel/include/gtest/internal/custom/gtest-printers.h \
+		/public/devel/include/gtest/internal/gtest-param-util-generated.h \
+		/public/devel/include/gtest/gtest_prod.h \
+		/public/devel/include/gtest/gtest-test-part.h \
+		/public/devel/include/gtest/gtest-typed-test.h \
+		/public/devel/include/gtest/gtest_pred_impl.h \
+		../include/GpuSolver.h \
 		../Common/tuple.h \
 		../include/MacStableSolver.h \
-		../Common/testing.h
+		../Common/testing.h \
+		/public/devel/include/benchmark/benchmark.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 ####### Install

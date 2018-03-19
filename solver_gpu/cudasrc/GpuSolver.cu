@@ -13,7 +13,6 @@ GpuSolver::GpuSolver()
   setParameters();
   allocateArrays();
   init();
-  //  std::cout << "GPUUUU!! \n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -22,6 +21,14 @@ GpuSolver::~GpuSolver()
 {
   cudaFree( m_pvx );
   cudaFree( m_pvy );
+  cudaFree( m_density );
+  cudaFree( m_pressure );
+  cudaFree( m_divergence );
+  cudaFree( m_velocity.x );
+  cudaFree( m_velocity.y );
+  cudaFree( m_previousVelocity.x );
+  cudaFree( m_previousVelocity.y );
+  cudaFree( m_previousDensity );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -55,14 +62,14 @@ void GpuSolver::allocateArrays()
 {
   cudaMalloc( &m_pvx, sizeof(tuple<float>) * m_totVelX );
   cudaMalloc( &m_pvy, sizeof(tuple<float>) * m_totVelY );
-  //  cudaMalloc( &m_density, sizeof(float)*m_totCell );
-  //  cudaMalloc( &m_pressure, sizeof(float)*m_totCell );
-  //  cudaMalloc( &m_divergence, sizeof(float)*m_totCell );
-  //  cudaMalloc( &m_velocity.x, sizeof(float)*m_totVelX );
-  //  cudaMalloc( &m_velocity.y, sizeof(float)*m_totVelY );
-  //  cudaMalloc( &m_previousVelocity.x, sizeof(float)*m_totVelX );
-  //  cudaMalloc( &m_previousVelocity.y, sizeof(float)*m_totVelY );
-  //  cudaMalloc( &m_previousDensity, sizeof(float)*m_totCell );
+  cudaMalloc( &m_density, sizeof(float)*m_totCell );
+  cudaMalloc( &m_pressure, sizeof(float)*m_totCell );
+  cudaMalloc( &m_divergence, sizeof(float)*m_totCell );
+  cudaMalloc( &m_velocity.x, sizeof(float)*m_totVelX );
+  cudaMalloc( &m_velocity.y, sizeof(float)*m_totVelY );
+  cudaMalloc( &m_previousVelocity.x, sizeof(float)*m_totVelX );
+  cudaMalloc( &m_previousVelocity.y, sizeof(float)*m_totVelY );
+  cudaMalloc( &m_previousDensity, sizeof(float)*m_totCell );
 }
 
 //----------------------------------------------------------------------------------------------------------------------

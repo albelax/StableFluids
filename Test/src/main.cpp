@@ -9,6 +9,7 @@
 #include <random>
 #include "GpuSolver.h"
 #include "MacStableSolver.h"
+#include <benchmark/benchmark.h>
 
 int main(int argc, char **argv)
 {
