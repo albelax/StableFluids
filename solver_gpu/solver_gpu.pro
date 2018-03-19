@@ -17,7 +17,7 @@ QMAKE_CXXFLAGS += -std=c++11 -fPIC
 INCLUDEPATH += include ${CUDA_PATH}/include \
                        ${CUDA_PATH}/include/cuda \
                        ${CUDA_PATH}/samples/common/inc \
-                       $$PWD/../Common
+                       $$PWD/../Common \
 
 HEADERS += include/GpuSolver.h \
            include/GpuSolver.cuh \
@@ -58,9 +58,9 @@ isEmpty(CUDA_DIR) {
 
 ## CUDA_INC - all incldues needed by the cuda files (such as CUDA\<version-number\include)
 CUDA_INC+= $$join(INCLUDEPATH,' -I','-I',' ')
- 
+
 # nvcc flags (ptxas option verbose is always useful)
-NVCCFLAGS = -ccbin $$HOST_COMPILER -m64 -g -G -gencode arch=compute_$$CUDA_COMPUTE_ARCH,code=sm_$$CUDA_COMPUTE_ARCH --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 #--ptxas-options=-v
+NVCCFLAGS = -ccbin $$HOST_COMPILER -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_$$CUDA_COMPUTE_ARCH,code=sm_$$CUDA_COMPUTE_ARCH --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 #--ptxas-options=-v
 
 # Define the path and binary for nvcc
 NVCCBIN = $$CUDA_DIR/bin/nvcc
@@ -85,9 +85,11 @@ cudalink.CONFIG = combine
 cudalink.output = $$OBJECTS_DIR/cuda_link.o
  
 # Tweak arch according to your hw's compute capability
-cudalink.commands = $$NVCCBIN $$NVCCFLAGS $$CUDA_INC -dlink ${QMAKE_FILE_NAME} -o ${QMAKE_FILE_OUT}
+
+cudalink.commands = $$NVCCBIN $$NVCCFLAGS $$CUDA_INC -dlink ${QMAKE_FILE_NAME} -o ${QMAKE_FILE_OUT} -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcuda -lcudart -lcudadevrt -lcurand
 cudalink.dependency_type = TYPE_C
 cudalink.depend_command = $$NVCCBIN $$NVCCFLAGS -M $$CUDA_INC ${QMAKE_FILE_NAME}
+
 
 # Tell Qt that we want add more stuff to the Makefile
 QMAKE_EXTRA_COMPILERS += cudalink

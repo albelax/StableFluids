@@ -3,7 +3,7 @@ include(../Common/common.pri)
 TARGET = gtest
 CONFIG += console c++11
 CONFIG -= app_bundle
-CONFIG -= qt
+QT += core
 
 OTHER_FILES += Common
 

@@ -13,6 +13,8 @@ OBJECTS_DIR = obj
 # This sets the build target directory
 TARGET = $$LIB_INSTALL_DIR/solver_cpu
 
+LIBS += -L/public/devel/lib -lbenchmark
+
 # Include headers
 HEADERS += include/*.h
 
@@ -22,7 +24,7 @@ SOURCES += src/*.cpp
 # Set up the include path
 INCLUDEPATH += include \
 							 $$PWD/../Common \
-							 $$PWD/../Common/glm
+               $$PWD/../Common/glm \
 
 # Set up the post install script to copy the headers into the appropriate directory
 includeinstall.commands = mkdir -p $$INC_INSTALL_DIR && cp include/*.h $$INC_INSTALL_DIR

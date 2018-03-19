@@ -208,7 +208,7 @@ void Rand_GPU::sort()
     auto vals = thrust::make_tuple( d_Px.begin(), d_Py.begin(), d_Pz.begin() );
     auto a = thrust::make_zip_iterator( vals );
 
-    thrust::sort_by_key( thrust::device, d_hash.begin(), d_hash.end(), a);
+//    thrust::sort_by_key( thrust::device, d_hash.begin(), d_hash.end(), a);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
