@@ -23,6 +23,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
+#include <sys/time.h>
+#include <time.h>
+
 //----------------------------------------------------------------------------------------------------------------------
 
 StableSolverCpu::StableSolverCpu()
@@ -44,6 +47,7 @@ StableSolverCpu::~StableSolverCpu()
   free( m_previousVelocity.x );
   free( m_previousVelocity.y );
   free( m_previousDensity );
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------

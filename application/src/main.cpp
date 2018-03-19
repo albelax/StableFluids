@@ -1,11 +1,11 @@
 
 #include <stdio.h>
-#include <time.h>
 #include <vector>
 #include <iostream>
 #include <cstdlib>
 #include <string>
 #include <sys/time.h>
+#include <time.h>
 
 #include "rand_cpu.h"
 #include "rand_gpu.h"

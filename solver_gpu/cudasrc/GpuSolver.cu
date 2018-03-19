@@ -1,10 +1,10 @@
 #include "GpuSolver.cuh"
 #include "GpuSolver.h"
 #include <stdio.h>
-#include <time.h>
 #include <iostream>
 #include <fstream> 
-
+#include <sys/time.h>
+#include <time.h>
 //----------------------------------------------------------------------------------------------------------------------
 
 GpuSolver::GpuSolver()
@@ -86,6 +86,7 @@ void GpuSolver::init()
   setPvy<<<grid, block>>>( m_pvy, m_rowVelocity.y );
 
   cudaThreadSynchronize();
+
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Error: %s\n", cudaGetErrorString(err));
   //  exportCSV( "gpu_pvx.csv", m_pvx, m_rowVelocity.x, m_columnVelocity.x );
