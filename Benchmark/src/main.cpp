@@ -15,6 +15,15 @@ BENCHMARK(BM_StringCreation);
 
 ///----------------------------------------------------------------------------------------------
 
+static void CPU_solverCreation( benchmark::State& state )
+{
+  for ( auto _ : state )
+    benchmark::DoNotOptimize( StableSolverCpu() );
+}
+BENCHMARK(CPU_solverCreation);
+
+///----------------------------------------------------------------------------------------------
+
 static void GPU_solverCreation( benchmark::State& state )
 {
   for ( auto _ : state )
@@ -24,12 +33,29 @@ BENCHMARK(GPU_solverCreation);
 
 ///----------------------------------------------------------------------------------------------
 
-static void CPU_solverCreation( benchmark::State& state )
+static void CPU_solverActivatiopn( benchmark::State& state )
 {
   for ( auto _ : state )
-    benchmark::DoNotOptimize( StableSolverCpu() );
+  {
+    StableSolverCpu solver;
+    solver.activate();
+  }
+
 }
-BENCHMARK(CPU_solverCreation);
+BENCHMARK(CPU_solverActivatiopn);
+
+///----------------------------------------------------------------------------------------------
+
+static void GPU_solverActivatiopn( benchmark::State& state )
+{
+  for ( auto _ : state )
+  {
+    GpuSolver solver;
+    solver.activate();
+  }
+
+}
+BENCHMARK(GPU_solverActivatiopn);
 
 ///----------------------------------------------------------------------------------------------
 

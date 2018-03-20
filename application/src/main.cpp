@@ -24,7 +24,6 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include <ext.hpp>
-#include <GpuSolver.h>
 
 #define randomTest 0
 
@@ -81,8 +80,6 @@ int main( int argc, char *argv[] )
   }
   //------------------------------------------------------------------------------------------------- end test
 #endif
-  GpuSolver gps;
-
   // create an OpenGL format specifier
   QSurfaceFormat format;
   // set the number of samples for multisampling

@@ -18,4 +18,4 @@ __global__ void setPvx(tuple<float> * _pvx, int _size );
 
 __global__ void setPvy( tuple<float> * _pvy, unsigned int _size );
 
-//__global__ void pippo();
+__global__ void d_reset( float * _in, unsigned int arrayLength );

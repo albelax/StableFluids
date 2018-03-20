@@ -38,9 +38,9 @@ const int i = 0;
 class StableSolverCpu
 {
 public:
-  StableSolverCpu();
+  StableSolverCpu() = default;
   ~StableSolverCpu();
-  void init();
+  void activate();
   void reset();
   void cleanBuffer();
   void setTimestep( float _timeStep ) { m_timeStep = _timeStep; }
@@ -130,6 +130,7 @@ private:
 #if TESTING
   FRIEND_TEST( pvx, isEqual );
   FRIEND_TEST( pvy, isEqual );
+  FRIEND_TEST( resetDensity, isEqual );
 #endif // TESTING
 };
 

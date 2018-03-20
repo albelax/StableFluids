@@ -5,14 +5,6 @@
 #include <fstream> 
 #include <sys/time.h>
 #include <time.h>
-//----------------------------------------------------------------------------------------------------------------------
-
-GpuSolver::GpuSolver()
-{
-  setParameters();
-  allocateArrays();
-  init();
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -73,8 +65,10 @@ void GpuSolver::allocateArrays()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void GpuSolver::init()
+void GpuSolver::activate()
 {
+  setParameters();
+  allocateArrays();
   // 1024 -> max threads per block, in this case it will fire 16 blocks
   int nBlocks = m_totVelX / 1024;
   int blockDim = 1024 / m_gridSize.x + 1; // 9 threads per block
@@ -90,6 +84,36 @@ void GpuSolver::init()
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Error: %s\n", cudaGetErrorString(err));
   //  exportCSV( "gpu_pvx.csv", m_pvx, m_rowVelocity.x, m_columnVelocity.x );
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::reset()
+{
+  int threads = 1024;
+  unsigned int densityBlocks = m_totCell / threads + 1;
+  unsigned int xVelocityBlocks = m_totVelX / threads + 1;
+  unsigned int yVelocityBlocks = m_totVelY / threads + 1;
+
+  d_reset<<<densityBlocks, threads>>>(m_density, m_totCell);
+  d_reset<<<xVelocityBlocks, threads>>>(m_velocity.x, m_totVelX);
+  d_reset<<<yVelocityBlocks, threads>>>(m_velocity.y, m_totVelY);
+  cudaThreadSynchronize();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::cleanBuffer()
+{
+  int threads = 1024;
+  unsigned int densityBlocks = m_totCell / threads + 1;
+  unsigned int xVelocityBlocks = m_totVelX / threads + 1;
+  unsigned int yVelocityBlocks = m_totVelY / threads + 1;
+
+  d_reset<<<densityBlocks, threads>>>(m_previousDensity, m_totCell);
+  d_reset<<<xVelocityBlocks, threads>>>(m_previousVelocity.x, m_totVelX);
+  d_reset<<<yVelocityBlocks, threads>>>(m_previousVelocity.y, m_totVelY);
+  cudaThreadSynchronize();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -121,6 +145,14 @@ void GpuSolver::exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int
 void GpuSolver::copy( tuple<float> * _src, tuple<float> * _dst, int _size )
 {
   if( cudaMemcpy( _dst, _src, _size * sizeof(tuple<float>), cudaMemcpyDeviceToHost) != cudaSuccess )
+    exit(0);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::copy( float * _src, float * _dst, int _size )
+{
+  if( cudaMemcpy( _dst, _src, _size * sizeof( float ), cudaMemcpyDeviceToHost) != cudaSuccess )
     exit(0);
 }
 
@@ -169,3 +201,13 @@ __global__ void vectorAdd( float *sum, float *A, float *B, size_t arrayLength )
 
 //----------------------------------------------------------------------------------------------------------------------
 
+__global__ void d_reset( float * _in, unsigned int arrayLength )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  if ( idx < arrayLength )
+  {
+    _in[idx] = 0.0f;
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------

@@ -22,8 +22,7 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
 
   m_image = QPixmap( 128, 128 ).toImage();
   m_image.fill(Qt::white);
-
-  m_solver.reset();
+  m_solver.activate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

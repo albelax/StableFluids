@@ -28,13 +28,6 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-StableSolverCpu::StableSolverCpu()
-{
-  init();
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-
 StableSolverCpu::~StableSolverCpu()
 {
   free( m_pvx );
@@ -47,12 +40,11 @@ StableSolverCpu::~StableSolverCpu()
   free( m_previousVelocity.x );
   free( m_previousVelocity.y );
   free( m_previousDensity );
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void StableSolverCpu::init()
+void StableSolverCpu::activate()
 {
   m_gridSize.x = 128;
   m_gridSize.y = 128;

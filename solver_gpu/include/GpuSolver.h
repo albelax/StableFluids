@@ -12,20 +12,20 @@
 
 #if TESTING
 #include <gtest/gtest.h>
-//#define private public
 #endif // TESTING
 
 class GpuSolver
 {
 public:
-  GpuSolver();
+  GpuSolver() = default;
   ~GpuSolver();
-  void init();
+  void activate();
+  void reset();
   void cleanBuffer();
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
   int cIdx(int i, int j){ return j*m_gridSize.x+i; }
-  void exportCSV(std::string _file, tuple<float> * _t, int _sizeX , int _sizeY );
+  void exportCSV( std::string _file, tuple<float> * _t, int _sizeX , int _sizeY );
 
 private:
   void setParameters();
@@ -52,10 +52,16 @@ private:
   tuple<float> * m_pvx;
   tuple<float> * m_pvy;
   void copy( tuple<float> * _src, tuple<float> * _dst, int _size );
+  void copy( float * _src, float * _dst, int _size );
+
 
 #if TESTING // I know friend is bad, but it is only to allow tesats to run :(
   FRIEND_TEST( pvx, isEqual );
   FRIEND_TEST( pvy, isEqual );
+  FRIEND_TEST( resetDensity, isZero );
+  FRIEND_TEST( resetVelocityX, isZero );
+  FRIEND_TEST( resetVelocityY, isZero );
+
 #endif // TESTING
 };
 
