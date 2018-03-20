@@ -115,6 +115,47 @@ void GpuSolver::cleanBuffer()
   d_reset<<<yVelocityBlocks, threads>>>(m_previousVelocity.y, m_totVelY);
   cudaThreadSynchronize();
 }
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::setVelBoundary( int flag )
+{
+  if(flag == 1)
+  {
+    for(int i=1; i<=m_rowVelocity.x-2; ++i)
+    {
+      m_velocity.x[vxIdx(i, 0)] = m_velocity.x[vxIdx(i, 1)];
+      m_velocity.x[vxIdx(i, m_columnVelocity.x-1)] = m_velocity.x[vxIdx(i, m_columnVelocity.x-2)];
+    }
+    for(int j=1; j<=m_columnVelocity.x-2; ++j)
+    {
+      m_velocity.x[vxIdx(0, j)] = -m_velocity.x[vxIdx(1, j)];
+      m_velocity.x[vxIdx(m_rowVelocity.x-1, j)] = -m_velocity.x[vxIdx(m_rowVelocity.x-2, j)];
+    }
+    m_velocity.x[vxIdx(0, 0)] = (m_velocity.x[vxIdx(1, 0)]+m_velocity.x[vxIdx(0, 1)])/2;
+    m_velocity.x[vxIdx(m_rowVelocity.x-1, 0)] = (m_velocity.x[vxIdx(m_rowVelocity.x-2, 0)]+m_velocity.x[vxIdx(m_rowVelocity.x-1, 1)])/2;
+    m_velocity.x[vxIdx(0, m_columnVelocity.x-1)] = (m_velocity.x[vxIdx(1, m_columnVelocity.x-1)]+m_velocity.x[vxIdx(0, m_columnVelocity.x-2)])/2;
+    m_velocity.x[vxIdx(m_rowVelocity.x-1, m_columnVelocity.x-1)] = (m_velocity.x[vxIdx(m_rowVelocity.x-2, m_columnVelocity.x-1)]+m_velocity.x[vxIdx(m_rowVelocity.x-1, m_columnVelocity.x-2)])/2;
+  }
+
+  //y-axis
+  if(flag == 2)
+  {
+    for(int i=1; i<=m_rowVelocity.y-2; ++i)
+    {
+      m_velocity.y[vyIdx(i, 0)] = -m_velocity.y[vyIdx(i, 1)];
+      m_velocity.y[vyIdx(i, m_columnVelocity.y-1)] = -m_velocity.y[vyIdx(i, m_columnVelocity.y-2)];
+    }
+    for(int j=1; j<=m_columnVelocity.y-2; ++j)
+    {
+      m_velocity.y[vyIdx(0, j)] = m_velocity.y[vyIdx(1, j)];
+      m_velocity.y[vyIdx(m_rowVelocity.y-1, j)] = m_velocity.y[vyIdx(m_rowVelocity.y-2, j)];
+    }
+    m_velocity.y[vyIdx(0, 0)] = (m_velocity.y[vyIdx(1, 0)]+m_velocity.y[vyIdx(0, 1)])/2;
+    m_velocity.y[vyIdx(m_rowVelocity.y-1, 0)] = (m_velocity.y[vyIdx(m_rowVelocity.y-2, 0)]+m_velocity.y[vyIdx(m_rowVelocity.y-1, 1)])/2;
+    m_velocity.y[vyIdx(0, m_columnVelocity.y-1)] = (m_velocity.y[vyIdx(1, m_columnVelocity.y-1)]+m_velocity.y[vyIdx(0, m_columnVelocity.y-2)])/2;
+    m_velocity.y[vyIdx(m_rowVelocity.y-1, m_columnVelocity.y-1)] = (m_velocity.y[vyIdx(m_rowVelocity.y-2, m_columnVelocity.y-1)]+m_velocity.y[vyIdx(m_rowVelocity.y-1, m_columnVelocity.y-2)])/2;
+  }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -162,7 +203,7 @@ void GpuSolver::copy( float * _src, float * _dst, int _size )
 // KERNELS -------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void setPvx( tuple<float> * _pvx, int _size )
+__global__ void setPvx( tuple<float> * _pvx, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;

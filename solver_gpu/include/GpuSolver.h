@@ -22,6 +22,14 @@ public:
   void activate();
   void reset();
   void cleanBuffer();
+  void setTimestep( float _timeStep ) { m_timeStep = _timeStep; }
+  void setDiffusion( float _diffusion ) { m_diffusion = _diffusion; }
+  void setViscosity( float _viscosity ) { m_viscosity = _viscosity; }
+  void setDensity( float _density ) { m_inputDensity = _density; }
+
+  void setVelBoundary(int flag);
+
+
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
   int cIdx(int i, int j){ return j*m_gridSize.x+i; }
@@ -36,9 +44,10 @@ private:
   float m_timeStep;
   float m_diffusion;
   float m_viscosity;
+  float m_inputDensity;
 
   float * m_density;
-  float * m_previousDensity; // d0
+  float * m_previousDensity;
   float * m_divergence;
   float * m_pressure;
   tuple<int> m_gridSize;
@@ -61,7 +70,8 @@ private:
   FRIEND_TEST( resetDensity, isZero );
   FRIEND_TEST( resetVelocityX, isZero );
   FRIEND_TEST( resetVelocityY, isZero );
-
+  FRIEND_TEST( velBoundaryX, isEqual );
+  FRIEND_TEST( velBoundaryY, isEqual );
 #endif // TESTING
 };
 

@@ -28,7 +28,6 @@
 #include "testing.h"
 
 #define SWAP(value0,value) { float *tmp = value0; value0 = value; value = tmp; }
-const int i = 0;
 #define TESTING 1
 
 #if TESTING
@@ -131,6 +130,8 @@ private:
   FRIEND_TEST( pvx, isEqual );
   FRIEND_TEST( pvy, isEqual );
   FRIEND_TEST( resetDensity, isEqual );
+  FRIEND_TEST( velBoundaryX, isEqual );
+  FRIEND_TEST( velBoundaryY, isEqual );
 #endif // TESTING
 };
 

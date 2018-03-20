@@ -15,7 +15,7 @@ CXX           = /usr/bin/g++
 DEFINES       = -DQT_QML_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -isystem /usr/local/include -I/public/devel/include -I../Common -I../include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-clang
+INCPATH       = -I. -Iinclude -isystem /usr/local/include -I/public/devel/include -I../Common -I../include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-clang
 QMAKE         = /usr/bin/qmake-qt5
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -172,7 +172,8 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib64/qt5/mkspecs/features/yacc.prf \
 		/usr/lib64/qt5/mkspecs/features/lex.prf \
-		Test.pro  src/main.cpp
+		Test.pro include/constructor.h \
+		include/velocity.h src/main.cpp
 QMAKE_TARGET  = gtest
 DESTDIR       = 
 TARGET        = gtest
@@ -450,6 +451,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib64/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/constructor.h include/velocity.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/main.cpp $(DISTDIR)/
 
 
@@ -495,10 +497,13 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-obj/main.o: src/main.cpp ../include/GpuSolver.h \
-		../Common/tuple.h \
+obj/main.o: src/main.cpp include/constructor.h \
 		../include/MacStableSolver.h \
-		../Common/testing.h
+		../Common/tuple.h \
+		../Common/testing.h \
+		../include/GpuSolver.h \
+		../include/rand_cpu.h \
+		../include/rand_gpu.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 ####### Install
