@@ -19,3 +19,5 @@ __global__ void setPvx(tuple<float> * _pvx, unsigned int _size );
 __global__ void setPvy( tuple<float> * _pvy, unsigned int _size );
 
 __global__ void d_reset( float * _in, unsigned int arrayLength );
+
+__global__ void setVelBoundaryX( float * _velocity, tuple<unsigned int> _size );

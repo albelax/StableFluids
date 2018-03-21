@@ -69,6 +69,7 @@ void GpuSolver::activate()
 {
   setParameters();
   allocateArrays();
+
   // 1024 -> max threads per block, in this case it will fire 16 blocks
   int nBlocks = m_totVelX / 1024;
   int blockDim = 1024 / m_gridSize.x + 1; // 9 threads per block
@@ -113,47 +114,31 @@ void GpuSolver::cleanBuffer()
   d_reset<<<densityBlocks, threads>>>(m_previousDensity, m_totCell);
   d_reset<<<xVelocityBlocks, threads>>>(m_previousVelocity.x, m_totVelX);
   d_reset<<<yVelocityBlocks, threads>>>(m_previousVelocity.y, m_totVelY);
-  cudaThreadSynchronize();
 }
+//----------------------------------------------------------------------------------------------------------------------
+
 //----------------------------------------------------------------------------------------------------------------------
 
 void GpuSolver::setVelBoundary( int flag )
 {
   if(flag == 1)
   {
-    for(int i=1; i<=m_rowVelocity.x-2; ++i)
-    {
-      m_velocity.x[vxIdx(i, 0)] = m_velocity.x[vxIdx(i, 1)];
-      m_velocity.x[vxIdx(i, m_columnVelocity.x-1)] = m_velocity.x[vxIdx(i, m_columnVelocity.x-2)];
-    }
-    for(int j=1; j<=m_columnVelocity.x-2; ++j)
-    {
-      m_velocity.x[vxIdx(0, j)] = -m_velocity.x[vxIdx(1, j)];
-      m_velocity.x[vxIdx(m_rowVelocity.x-1, j)] = -m_velocity.x[vxIdx(m_rowVelocity.x-2, j)];
-    }
-    m_velocity.x[vxIdx(0, 0)] = (m_velocity.x[vxIdx(1, 0)]+m_velocity.x[vxIdx(0, 1)])/2;
-    m_velocity.x[vxIdx(m_rowVelocity.x-1, 0)] = (m_velocity.x[vxIdx(m_rowVelocity.x-2, 0)]+m_velocity.x[vxIdx(m_rowVelocity.x-1, 1)])/2;
-    m_velocity.x[vxIdx(0, m_columnVelocity.x-1)] = (m_velocity.x[vxIdx(1, m_columnVelocity.x-1)]+m_velocity.x[vxIdx(0, m_columnVelocity.x-2)])/2;
-    m_velocity.x[vxIdx(m_rowVelocity.x-1, m_columnVelocity.x-1)] = (m_velocity.x[vxIdx(m_rowVelocity.x-2, m_columnVelocity.x-1)]+m_velocity.x[vxIdx(m_rowVelocity.x-1, m_columnVelocity.x-2)])/2;
+    int threads = 1024;
+    unsigned int blocks = std::max( m_columnVelocity.x, m_rowVelocity.x ) / threads + 1;
+    tuple<unsigned int> size;
+    size.x = m_rowVelocity.x;
+    size.y = m_columnVelocity.x;
+    setVelBoundaryX<<< blocks, threads>>>( m_velocity.x, size );
   }
 
-  //y-axis
-  if(flag == 2)
+  else if(flag == 2)
   {
-    for(int i=1; i<=m_rowVelocity.y-2; ++i)
-    {
-      m_velocity.y[vyIdx(i, 0)] = -m_velocity.y[vyIdx(i, 1)];
-      m_velocity.y[vyIdx(i, m_columnVelocity.y-1)] = -m_velocity.y[vyIdx(i, m_columnVelocity.y-2)];
-    }
-    for(int j=1; j<=m_columnVelocity.y-2; ++j)
-    {
-      m_velocity.y[vyIdx(0, j)] = m_velocity.y[vyIdx(1, j)];
-      m_velocity.y[vyIdx(m_rowVelocity.y-1, j)] = m_velocity.y[vyIdx(m_rowVelocity.y-2, j)];
-    }
-    m_velocity.y[vyIdx(0, 0)] = (m_velocity.y[vyIdx(1, 0)]+m_velocity.y[vyIdx(0, 1)])/2;
-    m_velocity.y[vyIdx(m_rowVelocity.y-1, 0)] = (m_velocity.y[vyIdx(m_rowVelocity.y-2, 0)]+m_velocity.y[vyIdx(m_rowVelocity.y-1, 1)])/2;
-    m_velocity.y[vyIdx(0, m_columnVelocity.y-1)] = (m_velocity.y[vyIdx(1, m_columnVelocity.y-1)]+m_velocity.y[vyIdx(0, m_columnVelocity.y-2)])/2;
-    m_velocity.y[vyIdx(m_rowVelocity.y-1, m_columnVelocity.y-1)] = (m_velocity.y[vyIdx(m_rowVelocity.y-2, m_columnVelocity.y-1)]+m_velocity.y[vyIdx(m_rowVelocity.y-1, m_columnVelocity.y-2)])/2;
+    int threads = 1024;
+    unsigned int blocks = std::max( m_columnVelocity.y, m_rowVelocity.y ) / threads + 1;
+    tuple<unsigned int> size;
+    size.x = m_rowVelocity.y;
+    size.y = m_columnVelocity.y;
+    setVelBoundaryX<<< blocks, threads>>>( m_velocity.y, size );
   }
 }
 
@@ -252,3 +237,52 @@ __global__ void d_reset( float * _in, unsigned int arrayLength )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+
+__global__ void setVelBoundaryX( float * _velocity, tuple<unsigned int> _size )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+
+  if ( idx > 0 && idx < _size.x - 1 ) // rowsize
+  {
+    _velocity[idx] =  _velocity[idx + _size.x]; // set the top row to be the same as the second row
+    _velocity[idx + _size.x * (_size.y-1)] = _velocity[idx + _size.x * (_size.y - 2)]; // set the last row to be the same as the second to last row
+
+  }
+
+  if ( idx > 0 && idx < _size.y - 1 ) // colsize
+  {
+    _velocity[idx * _size.x] = -_velocity[idx * _size.x + 1]; // set the first column on the left to be the same as the next
+    _velocity[idx * _size.x + ( _size.x - 1)] = -_velocity[idx * _size.x + (_size.x - 2)]; // set the first column on the right to be the same as the previous
+
+  }
+
+  __syncthreads();
+
+  if ( idx == 0 )
+  {
+    // calculating the corners
+    // horrible, wasteful way of doing it
+    // but for now I just need this to work
+
+    _velocity[0] = ( _velocity[1] + _velocity[_size.x] ) / 2;
+
+    int dst = _size.x - 1;
+    int left = _size.x - 2;
+    int down = _size.x + _size.x - 1;
+    _velocity[dst] = (_velocity[left] + _velocity[down])/2;
+
+    int up = (_size.y - 1) * _size.x + 1;
+    left = (_size.y - 2) * _size.x;
+    dst = (_size.y - 1) * _size.x;
+    _velocity[dst] = (_velocity[up] + _velocity[left])/2;
+
+    dst = (_size.y - 1) * _size.x + (_size.x -1);
+    left = (_size.y - 1) * _size.x + (_size.x - 2);
+    up = (_size.y - 2) * _size.x + (_size.x - 1);
+
+    _velocity[dst] = ( _velocity[left] + _velocity[up] ) / 2;
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+

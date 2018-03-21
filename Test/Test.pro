@@ -12,6 +12,7 @@ OBJECTS_DIR = $$PWD/obj
 INCLUDEPATH+= include /usr/local/include /public/devel/include
 
 LIBS+= -L/usr/local/lib -lgtest -lpthread \
+       -L/public/devel/lib/ -lgtest \
        -L$$LIB_INSTALL_DIR -lsolver_cpu -lsolver_gpu \
 
 INCLUDEPATH+= $$PWD/../Common/ \

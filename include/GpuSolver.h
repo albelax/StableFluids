@@ -29,7 +29,6 @@ public:
 
   void setVelBoundary(int flag);
 
-
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
   int cIdx(int i, int j){ return j*m_gridSize.x+i; }
