@@ -28,6 +28,7 @@ public:
   void setDensity( float _density ) { m_inputDensity = _density; }
 
   void setVelBoundary(int flag);
+  void setCellBoundary(float *value);
 
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
@@ -71,6 +72,7 @@ private:
   FRIEND_TEST( resetVelocityY, isZero );
   FRIEND_TEST( velBoundaryX, isEqual );
   FRIEND_TEST( velBoundaryY, isEqual );
+  FRIEND_TEST( cellBoundaryX, isEqual );
 #endif // TESTING
 };
 

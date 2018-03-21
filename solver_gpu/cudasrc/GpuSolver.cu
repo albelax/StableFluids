@@ -77,8 +77,8 @@ void GpuSolver::activate()
   dim3 block(blockDim, blockDim); // block of (X,Y) threads
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
-  setPvx<<<grid, block>>>( m_pvx, m_rowVelocity.x );
-  setPvy<<<grid, block>>>( m_pvy, m_rowVelocity.y );
+  d_setPvx<<<grid, block>>>( m_pvx, m_rowVelocity.x );
+  d_setPvy<<<grid, block>>>( m_pvy, m_rowVelocity.y );
 
   cudaThreadSynchronize();
 
@@ -128,7 +128,7 @@ void GpuSolver::setVelBoundary( int flag )
     tuple<unsigned int> size;
     size.x = m_rowVelocity.x;
     size.y = m_columnVelocity.x;
-    setVelBoundaryX<<< blocks, threads>>>( m_velocity.x, size );
+    d_setVelBoundaryX<<< blocks, threads>>>( m_velocity.x, size );
   }
 
   else if(flag == 2)
@@ -138,8 +138,15 @@ void GpuSolver::setVelBoundary( int flag )
     tuple<unsigned int> size;
     size.x = m_rowVelocity.y;
     size.y = m_columnVelocity.y;
-    setVelBoundaryX<<< blocks, threads>>>( m_velocity.y, size );
+    d_setVelBoundaryY<<< blocks, threads>>>( m_velocity.y, size );
   }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::setCellBoundary( float *value )
+{
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -188,7 +195,7 @@ void GpuSolver::copy( float * _src, float * _dst, int _size )
 // KERNELS -------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void setPvx( tuple<float> * _pvx, unsigned int _size )
+__global__ void d_setPvx( tuple<float> * _pvx, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
@@ -202,21 +209,21 @@ __global__ void setPvx( tuple<float> * _pvx, unsigned int _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void setPvy( tuple<float> * _pvy, unsigned int _size )
+__global__ void d_setPvy( tuple<float> * _pvy, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
   if ( idx < _size )
   {
     int i = idy * _size + idx;
-    _pvy[i].x = (float)idx + 0.5f;
+    _pvy[i].x = (float) idx + 0.5f;
     _pvy[i].y = idy;
   }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void vectorAdd( float *sum, float *A, float *B, size_t arrayLength )
+__global__ void d_vectorAdd( float *sum, float *A, float *B, size_t arrayLength )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   if ( idx < arrayLength )
@@ -238,7 +245,7 @@ __global__ void d_reset( float * _in, unsigned int arrayLength )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void setVelBoundaryX( float * _velocity, tuple<unsigned int> _size )
+__global__ void d_setVelBoundaryX( float * _velocity, tuple<unsigned int> _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
@@ -286,3 +293,57 @@ __global__ void setVelBoundaryX( float * _velocity, tuple<unsigned int> _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
+__global__ void d_setVelBoundaryY( float * _velocity, tuple<unsigned int> _size )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+
+  if ( idx > 0 && idx < _size.x - 1 ) // rowsize
+  {
+    _velocity[idx] = - _velocity[idx + _size.x]; // set the top row to be the same as the second row
+    _velocity[idx + _size.x * (_size.y-1)] = -_velocity[idx + _size.x * (_size.y - 2)]; // set the last row to be the same as the second to last row
+
+  }
+
+  if ( idx > 0 && idx < _size.y - 1 ) // colsize
+  {
+    _velocity[idx * _size.x] = _velocity[idx * _size.x + 1]; // set the first column on the left to be the same as the next
+    _velocity[idx * _size.x + ( _size.x - 1)] = _velocity[idx * _size.x + (_size.x - 2)]; // set the first column on the right to be the same as the previous
+
+  }
+
+  __syncthreads();
+
+  if ( idx == 0 )
+  {
+    // calculating the corners
+    // horrible, wasteful way of doing it
+    // but for now I just need this to work
+
+    _velocity[0] = ( _velocity[1] + _velocity[_size.x] ) / 2;
+
+    int dst = _size.x - 1;
+    int left = _size.x - 2;
+    int down = _size.x + _size.x - 1;
+    _velocity[dst] = (_velocity[left] + _velocity[down])/2;
+
+    int up = (_size.y - 1) * _size.x + 1;
+    left = (_size.y - 2) * _size.x;
+    dst = (_size.y - 1) * _size.x;
+    _velocity[dst] = (_velocity[up] + _velocity[left])/2;
+
+    dst = (_size.y - 1) * _size.x + (_size.x -1);
+    left = (_size.y - 1) * _size.x + (_size.x - 2);
+    up = (_size.y - 2) * _size.x + (_size.x - 1);
+
+    _velocity[dst] = ( _velocity[left] + _velocity[up] ) / 2;
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_setCellBoundary( float *value )
+{
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------

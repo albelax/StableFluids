@@ -132,6 +132,7 @@ private:
   FRIEND_TEST( resetDensity, isEqual );
   FRIEND_TEST( velBoundaryX, isEqual );
   FRIEND_TEST( velBoundaryY, isEqual );
+  FRIEND_TEST( cellBoundaryX, isEqual );
 #endif // TESTING
 };
 

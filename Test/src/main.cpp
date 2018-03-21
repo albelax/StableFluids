@@ -8,6 +8,7 @@
 //tests
 #include "constructor.h"
 #include "velocity.h"
+#include "density.h"
 // end tests
 
 int main(int argc, char **argv)

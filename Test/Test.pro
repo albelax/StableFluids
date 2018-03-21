@@ -23,5 +23,6 @@ macx:CONFIG-=app_bundle
 QMAKE_RPATHDIR += $$LIB_INSTALL_DIR
 
 HEADERS += include/constructor.h \
-					 include/velocity.h
+					 include/velocity.h \
+    include/density.h
 SOURCES +=$$PWD/src/*.cpp

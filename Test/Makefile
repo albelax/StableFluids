@@ -234,7 +234,8 @@ DIST          = /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/lex.prf \
 		Test.pro include/constructor.h \
-		include/velocity.h src/main.cpp
+		include/velocity.h \
+		include/density.h src/main.cpp
 QMAKE_TARGET  = gtest
 DESTDIR       = 
 TARGET        = gtest
@@ -628,7 +629,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents include/constructor.h include/velocity.h $(DISTDIR)/
+	$(COPY_FILE) --parents include/constructor.h include/velocity.h include/density.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/main.cpp $(DISTDIR)/
 
 
