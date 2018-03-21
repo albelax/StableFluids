@@ -11,30 +11,31 @@
 
 TEST( cellBoundaryX, isEqual )
 {
-  // check that given the same dataset
-  // both functions behave in the same way
   GpuSolver gpuSolver;
   gpuSolver.activate();
+  Rand_GPU::randFloats( gpuSolver.m_density,  gpuSolver.m_totCell );
 
   StableSolverCpu cpuSolver;
   cpuSolver.activate();
-
-  // generate random velocity in the x, and copy it to the cpu solver
-  Rand_GPU::randFloats( gpuSolver.m_density,  gpuSolver.m_totCell );
   gpuSolver.copy( gpuSolver.m_density, cpuSolver.m_density, gpuSolver.m_totCell );
 
-//  gpuSolver.setVelBoundary( 1 );
-//  cpuSolver.setCellBoundary( 1 );
+  tuple<unsigned int> t;
+  t.x = gpuSolver.m_gridSize.x;
+  t.y = gpuSolver.m_gridSize.y;
 
-  float * h_inputX = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
-  gpuSolver.copy( gpuSolver.m_density, h_inputX, gpuSolver.m_totCell ); // uncomment when implemented
+  gpuSolver.setCellBoundary( gpuSolver.m_density, t );
+  cpuSolver.setCellBoundary( cpuSolver.m_density );
 
-  for ( int i = 0; i < cpuSolver.m_totVelX; ++i )
+
+  float * h_inputD = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_density, h_inputD, gpuSolver.m_totCell );
+
+  for ( int i = 0; i < cpuSolver.m_totCell; ++i )
   {
-    EXPECT_FLOAT_EQ( cpuSolver.m_density[i],cpuSolver.m_density[i] );
+    EXPECT_FLOAT_EQ( cpuSolver.m_density[i], h_inputD[i] );
   }
 
-  free( h_inputX );
+  free( h_inputD );
 }
 
 ////----------------------------------------------------------------------------------------------------------------------

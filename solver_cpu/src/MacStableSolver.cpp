@@ -60,9 +60,9 @@ void StableSolverCpu::activate()
   m_totVelY = m_rowVelocity.y * m_columnVelocity.y;
 
   m_min.x = 0.0f;
-  m_max.x = (float)m_gridSize.x;
+  m_max.x = (float) m_gridSize.x;
   m_min.y = 0.0f;
-  m_max.y = (float)m_gridSize.y;
+  m_max.y = (float) m_gridSize.y;
 
   //params
   m_timeStep = 1.0f;

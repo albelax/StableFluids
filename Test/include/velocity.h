@@ -26,7 +26,7 @@ TEST( velBoundaryX, isEqual )
   cpuSolver.setVelBoundary( 1 );
 
   float * h_inputX = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelX );
-  gpuSolver.copy( gpuSolver.m_velocity.x, h_inputX, gpuSolver.m_totVelX ); // uncomment when implemented
+  gpuSolver.copy( gpuSolver.m_velocity.x, h_inputX, gpuSolver.m_totVelX );
 
   for ( int i = 0; i < cpuSolver.m_totVelX; ++i )
   {
@@ -52,11 +52,11 @@ TEST( velBoundaryY, isEqual )
   Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
   gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
 
-  gpuSolver.setVelBoundary( 2 ); // TO DO
+  gpuSolver.setVelBoundary( 2 );
   cpuSolver.setVelBoundary( 2 );
 
   float * h_inputY = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelY );
-  gpuSolver.copy( gpuSolver.m_velocity.y, h_inputY, gpuSolver.m_totVelY ); // uncomment when implemented
+  gpuSolver.copy( gpuSolver.m_velocity.y, h_inputY, gpuSolver.m_totVelY );
 
   for ( int i = 0; i < gpuSolver.m_totVelY; ++i )
   {

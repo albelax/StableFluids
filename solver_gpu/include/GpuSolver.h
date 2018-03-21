@@ -27,8 +27,8 @@ public:
   void setViscosity( float _viscosity ) { m_viscosity = _viscosity; }
   void setDensity( float _density ) { m_inputDensity = _density; }
 
-  void setVelBoundary(int flag);
-  void setCellBoundary(float *value);
+  void setVelBoundary( int flag );
+  void setCellBoundary( float * _value, tuple<unsigned int> _size );
 
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
