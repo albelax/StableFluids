@@ -174,7 +174,9 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/lex.prf \
 		Test.pro include/constructor.h \
 		include/velocity.h \
-		include/density.h src/main.cpp
+		include/density.h \
+		include/pressure.h \
+		include/divergence.h src/main.cpp
 QMAKE_TARGET  = gtest
 DESTDIR       = 
 TARGET        = gtest
@@ -452,7 +454,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib64/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents include/constructor.h include/velocity.h include/density.h $(DISTDIR)/
+	$(COPY_FILE) --parents include/constructor.h include/velocity.h include/density.h include/pressure.h include/divergence.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/main.cpp $(DISTDIR)/
 
 
@@ -506,7 +508,9 @@ obj/main.o: src/main.cpp include/constructor.h \
 		../include/rand_cpu.h \
 		../include/rand_gpu.h \
 		include/velocity.h \
-		include/density.h
+		include/density.h \
+		include/pressure.h \
+		include/divergence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 ####### Install

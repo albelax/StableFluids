@@ -9,6 +9,8 @@
 #include "constructor.h"
 #include "velocity.h"
 #include "density.h"
+#include "pressure.h"
+#include "divergence.h"
 // end tests
 
 int main(int argc, char **argv)

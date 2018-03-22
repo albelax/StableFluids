@@ -193,3 +193,21 @@ void GpuSolver::copy( float * _src, float * _dst, int _size )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::gather( float * _value, unsigned int _size )
+{
+  int threads = 1024;
+  unsigned int blocks = _size / threads + 1;
+
+  float * d_values;
+  cudaMalloc( &d_values, sizeof(float) * _size );
+  if( cudaMemcpy( d_values, _value, _size * sizeof( float ), cudaMemcpyHostToDevice) != cudaSuccess )
+    exit(0);
+
+  d_gather<<< blocks, threads>>>( d_values, _size );
+  cudaThreadSynchronize();
+
+  copy( d_values, _value, _size );
+}
+
+//----------------------------------------------------------------------------------------------------------------------

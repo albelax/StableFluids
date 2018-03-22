@@ -112,7 +112,7 @@ private:
   float m_inputDensity;
 
   float * m_density;
-  float * m_previousDensity; // d0
+  float * m_previousDensity;
   float * m_divergence;
   float * m_pressure;
   tuple<int> m_gridSize;
@@ -132,7 +132,9 @@ private:
   FRIEND_TEST( resetDensity, isEqual );
   FRIEND_TEST( velBoundaryX, isEqual );
   FRIEND_TEST( velBoundaryY, isEqual );
-  FRIEND_TEST( cellBoundaryX, isEqual );
+  FRIEND_TEST( densityBoundary, isEqual );
+  FRIEND_TEST( pressureBoundary, isEqual );
+  FRIEND_TEST( divergenceBoundary, isEqual );
 #endif // TESTING
 };
 

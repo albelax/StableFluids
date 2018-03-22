@@ -35,6 +35,7 @@ public:
   int cIdx(int i, int j){ return j*m_gridSize.x+i; }
   void exportCSV( std::string _file, tuple<float> * _t, int _sizeX , int _sizeY );
 
+  void gather( float * _value, unsigned int _size );
 private:
   void setParameters();
   void allocateArrays();
@@ -72,7 +73,10 @@ private:
   FRIEND_TEST( resetVelocityY, isZero );
   FRIEND_TEST( velBoundaryX, isEqual );
   FRIEND_TEST( velBoundaryY, isEqual );
-  FRIEND_TEST( cellBoundaryX, isEqual );
+  FRIEND_TEST( densityBoundary, isEqual );
+  FRIEND_TEST( pressureBoundary, isEqual );
+  FRIEND_TEST( divergenceBoundary, isEqual );
+  FRIEND_TEST( gather, works );
 #endif // TESTING
 };
 

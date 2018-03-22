@@ -202,3 +202,20 @@ __global__ void d_setCellBoundary( float * _value , tuple<unsigned int> _size )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+
+static const int bins = 10;
+__global__ void d_gather( float * _value, unsigned int _size )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+
+  __shared__ float localValue[bins];
+  if ( idx > 0 && idx < _size - 1 )
+  {
+    localValue[idx] = ( _value[idx - 1] + _value[idx] + _value[idx + 1] );
+//    __syncthreads();
+    _value[idx] = localValue[idx];
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
