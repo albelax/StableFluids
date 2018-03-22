@@ -33,7 +33,7 @@ BENCHMARK(GPU_solverCreation);
 
 ///----------------------------------------------------------------------------------------------
 
-static void CPU_solverActivatiopn( benchmark::State& state )
+static void CPU_solverActivation( benchmark::State& state )
 {
   for ( auto _ : state )
   {
@@ -42,11 +42,11 @@ static void CPU_solverActivatiopn( benchmark::State& state )
   }
 
 }
-BENCHMARK(CPU_solverActivatiopn);
+BENCHMARK(CPU_solverActivation);
 
 ///----------------------------------------------------------------------------------------------
 
-static void GPU_solverActivatiopn( benchmark::State& state )
+static void GPU_solverActivation( benchmark::State& state )
 {
   for ( auto _ : state )
   {
@@ -55,7 +55,7 @@ static void GPU_solverActivatiopn( benchmark::State& state )
   }
 
 }
-BENCHMARK(GPU_solverActivatiopn);
+BENCHMARK(GPU_solverActivation);
 
 ///----------------------------------------------------------------------------------------------
 

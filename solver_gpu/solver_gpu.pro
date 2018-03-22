@@ -21,7 +21,7 @@ INCLUDEPATH += include ${CUDA_PATH}/include \
 
 HEADERS += include/GpuSolver.h \
 					 include/rand_gpu.h \
-					 include/GpuSolverKernels.cu
+					 include/GpuSolverKernels.cuh
 
 ## CUDA_SOURCES - the source (generally .cu) files for nvcc. No spaces in path names
 CUDA_SOURCES += cudasrc/GpuSolver.cu \

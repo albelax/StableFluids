@@ -177,7 +177,7 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/lex.prf \
 		solver_gpu.pro include/GpuSolver.h \
 		include/rand_gpu.h \
-		include/GpuSolverKernels.cu 
+		include/GpuSolverKernels.cuh 
 QMAKE_TARGET  = solver_gpu
 DESTDIR       = ../lib/
 TARGET        = libsolver_gpu.so.1.0.0
@@ -483,7 +483,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents cudasrc/GpuSolver.cu cudasrc/rand_gpu.cu cudasrc/GpuSolverKernels.cu $(DISTDIR)/
 	$(COPY_FILE) --parents cudaobj/GpuSolver.o cudaobj/rand_gpu.o cudaobj/GpuSolverKernels.o $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib64/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents include/GpuSolver.h include/rand_gpu.h include/GpuSolverKernels.cu $(DISTDIR)/
+	$(COPY_FILE) --parents include/GpuSolver.h include/rand_gpu.h include/GpuSolverKernels.cuh $(DISTDIR)/
 
 
 clean: compiler_clean 

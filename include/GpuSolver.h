@@ -29,19 +29,20 @@ public:
 
   void setVelBoundary( int flag );
   void setCellBoundary( float * _value, tuple<unsigned int> _size );
-
+  void projection();
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
   int cIdx(int i, int j){ return j*m_gridSize.x+i; }
   void exportCSV( std::string _file, tuple<float> * _t, int _sizeX , int _sizeY );
 
   void gather( float * _value, unsigned int _size );
+  void gather2D( float * _value, unsigned int _size );
 private:
   void setParameters();
   void allocateArrays();
-  int m_totCell;
-  int m_totVelX;
-  int m_totVelY;
+  unsigned int m_totCell;
+  unsigned int m_totVelX;
+  unsigned  int m_totVelY;
   float m_timeStep;
   float m_diffusion;
   float m_viscosity;
@@ -51,9 +52,9 @@ private:
   float * m_previousDensity;
   float * m_divergence;
   float * m_pressure;
-  tuple<int> m_gridSize;
-  tuple<int> m_rowVelocity;
-  tuple<int> m_columnVelocity;
+  tuple<unsigned int> m_gridSize;
+  tuple<unsigned int> m_rowVelocity;
+  tuple<unsigned int> m_columnVelocity;
   tuple<float> m_min;
   tuple<float> m_max;
   /// \brief velocity, stores to pointers to chunks of memory storing the velocities in x and y
@@ -77,6 +78,8 @@ private:
   FRIEND_TEST( pressureBoundary, isEqual );
   FRIEND_TEST( divergenceBoundary, isEqual );
   FRIEND_TEST( gather, works );
+  FRIEND_TEST( projection, checkPressure );
+  FRIEND_TEST( projection, checkDivergence );
 #endif // TESTING
 };
 

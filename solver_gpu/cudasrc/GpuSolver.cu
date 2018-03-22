@@ -26,8 +26,9 @@ GpuSolver::~GpuSolver()
 
 void GpuSolver::setParameters()
 {
-  m_gridSize.x = 128;
-  m_gridSize.y = 128;
+  int mul = 1;
+  m_gridSize.x = 128 * mul;
+  m_gridSize.y = 128 * mul;
 
   m_totCell = m_gridSize.x * m_gridSize.y;
   m_rowVelocity.x = m_gridSize.x + 1;
@@ -82,11 +83,10 @@ void GpuSolver::activate()
   d_setPvx<<<grid, block>>>( m_pvx, m_rowVelocity.x );
   d_setPvy<<<grid, block>>>( m_pvy, m_rowVelocity.y );
 
-  cudaThreadSynchronize();
+//  cudaThreadSynchronize();
 
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Error: %s\n", cudaGetErrorString(err));
-  //  exportCSV( "gpu_pvx.csv", m_pvx, m_rowVelocity.x, m_columnVelocity.x );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ void GpuSolver::reset()
   d_reset<<<densityBlocks, threads>>>(m_density, m_totCell);
   d_reset<<<xVelocityBlocks, threads>>>(m_velocity.x, m_totVelX);
   d_reset<<<yVelocityBlocks, threads>>>(m_velocity.y, m_totVelY);
-  cudaThreadSynchronize();
+//  cudaThreadSynchronize();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -150,6 +150,23 @@ void GpuSolver::setCellBoundary(float * _value, tuple<unsigned int> _size )
   unsigned int blocks = std::max( _size.x, _size.y ) / threads + 1;
 
   d_setCellBoundary<<< blocks, threads>>>( _value, _size );
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::projection()
+{
+  unsigned int bins = 81 * sizeof(float);
+  int nBlocks = m_totCell / 1024;
+  int blockDim = 1024 / m_gridSize.x + 1; // 9 threads per block
+
+  dim3 block(blockDim, blockDim); // block of (X,Y) threads
+  dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
+
+  d_projection<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
+
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("Projection Error: %s\n", cudaGetErrorString(err));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -204,10 +221,40 @@ void GpuSolver::gather( float * _value, unsigned int _size )
   if( cudaMemcpy( d_values, _value, _size * sizeof( float ), cudaMemcpyHostToDevice) != cudaSuccess )
     exit(0);
 
-  d_gather<<< blocks, threads>>>( d_values, _size );
+  unsigned int bins = 10;
+  d_gather<<< blocks, threads, bins * sizeof(float)>>>( d_values, _size );
   cudaThreadSynchronize();
 
   copy( d_values, _value, _size );
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+void GpuSolver::gather2D( float * _value, unsigned int _size )
+{
+  unsigned int bins = 10;
+  // 1024 -> max threads per block, in this case it will fire 16 blocks
+  int nBlocks = m_totCell / 1024;
+  int blockDim = bins + 1; // 9 threads per block
+
+  dim3 block(blockDim, blockDim); // block of (X,Y) threads
+  dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
+
+  float * d_values;
+  cudaMalloc( &d_values, sizeof(float) * _size );
+  if( cudaMemcpy( d_values, _value, _size * sizeof( float ), cudaMemcpyHostToDevice) != cudaSuccess )
+    exit(0);
+
+  d_gather2D<<< grid, block, bins * sizeof(float)>>>( d_values, _size );
+  cudaThreadSynchronize();
+
+  copy( d_values, _value, _size );
+
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf(" Gather2D Error: %s\n", cudaGetErrorString(err));
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------

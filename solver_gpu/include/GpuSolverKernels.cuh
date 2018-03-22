@@ -27,3 +27,10 @@ __global__ void d_setVelBoundaryY( float * _velocity, tuple<unsigned int> _size 
 __global__ void d_setCellBoundary(float *_value, tuple<unsigned int> _size );
 
 __global__ void d_gather( float * _value, unsigned int _size );
+
+__global__ void d_gather2D( float * _value, unsigned int _size );
+
+
+__global__ void d_projection(float * _pressure, float * _divergence, tuple<float *> _velocity,
+                             tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
+                             tuple<unsigned int> _gridSize);

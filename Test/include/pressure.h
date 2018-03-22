@@ -39,6 +39,78 @@ TEST( pressureBoundary, isEqual )
 
 ////----------------------------------------------------------------------------------------------------------------------
 
+TEST( projection, checkPressure )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
 
+  Rand_GPU::randFloats( gpuSolver.m_pressure,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_divergence,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+  gpuSolver.copy( gpuSolver.m_pressure, cpuSolver.m_pressure, gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_divergence, cpuSolver.m_divergence, gpuSolver.m_totCell );
+
+  gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
+
+  gpuSolver.projection();
+  cpuSolver.projection();
+
+  float * h_pressure = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_pressure, h_pressure, gpuSolver.m_totCell );
+
+  float * h_divergence = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_divergence, h_divergence, gpuSolver.m_totCell );
+
+  int x = cpuSolver.m_totCell;
+  for ( int i = 0; i < x; ++i )
+  {
+    EXPECT_FLOAT_EQ( cpuSolver.m_pressure[i], h_pressure[i] );
+  }
+  free( h_pressure );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
+TEST( projection, checkDivergence )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+
+  Rand_GPU::randFloats( gpuSolver.m_pressure,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_divergence,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+  gpuSolver.copy( gpuSolver.m_pressure, cpuSolver.m_pressure, gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_divergence, cpuSolver.m_divergence, gpuSolver.m_totCell );
+
+  gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
+
+  gpuSolver.projection();
+  cpuSolver.projection();
+
+  float * h_pressure = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_pressure, h_pressure, gpuSolver.m_totCell );
+
+  float * h_divergence = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_divergence, h_divergence, gpuSolver.m_totCell );
+
+  int x = cpuSolver.m_totCell;
+  for ( int i = 0; i < x; ++i )
+  {
+    EXPECT_FLOAT_EQ( cpuSolver.m_divergence[i], h_divergence[i] );
+  }
+  free( h_pressure );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
 
 #endif // PRESSURE_H

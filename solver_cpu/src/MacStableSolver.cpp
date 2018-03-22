@@ -46,8 +46,9 @@ StableSolverCpu::~StableSolverCpu()
 
 void StableSolverCpu::activate()
 {
-  m_gridSize.x = 128;
-  m_gridSize.y = 128;
+  int mul = 1;
+  m_gridSize.x = 128 * mul;
+  m_gridSize.y = 128 * mul;
 
   m_totCell = m_gridSize.x * m_gridSize.y;
   m_rowVelocity.x = m_gridSize.x + 1;
@@ -185,16 +186,19 @@ void StableSolverCpu::setCellBoundary(float *value)
 
 void StableSolverCpu::projection()
 {
-  int static count=0;
+  int static count = 0;
   for(int i=1; i<=m_gridSize.x-2; ++i)
   {
     for(int j=1; j<=m_gridSize.y-2; ++j)
     {
-      m_divergence[cIdx(i, j)] = (m_velocity.x[vxIdx(i+1, j)]-m_velocity.x[vxIdx(i, j)]+m_velocity.y[vyIdx(i, j+1)]-m_velocity.y[vyIdx(i, j)]);
+      m_divergence[cIdx(i, j)] = (m_velocity.x[vxIdx(i+1, j)]
+                                 -m_velocity.x[vxIdx(i, j)]
+                                 +m_velocity.y[vyIdx(i, j+1)]
+                                 -m_velocity.y[vyIdx(i, j)]);
       m_pressure[cIdx(i, j)] = 0.0f;
     }
   }
-  count++;
+/* count++;
   setCellBoundary(m_pressure);
   setCellBoundary(m_divergence);
 
@@ -227,7 +231,7 @@ void StableSolverCpu::projection()
     }
   }
   setVelBoundary(1);
-  setVelBoundary(2);
+  setVelBoundary(2);*/
 }
 
 //----------------------------------------------------------------------------------------------------------------------

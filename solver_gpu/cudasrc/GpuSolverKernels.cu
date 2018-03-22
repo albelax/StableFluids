@@ -75,7 +75,6 @@ __global__ void d_setVelBoundaryX( float * _velocity, tuple<unsigned int> _size 
   {
     _velocity[idx * _size.x] = -_velocity[idx * _size.x + 1]; // set the first column on the left to be the same as the next
     _velocity[idx * _size.x + ( _size.x - 1)] = -_velocity[idx * _size.x + (_size.x - 2)]; // set the first column on the right to be the same as the previous
-
   }
 
   __syncthreads();
@@ -185,7 +184,7 @@ __global__ void d_setCellBoundary( float * _value , tuple<unsigned int> _size )
     int dst = _size.x - 1;
     int left = _size.x - 2;
     int down = _size.x + _size.x - 1;
-    _value[dst] = (_value[left] + _value[down])/2;
+    _value[dst] = (_value[left] + _value[down]) / 2;
 
     int up = (_size.y - 1) * _size.x + 1;
     left = (_size.y - 2) * _size.x;
@@ -203,19 +202,68 @@ __global__ void d_setCellBoundary( float * _value , tuple<unsigned int> _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-static const int bins = 10;
 __global__ void d_gather( float * _value, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  extern __shared__ float localValue[];
 
-  __shared__ float localValue[bins];
   if ( idx > 0 && idx < _size - 1 )
   {
+    //    printf(" idx: %d, idy: %d\n", idx, idy );
     localValue[idx] = ( _value[idx - 1] + _value[idx] + _value[idx + 1] );
-//    __syncthreads();
+    __syncthreads();
     _value[idx] = localValue[idx];
+
   }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
+__global__ void d_gather2D( float * _value, unsigned int _size )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+
+  extern __shared__ float localValue[];
+
+  if ( idx < _size )
+  {
+    //    printf(" idx: %d, idy: %d\n", idx, idy );
+    localValue[idx] = idx - idy; //( _value[idx - 1] + _value[idx] + _value[idx + 1] );
+    __syncthreads();
+    _value[idx] = localValue[idx];
+  }
+}
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_projection( float * _pressure, float * _divergence, tuple<float *> _velocity,
+                              tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
+                              tuple<unsigned int> _gridSize)
+{
+  extern __shared__ float local_divergence[];
+
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+
+  if ( idx > 0 && idx < _gridSize.x - 1 &&
+       idy > 0 && idy < _gridSize.y - 1 )
+  {
+    int currentCell = idy * _gridSize.x + idx;
+
+    int right = idy * _rowVelocity.x + (idx + 1);
+    int currentVelX = idy * _rowVelocity.x + idx;
+    int down = (idy + 1) * _rowVelocity.y + idx;
+    int currentVelY = idy * _rowVelocity.y + idx;
+
+    int sIdx = threadIdx.y * 9 + threadIdx.x;
+    local_divergence[sIdx] = _velocity.x[right] - _velocity.x[currentVelX] + _velocity.y[down] - _velocity.y[currentVelY];
+
+    _pressure[currentCell] = 0;
+    _divergence[currentCell] = local_divergence[sIdx];
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------

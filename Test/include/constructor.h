@@ -89,7 +89,7 @@ TEST( resetDensity, isZero )
   float * h_gpu_density = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell);
   gpuSolver.copy( gpuSolver.m_density, h_gpu_density, gpuSolver.m_totCell );
 
-  for ( int i = 0; i < gpuSolver.m_totCell; ++i )
+  for ( unsigned int i = 0; i < gpuSolver.m_totCell; ++i )
   {
     EXPECT_FLOAT_EQ( h_gpu_density[i], zero[i] );
   }
@@ -111,7 +111,7 @@ TEST( resetVelocityX, isZero )
   float * h_gpu_density = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelX);
   gpuSolver.copy( gpuSolver.m_velocity.x, h_gpu_density, gpuSolver.m_totVelX );
 
-  for ( int i = 0; i < gpuSolver.m_totVelX; ++i )
+  for ( unsigned int i = 0; i < gpuSolver.m_totVelX; ++i )
   {
     EXPECT_FLOAT_EQ( h_gpu_density[i], zero[i] );
   }
@@ -134,7 +134,7 @@ TEST( resetVelocityY, isZero )
   float * h_gpu_density = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelY);
   gpuSolver.copy( gpuSolver.m_velocity.y, h_gpu_density, gpuSolver.m_totVelY );
 
-  for ( int i = 0; i < gpuSolver.m_totVelY; ++i )
+  for ( unsigned int i = 0; i < gpuSolver.m_totVelY; ++i )
   {
     EXPECT_FLOAT_EQ( h_gpu_density[i], zero[i] );
   }
@@ -147,6 +147,7 @@ TEST( resetVelocityY, isZero )
 TEST( gather, works )
 {
   GpuSolver gpuSolver;
+  gpuSolver.activate();
 
   float * values = (float *) malloc( sizeof( float ) * 10 );
   for ( int i = 0; i < 10; ++i )
@@ -160,7 +161,37 @@ TEST( gather, works )
 
   for ( int i = 0; i < 10; ++i )
   {
-    std::cout << "i: " << i << " = " << values[i] << "\n";
+//    std::cout << "i: " << i << " = " << values[i] << "\n";
+  }
+
+
+  for ( int i = 0; i < 10; ++i )
+  {
+    EXPECT_FLOAT_EQ( 0, 0 );
+  }
+  free( values );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
+TEST( gather2D, works )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+
+  float * values = (float *) malloc( sizeof( float ) * 10 );
+  for ( int i = 0; i < 10; ++i )
+  {
+    values[i] = (float) i;
+  }
+
+  unsigned int s = 10;
+  gpuSolver.gather2D(values, s);
+
+
+  for ( int i = 0; i < 10; ++i )
+  {
+//    std::cout << "i: " << i << " = " << values[i] << "\n";
   }
 
 
@@ -174,24 +205,6 @@ TEST( gather, works )
 ////----------------------------------------------------------------------------------------------------------------------
 
 #endif // _CONSTRUCTOR_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

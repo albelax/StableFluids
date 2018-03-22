@@ -135,6 +135,8 @@ private:
   FRIEND_TEST( densityBoundary, isEqual );
   FRIEND_TEST( pressureBoundary, isEqual );
   FRIEND_TEST( divergenceBoundary, isEqual );
+  FRIEND_TEST( projection, checkPressure );
+  FRIEND_TEST( projection, checkDivergence );
 #endif // TESTING
 };
 
