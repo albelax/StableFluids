@@ -81,6 +81,7 @@ private:
   FRIEND_TEST( gather, works );
   FRIEND_TEST( projection, checkPressure );
   FRIEND_TEST( projection, checkDivergence );
+  FRIEND_TEST( projection, checkVelocity_x );
 #endif // TESTING
 };
 

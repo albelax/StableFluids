@@ -219,9 +219,7 @@ __global__ void d_gather( float * _value, unsigned int _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_projection( float * _pressure, float * _divergence, tuple<float *> _velocity,
-                              tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
-                              tuple<unsigned int> _gridSize)
+__global__ void d_projection( float * _pressure, float * _divergence, tuple<unsigned int> _gridSize)
 {
   // projection Step
   // this should be in a loop...
@@ -243,7 +241,6 @@ __global__ void d_projection( float * _pressure, float * _divergence, tuple<floa
     int up = (idy - 1) * _gridSize.x + idx;
 
     local_pressure[sIdx] = ( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0f;
-    //( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0f;
     __syncthreads();
 
     _pressure[currentCell] = local_pressure[sIdx];
@@ -254,8 +251,7 @@ __global__ void d_projection( float * _pressure, float * _divergence, tuple<floa
 //----------------------------------------------------------------------------------------------------------------------
 
 __global__ void d_divergenceStep(float * _pressure, float * _divergence, tuple<float *> _velocity,
-                                 tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
-                                 tuple<unsigned int> _gridSize)
+                                 tuple<unsigned int> _rowVelocity, tuple<unsigned int> _gridSize)
 {
   // memory shared within the block, I will treat this as a tiny 2D array,
   // the size is decided outside the kernel,
@@ -284,5 +280,30 @@ __global__ void d_divergenceStep(float * _pressure, float * _divergence, tuple<f
     __syncthreads();
   }
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_velocityStep(float * _pressure, float * _divergence, tuple<float *> _velocity,
+                               tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
+                               tuple<unsigned int> _gridSize)
+{
+  extern __shared__ float local_velocity[];
+
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+
+  if ( idx > 0 && idx < _gridSize.x - 1 &&
+       idy > 0 && idy < _gridSize.y - 1 )
+  {
+    int velocityIdx = idy * _rowVelocity.x + idx;
+    int cellIdx = idy * _gridSize.x + idx;
+    int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
+    int cellUp = (idy - 1) * _gridSize.x +idx;
+
+    local_velocity[sIdx] = _pressure[cellIdx] + _pressure[cellUp];
+    _velocity.x[velocityIdx] -=  local_velocity[sIdx];
+  }
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------

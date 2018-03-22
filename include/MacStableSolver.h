@@ -138,6 +138,7 @@ private:
   FRIEND_TEST( divergenceBoundary, isEqual );
   FRIEND_TEST( projection, checkPressure );
   FRIEND_TEST( projection, checkDivergence );
+  FRIEND_TEST( projection, checkVelocity_x );
 #endif // TESTING
 };
 

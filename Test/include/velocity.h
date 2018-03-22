@@ -66,4 +66,40 @@ TEST( velBoundaryY, isEqual )
   free( h_inputY );
 }
 
+////----------------------------------------------------------------------------------------------------------------------
+
+TEST( projection, checkVelocity_x )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+
+  Rand_GPU::randFloats( gpuSolver.m_pressure,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_divergence,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+  gpuSolver.copy( gpuSolver.m_pressure, cpuSolver.m_pressure, gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_divergence, cpuSolver.m_divergence, gpuSolver.m_totCell );
+
+  gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
+
+  gpuSolver.projection();
+  cpuSolver.projection();
+
+  float * h_velocity_x = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.x, h_velocity_x, gpuSolver.m_totVelX );
+
+  int x = cpuSolver.m_totVelX;
+  for ( int i = 0; i < x; ++i )
+  {
+    ASSERT_NEAR( cpuSolver.m_velocity.x[i], h_velocity_x[i], 0.5f); // should probably try to bring it down a bit...
+  }
+  free( h_velocity_x );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
 #endif // _VELOCITY_H

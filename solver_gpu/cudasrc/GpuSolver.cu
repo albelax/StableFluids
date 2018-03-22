@@ -164,12 +164,12 @@ void GpuSolver::projection()
   dim3 block(blockDim, blockDim); // block of (X,Y) threads
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
-  d_divergenceStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
+  d_divergenceStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity, m_gridSize );
   setCellBoundary( m_pressure, m_gridSize );
   setCellBoundary( m_divergence, m_gridSize );
   for(unsigned int k = 0; k < 20; k++)
   {
-    d_projection<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
+    d_projection<<<grid, block, bins>>>( m_pressure, m_divergence, m_gridSize );
     setCellBoundary( m_pressure, m_gridSize );
   }
   cudaError_t err = cudaGetLastError();
