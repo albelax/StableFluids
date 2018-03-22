@@ -37,6 +37,7 @@ public:
 
   void gather( float * _value, unsigned int _size );
   void gather2D( float * _value, unsigned int _size );
+  void randomizeArrays();
 private:
   void setParameters();
   void allocateArrays();

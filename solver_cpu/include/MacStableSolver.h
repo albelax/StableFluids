@@ -26,6 +26,7 @@
 #include <iostream>
 #include "tuple.h"
 #include "testing.h"
+#include "rand_cpu.h"
 
 #define SWAP(value0,value) { float *tmp = value0; value0 = value; value = tmp; }
 #define TESTING 1
@@ -101,7 +102,7 @@ public:
   }
   void setD0(int i, int j ){ m_previousDensity[cIdx(i, j)] = m_inputDensity; }
   void exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int _sizeY );
-
+  void randomizeArrays();
 private:
   int m_totCell;
   int m_totVelX;

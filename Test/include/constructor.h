@@ -158,43 +158,6 @@ TEST( gather, works )
   unsigned int s = 10;
   gpuSolver.gather(values, s);
 
-
-  for ( int i = 0; i < 10; ++i )
-  {
-//    std::cout << "i: " << i << " = " << values[i] << "\n";
-  }
-
-
-  for ( int i = 0; i < 10; ++i )
-  {
-    EXPECT_FLOAT_EQ( 0, 0 );
-  }
-  free( values );
-}
-
-////----------------------------------------------------------------------------------------------------------------------
-
-TEST( gather2D, works )
-{
-  GpuSolver gpuSolver;
-  gpuSolver.activate();
-
-  float * values = (float *) malloc( sizeof( float ) * 10 );
-  for ( int i = 0; i < 10; ++i )
-  {
-    values[i] = (float) i;
-  }
-
-  unsigned int s = 10;
-  gpuSolver.gather2D(values, s);
-
-
-  for ( int i = 0; i < 10; ++i )
-  {
-//    std::cout << "i: " << i << " = " << values[i] << "\n";
-  }
-
-
   for ( int i = 0; i < 10; ++i )
   {
     EXPECT_FLOAT_EQ( 0, 0 );

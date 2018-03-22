@@ -504,8 +504,8 @@ obj/main.o: src/main.cpp include/constructor.h \
 		../include/MacStableSolver.h \
 		../Common/tuple.h \
 		../Common/testing.h \
-		../include/GpuSolver.h \
 		../include/rand_cpu.h \
+		../include/GpuSolver.h \
 		../include/rand_gpu.h \
 		include/velocity.h \
 		include/density.h \

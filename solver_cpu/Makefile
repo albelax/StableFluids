@@ -532,7 +532,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 obj/MacStableSolver.o: src/MacStableSolver.cpp include/MacStableSolver.h \
 		../Common/tuple.h \
-		../Common/testing.h
+		../Common/testing.h \
+		include/rand_cpu.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MacStableSolver.o src/MacStableSolver.cpp
 
 obj/rand_cpu.o: src/rand_cpu.cpp include/rand_cpu.h

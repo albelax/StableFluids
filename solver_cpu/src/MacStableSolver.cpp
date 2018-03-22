@@ -186,52 +186,55 @@ void StableSolverCpu::setCellBoundary(float *value)
 
 void StableSolverCpu::projection()
 {
-  int static count = 0;
+  //  int static count = 0;
+  unsigned int iterations = 20;
   for(int i=1; i<=m_gridSize.x-2; ++i)
   {
     for(int j=1; j<=m_gridSize.y-2; ++j)
     {
-      m_divergence[cIdx(i, j)] = (m_velocity.x[vxIdx(i+1, j)]
-                                 -m_velocity.x[vxIdx(i, j)]
-                                 +m_velocity.y[vyIdx(i, j+1)]
-                                 -m_velocity.y[vyIdx(i, j)]);
+      m_divergence[cIdx(i, j)] = (m_velocity.x[vxIdx(i+1, j)]-m_velocity.x[vxIdx(i, j)]+m_velocity.y[vyIdx(i, j+1)]-m_velocity.y[vyIdx(i, j)]);
       m_pressure[cIdx(i, j)] = 0.0f;
     }
   }
-/* count++;
+  //  count++;
   setCellBoundary(m_pressure);
   setCellBoundary(m_divergence);
 
   //projection iteration
-  for(int k=0; k<20; k++)
+  for(unsigned int k = 0; k < iterations; k++)
   {
     for(int i=1; i <= m_gridSize.x-2; ++i)
     {
       for(int j=1; j <= m_gridSize.y-2; ++j)
       {
-        m_pressure[cIdx(i, j)] = (m_pressure[cIdx(i+1, j)]+m_pressure[cIdx(i-1, j)]+m_pressure[cIdx(i, j+1)]+m_pressure[cIdx(i, j-1)]-m_divergence[cIdx(i, j)])/4.0f;
+        m_pressure[cIdx(i, j)] = (m_pressure[cIdx(i+1, j)]
+            +m_pressure[cIdx(i-1, j)]
+            +m_pressure[cIdx(i, j+1)]
+            +m_pressure[cIdx(i, j-1)]
+            -m_divergence[cIdx(i, j)])/4.0f;
       }
     }
-    setCellBoundary(m_pressure);
+        setCellBoundary(m_pressure);
   }
 
-  //velocity minus grad of Pressure
-  for(int i=1; i<=m_rowVelocity.x-2; ++i)
-  {
-    for(int j=1; j<=m_columnVelocity.x-2; ++j)
-    {
-      m_velocity.x[vxIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i-1, j)]);
-    }
-  }
-  for(int i=1; i<=m_rowVelocity.y-2; ++i)
-  {
-    for(int j=1; j<=m_columnVelocity.y-2; ++j)
-    {
-      m_velocity.y[vyIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i, j-1)]);
-    }
-  }
-  setVelBoundary(1);
-  setVelBoundary(2);*/
+  //    //velocity minus grad of Pressure
+  //    for(int i=1; i<=m_rowVelocity.x-2; ++i)
+  //    {
+  //      for(int j=1; j<=m_columnVelocity.x-2; ++j)
+  //      {
+  //        m_velocity.x[vxIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i-1, j)]);
+  //      }
+  //    }
+
+  //    for(int i=1; i<=m_rowVelocity.y-2; ++i)
+  //    {
+  //      for(int j=1; j<=m_columnVelocity.y-2; ++j)
+  //      {
+  //        m_velocity.y[vyIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i, j-1)]);
+  //      }
+  //    }
+  //    setVelBoundary(1);
+  //    setVelBoundary(2);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -453,6 +456,7 @@ void StableSolverCpu::animDen()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+
 void StableSolverCpu::exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int _sizeY )
 {
   std::ofstream out;
@@ -469,3 +473,40 @@ void StableSolverCpu::exportCSV( std::string _file, tuple<float> * _t, int _size
     out << "\n";
   }
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void StableSolverCpu::randomizeArrays()
+{
+  // really bad,
+  // used only for testing and allocate data before a benchmark
+
+  //----------- cell based arrays
+  std::vector<float> tmp_cell;
+  tmp_cell.reserve( m_totCell );
+  Rand_CPU::randFloats( tmp_cell );
+  for ( int i = 0; i < m_totCell; ++i )
+  {
+    m_pressure[i] = tmp_cell[i];
+    m_divergence[i] = tmp_cell[i];
+  }
+  //----------- X VELOCITY
+  std::vector<float> tmp_vel_x;
+  tmp_vel_x.reserve( m_totVelX );
+  Rand_CPU::randFloats( tmp_vel_x );
+  for ( int i = 0; i < m_totVelX; ++i )
+  {
+    m_velocity.x[i] = tmp_vel_x[i];
+  }
+  //----------- Y VELOCITY
+  std::vector<float> tmp_vel_y;
+  tmp_vel_y.reserve( m_totVelY );
+  Rand_CPU::randFloats( tmp_vel_y );
+  for ( int i = 0; i < m_totVelX; ++i )
+  {
+    m_velocity.y[i] = tmp_vel_y[i];
+  }
+  //-----------
+
+}
+

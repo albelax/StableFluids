@@ -752,6 +752,7 @@ moc/moc_MainWindow.cpp: include/GLWindow.h \
 		../include/MacStableSolver.h \
 		../Common/tuple.h \
 		../Common/testing.h \
+		../include/rand_cpu.h \
 		../include/GpuSolver.h \
 		include/MainWindow.h \
 		moc/moc_predefs.h
@@ -988,6 +989,7 @@ moc/moc_GLWindow.cpp: include/Shader.h \
 		../include/MacStableSolver.h \
 		../Common/tuple.h \
 		../Common/testing.h \
+		../include/rand_cpu.h \
 		../include/GpuSolver.h \
 		include/GLWindow.h \
 		moc/moc_predefs.h
@@ -1482,6 +1484,7 @@ obj/MainWindow.o: src/MainWindow.cpp include/MainWindow.h \
 		../include/MacStableSolver.h \
 		../Common/tuple.h \
 		../Common/testing.h \
+		../include/rand_cpu.h \
 		../include/GpuSolver.h \
 		ui/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MainWindow.o src/MainWindow.cpp
@@ -1718,6 +1721,7 @@ obj/GLWindow.o: src/GLWindow.cpp include/GLWindow.h \
 		../include/MacStableSolver.h \
 		../Common/tuple.h \
 		../Common/testing.h \
+		../include/rand_cpu.h \
 		../include/GpuSolver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/GLWindow.o src/GLWindow.cpp
 

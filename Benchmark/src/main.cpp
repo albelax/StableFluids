@@ -80,7 +80,6 @@ static void GPU_projection( benchmark::State& state ) //
   GpuSolver solver;
   solver.activate();
   solver.randomizeArrays();
-
   for ( auto _ : state )
   {
     solver.projection();
