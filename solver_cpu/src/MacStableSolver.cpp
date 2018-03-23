@@ -209,8 +209,8 @@ void StableSolverCpu::projection()
       {
         m_pressure[cIdx(i, j)] = (m_pressure[cIdx(i+1, j)]
             +m_pressure[cIdx(i-1, j)]
-            +m_pressure[cIdx(i, j+1)]
-            +m_pressure[cIdx(i, j-1)]
+            +m_pressure[cIdx(i, j+1)]+
+            m_pressure[cIdx(i, j-1)]
             -m_divergence[cIdx(i, j)])/4.0;
       }
     }
@@ -223,6 +223,8 @@ void StableSolverCpu::projection()
         for(int j=1; j<=m_columnVelocity.x-2; ++j)
         {
           m_velocity.x[vxIdx(i, j)] -= (m_pressure[cIdx(i, j)] -m_pressure[cIdx(i-1, j)]);
+//          m_velocity.x[vxIdx(i, j)] -= m_pressure[cIdx(i, j)];
+
         }
       }
 

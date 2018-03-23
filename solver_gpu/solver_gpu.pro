@@ -61,7 +61,7 @@ CUDA_INC+= $$join(INCLUDEPATH,' -I','-I',' ')
 
 # nvcc flags (ptxas option verbose is always useful)
 NVCCFLAGS = -ccbin $$HOST_COMPILER -m64 -g -G -gencode arch=compute_50,code=sm_50 \#-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35
--gencode arch=compute_$$CUDA_COMPUTE_ARCH,code=sm_$$CUDA_COMPUTE_ARCH --compiler-options -fno-strict-aliasing --compiler-options -fPIC --std=c++11 #-use_fast_math  #--ptxas-options=-v
+-gencode arch=compute_$$CUDA_COMPUTE_ARCH,code=sm_$$CUDA_COMPUTE_ARCH --compiler-options -fno-strict-aliasing --compiler-options -fPIC --std=c++11 -use_fast_math  #--ptxas-options=-v
 
 # Define the path and binary for nvcc
 NVCCBIN = $$CUDA_DIR/bin/nvcc

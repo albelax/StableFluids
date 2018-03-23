@@ -165,15 +165,28 @@ void GpuSolver::projection()
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
   d_divergenceStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity,  m_gridSize );
+  cudaThreadSynchronize();
+
   setCellBoundary( m_pressure, m_gridSize );
   setCellBoundary( m_divergence, m_gridSize );
+  cudaThreadSynchronize();
+
   for(unsigned int k = 0; k < 20; k++)
   {
     d_projection<<<grid, block, bins>>>( m_pressure, m_divergence, m_gridSize );
     cudaThreadSynchronize();
+
+    setCellBoundary( m_pressure, m_gridSize );
+//    cudaThreadSynchronize();
   }
+
+  d_velocityStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
+  cudaThreadSynchronize();
+
   setVelBoundary(1);
   setVelBoundary(2);
+  cudaThreadSynchronize();
+
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Projection Error: %s\n", cudaGetErrorString(err));
 }

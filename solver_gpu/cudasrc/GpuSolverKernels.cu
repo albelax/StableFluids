@@ -164,7 +164,7 @@ __global__ void d_setCellBoundary( real * _value , tuple<unsigned int> _size )
   if ( idx > 0 && idx < _size.x - 1 )
   {
     _value[idx] = _value[idx + _size.x];
-    _value[idx + _size.x * (_size.y-1)] = _value[idx + _size.x * (_size.y - 2)];
+    _value[idx + _size.x * (_size.y - 1)] = _value[idx + _size.x * (_size.y - 2)];
   }
 
   if ( idx > 0 && idx < _size.y - 1 )
@@ -172,7 +172,6 @@ __global__ void d_setCellBoundary( real * _value , tuple<unsigned int> _size )
     _value[idx * _size.x] = _value[idx * _size.x + 1]; // set the first column on the left to be the same as the next
     _value[idx * _size.x + ( _size.x - 1)] = _value[idx * _size.x + (_size.x - 2)];
   }
-  __syncthreads();
 
   if ( idx == 0 )
   {
@@ -199,7 +198,6 @@ __global__ void d_setCellBoundary( real * _value , tuple<unsigned int> _size )
 
     _value[dst] = ( _value[left] + _value[up] ) / 2;
   }
-  __syncthreads();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -241,10 +239,10 @@ __global__ void d_projection( real * _pressure, real * _divergence, tuple<unsign
     int up = (idy - 1) * _gridSize.x + idx;
 
     local_pressure[sIdx] = ( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0;
-    __syncthreads();
+//    __syncthreads();
 
     _pressure[currentCell] = local_pressure[sIdx];
-    __syncthreads();
+//    __syncthreads();
   }
 }
 
@@ -277,7 +275,7 @@ __global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<rea
 
     _pressure[currentCell] = 0.0;
     _divergence[currentCell] = local_divergence[sIdx];
-    __syncthreads();
+//    __syncthreads();
   }
 }
 
@@ -299,15 +297,17 @@ __global__ void d_velocityStep(real * _pressure, real * _divergence, tuple<real 
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
     int cellIdx = idy * _gridSize.x + idx;
-    int cellUp = idy * _gridSize.x + (idx - 1);
+    int cellLeft = idy * _gridSize.x + (idx - 1);
 
-    local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellUp];
+    local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellLeft];
+//    __syncthreads();
     _velocity.x[velocityIdx] -= local_velocity[sIdx];
   }
 
   if ( idx > 0 && idx < _rowVelocity.y - 1 &&
        idy > 0 && idy < _columnVelocity.y - 1 )
   {
+
     int velocityIdx = idy * _rowVelocity.y + idx;
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
@@ -315,7 +315,7 @@ __global__ void d_velocityStep(real * _pressure, real * _divergence, tuple<real 
     int cellUp = (idy-1) * _gridSize.x + idx;
 
     local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellUp];
-    _velocity.x[velocityIdx] -= local_velocity[sIdx];
+    _velocity.y[velocityIdx] -= local_velocity[sIdx];
   }
 }
 
