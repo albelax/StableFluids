@@ -37,6 +37,6 @@ __global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<rea
                                  tuple<unsigned int> _rowVelocity,
                                  tuple<unsigned int> _gridSize);
 
-__global__ void d_velocityStep(real * _pressure, real * _divergence, tuple<real *> _velocity,
+__global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity,
                                  tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
                                  tuple<unsigned int> _gridSize);

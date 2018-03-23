@@ -187,7 +187,6 @@ void GLWindow::paintGL()
 
   m_solverGpu.projection();
 
-
   m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
   m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
   m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
@@ -217,6 +216,7 @@ void GLWindow::paintGL()
   m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
   m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY);
   //----------------------------------------
+
 #else
   m_solver.animVel();
 #endif

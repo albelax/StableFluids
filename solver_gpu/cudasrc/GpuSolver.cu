@@ -27,7 +27,7 @@ GpuSolver::~GpuSolver()
 
 void GpuSolver::setParameters()
 {
-  int mul = 1;
+  float mul = 1;
   m_gridSize.x = 128 * mul;
   m_gridSize.y = 128 * mul;
 
@@ -180,7 +180,7 @@ void GpuSolver::projection()
 //    cudaThreadSynchronize();
   }
 
-  d_velocityStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
+  d_velocityStep<<<grid, block, bins>>>( m_pressure, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
 //  cudaThreadSynchronize();
 
   setVelBoundary(1);

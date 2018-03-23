@@ -46,7 +46,7 @@ StableSolverCpu::~StableSolverCpu()
 
 void StableSolverCpu::activate()
 {
-  int mul = 1;
+  float mul = 1;
   m_gridSize.x = 128 * mul;
   m_gridSize.y = 128 * mul;
 

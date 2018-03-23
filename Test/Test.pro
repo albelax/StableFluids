@@ -24,7 +24,7 @@ QMAKE_RPATHDIR += $$LIB_INSTALL_DIR
 
 HEADERS += include/constructor.h \
 					 include/velocity.h \
-    include/density.h \
-    include/pressure.h \
-    include/divergence.h
+           include/density.h \
+           include/pressure.h \
+           include/divergence.h
 SOURCES +=$$PWD/src/*.cpp
