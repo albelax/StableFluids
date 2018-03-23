@@ -226,15 +226,15 @@ void StableSolverCpu::projection()
         }
       }
 
-//      for(int i=1; i<=m_rowVelocity.y-2; ++i)
-//      {
-//        for(int j=1; j<=m_columnVelocity.y-2; ++j)
-//        {
-//          m_velocity.y[vyIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i, j-1)]);
-//        }
-//      }
-  //    setVelBoundary(1);
-  //    setVelBoundary(2);
+      for(int i=1; i<=m_rowVelocity.y-2; ++i)
+      {
+        for(int j=1; j<=m_columnVelocity.y-2; ++j)
+        {
+          m_velocity.y[vyIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i, j-1)]);
+        }
+      }
+      setVelBoundary(1);
+      setVelBoundary(2);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

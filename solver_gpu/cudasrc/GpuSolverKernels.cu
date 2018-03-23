@@ -304,6 +304,19 @@ __global__ void d_velocityStep(real * _pressure, real * _divergence, tuple<real 
     local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellUp];
     _velocity.x[velocityIdx] -= local_velocity[sIdx];
   }
+
+  if ( idx > 0 && idx < _rowVelocity.y - 1 &&
+       idy > 0 && idy < _columnVelocity.y - 1 )
+  {
+    int velocityIdx = idy * _rowVelocity.y + idx;
+    int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
+
+    int cellIdx = idy * _gridSize.x + idx;
+    int cellUp = (idy-1) * _gridSize.x + idx;
+
+    local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellUp];
+    _velocity.x[velocityIdx] -= local_velocity[sIdx];
+  }
 }
 
 

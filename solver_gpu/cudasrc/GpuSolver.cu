@@ -172,6 +172,8 @@ void GpuSolver::projection()
     d_projection<<<grid, block, bins>>>( m_pressure, m_divergence, m_gridSize );
     cudaThreadSynchronize();
   }
+  setVelBoundary(1);
+  setVelBoundary(2);
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Projection Error: %s\n", cudaGetErrorString(err));
 }
