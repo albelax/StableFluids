@@ -2,3 +2,7 @@
 *.pro.user
 *.so
 *.so.*
+Makefile
+lib*
+moc/*
+*.csv
