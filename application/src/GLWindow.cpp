@@ -7,6 +7,10 @@
 #include <QScreen>
 #include <unistd.h>
 
+
+// testing gpu functions with the gpu solver
+#define CROSS_TESTING 1
+
 const std::string address = "../application/"; // if the program is fired from the bin folder
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -23,6 +27,8 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
   m_image = QPixmap( 128, 128 ).toImage();
   m_image.fill(Qt::white);
   m_solver.activate();
+
+  m_solverGpu.activate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -162,16 +168,59 @@ void GLWindow::init()
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
   glGenerateMipmap( GL_TEXTURE_2D );
-//  GLenum error = glGetError();
-//  if ( error !=  GL_NO_ERROR )
-//    std::cout << "GL Error " << error << '\n';
+  //  GLenum error = glGetError();
+  //  if ( error !=  GL_NO_ERROR )
+  //    std::cout << "GL Error " << error << '\n';
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
 
 void GLWindow::paintGL()
 {
+#if CROSS_TESTING
+
+  //---------------------------------------- animVel
+  m_solverGpu.copyToDevice( m_solver.m_pressure, m_solverGpu.m_pressure, m_solver.m_totCell );
+  m_solverGpu.copyToDevice( m_solver.m_divergence, m_solverGpu.m_divergence, m_solver.m_totCell );
+  m_solverGpu.copyToDevice( m_solver.m_velocity.x, m_solverGpu.m_velocity.x, m_solver.m_totVelX );
+  m_solverGpu.copyToDevice( m_solver.m_velocity.y, m_solverGpu.m_velocity.y, m_solver.m_totVelY);
+
+  m_solverGpu.projection();
+
+
+  m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
+  m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
+  m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
+  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY);
+  //    projection();
+
+  if( m_solver.m_diffusion > 0.0f)
+  {
+    SWAP(m_solver.m_previousVelocity.x, m_solver.m_velocity.x);
+    SWAP(m_solver.m_previousVelocity.y, m_solver.m_velocity.y);
+    m_solver.diffuseVel();
+  }
+
+  SWAP(m_solver.m_previousVelocity.x, m_solver.m_velocity.x);
+  SWAP(m_solver.m_previousVelocity.y, m_solver.m_velocity.y);
+  m_solver.advectVel();
+
+  m_solverGpu.copyToDevice( m_solver.m_pressure, m_solverGpu.m_pressure, m_solver.m_totCell );
+  m_solverGpu.copyToDevice( m_solver.m_divergence, m_solverGpu.m_divergence, m_solver.m_totCell );
+  m_solverGpu.copyToDevice( m_solver.m_velocity.x, m_solverGpu.m_velocity.x, m_solver.m_totVelX );
+  m_solverGpu.copyToDevice( m_solver.m_velocity.y, m_solverGpu.m_velocity.y, m_solver.m_totVelY);
+
+  m_solverGpu.projection();
+
+
+  m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
+  m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
+  m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
+  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY);
+  //----------------------------------------
+#else
   m_solver.animVel();
+#endif
   m_solver.animDen();
 
   glClearColor( 1, 1, 1, 1.0f );

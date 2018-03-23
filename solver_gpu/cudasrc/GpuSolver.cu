@@ -165,27 +165,27 @@ void GpuSolver::projection()
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
   d_divergenceStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity,  m_gridSize );
-  cudaThreadSynchronize();
+//  cudaThreadSynchronize();
 
   setCellBoundary( m_pressure, m_gridSize );
   setCellBoundary( m_divergence, m_gridSize );
-  cudaThreadSynchronize();
+//  cudaThreadSynchronize();
 
   for(unsigned int k = 0; k < 20; k++)
   {
     d_projection<<<grid, block, bins>>>( m_pressure, m_divergence, m_gridSize );
-    cudaThreadSynchronize();
+//    cudaThreadSynchronize();
 
     setCellBoundary( m_pressure, m_gridSize );
 //    cudaThreadSynchronize();
   }
 
   d_velocityStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
-  cudaThreadSynchronize();
+//  cudaThreadSynchronize();
 
   setVelBoundary(1);
   setVelBoundary(2);
-  cudaThreadSynchronize();
+//  cudaThreadSynchronize();
 
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Projection Error: %s\n", cudaGetErrorString(err));
@@ -233,6 +233,14 @@ void GpuSolver::copy( real * _src, real * _dst, int _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
+void GpuSolver::copyToDevice( real * _src, real * _dst, int _size )
+{
+  if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyHostToDevice ) != cudaSuccess )
+    exit(0);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
 void GpuSolver::gather( real * _value, unsigned int _size )
 {
   int threads = 1024;
@@ -248,7 +256,6 @@ void GpuSolver::gather( real * _value, unsigned int _size )
   //  cudaThreadSynchronize();
 
   copy( d_values, _value, _size );
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------

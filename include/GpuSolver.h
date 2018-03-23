@@ -8,7 +8,11 @@
 #include "tuple.h"
 
 #define SWAP(value0,value) { real *tmp = value0; value0 = value; value = tmp; }
+
+// friends the test functions with this class
 #define TESTING 1
+// testing gpu functions with the gpu solver
+#define CROSS_TESTING 1
 
 #if TESTING
 #include <gtest/gtest.h>
@@ -38,7 +42,10 @@ public:
   void gather( real * _value, unsigned int _size );
   void gather2D( real * _value, unsigned int _size );
   void randomizeArrays();
+
+#if !CROSS_TESTING
 private:
+#endif
   void setParameters();
   void allocateArrays();
   unsigned int m_totCell;
@@ -65,6 +72,7 @@ private:
   tuple<real> * m_pvy;
   void copy( tuple<real> * _src, tuple<real> * _dst, int _size );
   void copy( real * _src, real * _dst, int _size );
+  void copyToDevice( real * _src, real * _dst, int _size );
 
 #if TESTING // I know friend is bad, but it is only to allow tesats to run :(
   FRIEND_TEST( pvx, isEqual );

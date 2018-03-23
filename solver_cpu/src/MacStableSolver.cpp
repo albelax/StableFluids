@@ -223,8 +223,6 @@ void StableSolverCpu::projection()
         for(int j=1; j<=m_columnVelocity.x-2; ++j)
         {
           m_velocity.x[vxIdx(i, j)] -= (m_pressure[cIdx(i, j)] -m_pressure[cIdx(i-1, j)]);
-//          m_velocity.x[vxIdx(i, j)] -= m_pressure[cIdx(i, j)];
-
         }
       }
 

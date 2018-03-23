@@ -90,6 +90,37 @@ BENCHMARK(GPU_projection);
 
 ///----------------------------------------------------------------------------------------------
 
+static void CPU_advectVelocity( benchmark::State& state ) //
+{
+  StableSolverCpu solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.advectVel();
+
+  }
+
+}
+BENCHMARK(CPU_advectVelocity);
+
+///----------------------------------------------------------------------------------------------
+
+
+static void CPU_diffuseVelocity( benchmark::State& state ) //
+{
+  StableSolverCpu solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.diffuseVel();
+  }
+
+}
+BENCHMARK(CPU_diffuseVelocity);
+
+///----------------------------------------------------------------------------------------------
 BENCHMARK_MAIN();
 
 ///----------------------------------------------------------------------------------------------

@@ -63,7 +63,6 @@ TEST( projection, checkPressure )
   real * h_pressure = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell );
   gpuSolver.copy( gpuSolver.m_pressure, h_pressure, gpuSolver.m_totCell );
 
-  int c = 0;
   int x = cpuSolver.m_totCell;
   for ( int i = 0; i < x; ++i )
   {

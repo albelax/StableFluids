@@ -29,7 +29,12 @@
 #include "rand_cpu.h"
 
 #define SWAP(value0,value) { real *tmp = value0; value0 = value; value = tmp; }
+
+// friends the test functions with this class
 #define TESTING 1
+// testing gpu functions with the gpu solver
+#define CROSS_TESTING 1
+
 
 #if TESTING
 #include <gtest/gtest.h>
@@ -103,7 +108,10 @@ public:
   void setD0(int i, int j ){ m_previousDensity[cIdx(i, j)] = m_inputDensity; }
   void exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int _sizeY );
   void randomizeArrays();
+
+#if !CROSS_TESTING
 private:
+#endif
   int m_totCell;
   int m_totVelX;
   int m_totVelY;
