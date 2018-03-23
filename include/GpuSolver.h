@@ -7,7 +7,7 @@
 #include <iostream>
 #include "tuple.h"
 
-#define SWAP(value0,value) { float *tmp = value0; value0 = value; value = tmp; }
+#define SWAP(value0,value) { real *tmp = value0; value0 = value; value = tmp; }
 #define TESTING 1
 
 #if TESTING
@@ -22,50 +22,49 @@ public:
   void activate();
   void reset();
   void cleanBuffer();
-  void setTimestep( float _timeStep ) { m_timeStep = _timeStep; }
-  void setDiffusion( float _diffusion ) { m_diffusion = _diffusion; }
-  void setViscosity( float _viscosity ) { m_viscosity = _viscosity; }
-  void setDensity( float _density ) { m_inputDensity = _density; }
+  void setTimestep( real _timeStep ) { m_timeStep = _timeStep; }
+  void setDiffusion( real _diffusion ) { m_diffusion = _diffusion; }
+  void setViscosity( real _viscosity ) { m_viscosity = _viscosity; }
+  void setDensity( real _density ) { m_inputDensity = _density; }
 
   void setVelBoundary( int flag );
-  void setCellBoundary( float * _value, tuple<unsigned int> _size );
+  void setCellBoundary( real * _value, tuple<unsigned int> _size );
   void projection();
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
   int cIdx(int i, int j){ return j*m_gridSize.x+i; }
-  void exportCSV( std::string _file, tuple<float> * _t, int _sizeX , int _sizeY );
+  void exportCSV( std::string _file, tuple<real> * _t, int _sizeX , int _sizeY );
 
-  void gather( float * _value, unsigned int _size );
-  void gather2D( float * _value, unsigned int _size );
+  void gather( real * _value, unsigned int _size );
+  void gather2D( real * _value, unsigned int _size );
   void randomizeArrays();
 private:
   void setParameters();
   void allocateArrays();
   unsigned int m_totCell;
   unsigned int m_totVelX;
-  unsigned  int m_totVelY;
-  float m_timeStep;
-  float m_diffusion;
-  float m_viscosity;
-  float m_inputDensity;
+  unsigned int m_totVelY;
+  real m_timeStep;
+  real m_diffusion;
+  real m_viscosity;
+  real m_inputDensity;
 
-  float * m_density;
-  float * m_previousDensity;
-  float * m_divergence;
-  float * m_pressure;
+  real * m_density;
+  real * m_previousDensity;
+  real * m_divergence;
+  real * m_pressure;
   tuple<unsigned int> m_gridSize;
   tuple<unsigned int> m_rowVelocity;
   tuple<unsigned int> m_columnVelocity;
-  tuple<float> m_min;
-  tuple<float> m_max;
+  tuple<real> m_min;
+  tuple<real> m_max;
   /// \brief velocity, stores to pointers to chunks of memory storing the velocities in x and y
-  tuple<float *> m_velocity;
-  tuple<float *> m_previousVelocity;
-  tuple<float> * m_pvx;
-  tuple<float> * m_pvy;
-  void copy( tuple<float> * _src, tuple<float> * _dst, int _size );
-  void copy( float * _src, float * _dst, int _size );
-
+  tuple<real *> m_velocity;
+  tuple<real *> m_previousVelocity;
+  tuple<real> * m_pvx;
+  tuple<real> * m_pvy;
+  void copy( tuple<real> * _src, tuple<real> * _dst, int _size );
+  void copy( real * _src, real * _dst, int _size );
 
 #if TESTING // I know friend is bad, but it is only to allow tesats to run :(
   FRIEND_TEST( pvx, isEqual );
@@ -82,6 +81,7 @@ private:
   FRIEND_TEST( projection, checkPressure );
   FRIEND_TEST( projection, checkDivergence );
   FRIEND_TEST( projection, checkVelocity_x );
+  FRIEND_TEST( projection, checkVelocity_y );
 #endif // TESTING
 };
 

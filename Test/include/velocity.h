@@ -25,7 +25,7 @@ TEST( velBoundaryX, isEqual )
   gpuSolver.setVelBoundary( 1 );
   cpuSolver.setVelBoundary( 1 );
 
-  float * h_inputX = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelX );
+  real * h_inputX = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelX );
   gpuSolver.copy( gpuSolver.m_velocity.x, h_inputX, gpuSolver.m_totVelX );
 
   for ( int i = 0; i < cpuSolver.m_totVelX; ++i )
@@ -55,7 +55,7 @@ TEST( velBoundaryY, isEqual )
   gpuSolver.setVelBoundary( 2 );
   cpuSolver.setVelBoundary( 2 );
 
-  float * h_inputY = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelY );
+  real * h_inputY = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY );
   gpuSolver.copy( gpuSolver.m_velocity.y, h_inputY, gpuSolver.m_totVelY );
 
   for ( unsigned int i = 0; i < gpuSolver.m_totVelY; ++i )
@@ -89,7 +89,7 @@ TEST( projection, checkVelocity_x )
   gpuSolver.projection();
   cpuSolver.projection();
 
-  float * h_velocity_x = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelX );
+  real * h_velocity_x = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelX );
   gpuSolver.copy( gpuSolver.m_velocity.x, h_velocity_x, gpuSolver.m_totVelX );
 
   int x = cpuSolver.m_totVelX;
@@ -102,4 +102,37 @@ TEST( projection, checkVelocity_x )
 
 ////----------------------------------------------------------------------------------------------------------------------
 
+TEST( projection, checkVelocity_y )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+
+  Rand_GPU::randFloats( gpuSolver.m_pressure,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_divergence,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+  gpuSolver.copy( gpuSolver.m_pressure, cpuSolver.m_pressure, gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_divergence, cpuSolver.m_divergence, gpuSolver.m_totCell );
+
+  gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
+
+  gpuSolver.projection();
+  cpuSolver.projection();
+
+  real * h_velocity_y = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_velocity.y, h_velocity_y, gpuSolver.m_totVelY );
+
+  int x = cpuSolver.m_totVelY;
+  for ( int i = 0; i < x; ++i )
+  {
+    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f); // should probably try to bring it down a bit...
+  }
+  free( h_velocity_y );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
 #endif // _VELOCITY_H

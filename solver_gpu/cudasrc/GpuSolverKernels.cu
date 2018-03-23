@@ -11,7 +11,7 @@
 // KERNELS -------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setPvx( tuple<float> * _pvx, unsigned int _size )
+__global__ void d_setPvx( tuple<real> * _pvx, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
@@ -25,21 +25,21 @@ __global__ void d_setPvx( tuple<float> * _pvx, unsigned int _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setPvy( tuple<float> * _pvy, unsigned int _size )
+__global__ void d_setPvy( tuple<real> * _pvy, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
   if ( idx < _size )
   {
     int i = idy * _size + idx;
-    _pvy[i].x = (float) idx + 0.5f;
+    _pvy[i].x = (real) idx + 0.5f;
     _pvy[i].y = idy;
   }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_vectorAdd( float *sum, float *A, float *B, size_t arrayLength )
+__global__ void d_vectorAdd( real *sum, real *A, real *B, size_t arrayLength )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   if ( idx < arrayLength )
@@ -50,7 +50,7 @@ __global__ void d_vectorAdd( float *sum, float *A, float *B, size_t arrayLength 
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_reset( float * _in, unsigned int arrayLength )
+__global__ void d_reset( real * _in, unsigned int arrayLength )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   if ( idx < arrayLength )
@@ -61,7 +61,7 @@ __global__ void d_reset( float * _in, unsigned int arrayLength )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setVelBoundaryX( float * _velocity, tuple<unsigned int> _size )
+__global__ void d_setVelBoundaryX( real * _velocity, tuple<unsigned int> _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
@@ -109,7 +109,7 @@ __global__ void d_setVelBoundaryX( float * _velocity, tuple<unsigned int> _size 
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setVelBoundaryY( float * _velocity, tuple<unsigned int> _size )
+__global__ void d_setVelBoundaryY( real * _velocity, tuple<unsigned int> _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
@@ -157,7 +157,7 @@ __global__ void d_setVelBoundaryY( float * _velocity, tuple<unsigned int> _size 
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setCellBoundary( float * _value , tuple<unsigned int> _size )
+__global__ void d_setCellBoundary( real * _value , tuple<unsigned int> _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
@@ -204,10 +204,10 @@ __global__ void d_setCellBoundary( float * _value , tuple<unsigned int> _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_gather( float * _value, unsigned int _size )
+__global__ void d_gather( real * _value, unsigned int _size )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
-  extern __shared__ float localValue[];
+  extern __shared__ real localValue[];
 
   if ( idx > 0 && idx < _size - 1 )
   {
@@ -219,11 +219,11 @@ __global__ void d_gather( float * _value, unsigned int _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_projection( float * _pressure, float * _divergence, tuple<unsigned int> _gridSize)
+__global__ void d_projection( real * _pressure, real * _divergence, tuple<unsigned int> _gridSize)
 {
   // projection Step
   // this should be in a loop...
-  extern __shared__ float local_pressure[];
+  extern __shared__ real local_pressure[];
 
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
@@ -240,7 +240,7 @@ __global__ void d_projection( float * _pressure, float * _divergence, tuple<unsi
     int down = (idy + 1) * _gridSize.x + idx;
     int up = (idy - 1) * _gridSize.x + idx;
 
-    local_pressure[sIdx] = ( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0f;
+    local_pressure[sIdx] = ( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0;
     __syncthreads();
 
     _pressure[currentCell] = local_pressure[sIdx];
@@ -250,13 +250,13 @@ __global__ void d_projection( float * _pressure, float * _divergence, tuple<unsi
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_divergenceStep(float * _pressure, float * _divergence, tuple<float *> _velocity,
+__global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<real *> _velocity,
                                  tuple<unsigned int> _rowVelocity, tuple<unsigned int> _gridSize)
 {
   // memory shared within the block, I will treat this as a tiny 2D array,
   // the size is decided outside the kernel,
   // if the # of threads in a block is 9 the size will be 81 ( array[9][9] )
-  extern __shared__ float local_divergence[];
+  extern __shared__ real local_divergence[];
 
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
@@ -275,7 +275,7 @@ __global__ void d_divergenceStep(float * _pressure, float * _divergence, tuple<f
     // index of the shared memory
     local_divergence[sIdx] = _velocity.x[right] - _velocity.x[currentVelX] + _velocity.y[down] - _velocity.y[currentVelY];
 
-    _pressure[currentCell] = 0;
+    _pressure[currentCell] = 0.0;
     _divergence[currentCell] = local_divergence[sIdx];
     __syncthreads();
   }
@@ -283,25 +283,26 @@ __global__ void d_divergenceStep(float * _pressure, float * _divergence, tuple<f
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_velocityStep(float * _pressure, float * _divergence, tuple<float *> _velocity,
+__global__ void d_velocityStep(real * _pressure, real * _divergence, tuple<real *> _velocity,
                                tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
                                tuple<unsigned int> _gridSize)
 {
-  extern __shared__ float local_velocity[];
+  extern __shared__ real local_velocity[];
 
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
 
-  if ( idx > 0 && idx < _gridSize.x - 1 &&
-       idy > 0 && idy < _gridSize.y - 1 )
+  if ( idx > 0 && idx < _rowVelocity.x - 1 &&
+       idy > 0 && idy < _columnVelocity.x - 1 )
   {
     int velocityIdx = idy * _rowVelocity.x + idx;
-    int cellIdx = idy * _gridSize.x + idx;
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
-    int cellUp = (idy - 1) * _gridSize.x +idx;
 
-    local_velocity[sIdx] = _pressure[cellIdx] + _pressure[cellUp];
-    _velocity.x[velocityIdx] -=  local_velocity[sIdx];
+    int cellIdx = idy * _gridSize.x + idx;
+    int cellUp = idy * _gridSize.x + (idx - 1);
+
+    local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellUp];
+    _velocity.x[velocityIdx] -= local_velocity[sIdx];
   }
 }
 

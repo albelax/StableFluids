@@ -26,7 +26,7 @@ TEST( pressureBoundary, isEqual )
   cpuSolver.setCellBoundary( cpuSolver.m_pressure );
 
 
-  float * h_inputD = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  real * h_inputD = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell );
   gpuSolver.copy( gpuSolver.m_pressure, h_inputD, gpuSolver.m_totCell );
 
   for ( int i = 0; i < cpuSolver.m_totCell; ++i )
@@ -60,7 +60,7 @@ TEST( projection, checkPressure )
   gpuSolver.projection();
   cpuSolver.projection();
 
-  float * h_pressure = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  real * h_pressure = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell );
   gpuSolver.copy( gpuSolver.m_pressure, h_pressure, gpuSolver.m_totCell );
 
   int c = 0;
@@ -96,7 +96,7 @@ TEST( projection, checkDivergence )
   cpuSolver.projection();
 
 
-  float * h_divergence = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  real * h_divergence = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell );
   gpuSolver.copy( gpuSolver.m_divergence, h_divergence, gpuSolver.m_totCell );
 
   int x = cpuSolver.m_totCell;

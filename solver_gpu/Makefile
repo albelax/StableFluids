@@ -514,13 +514,13 @@ compiler_cuda_make_all: cudaobj/GpuSolver.o cudaobj/rand_gpu.o cudaobj/GpuSolver
 compiler_cuda_clean:
 	-$(DEL_FILE) cudaobj/*.o
 cudaobj/GpuSolver.o: cudasrc/GpuSolver.cu
-	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/GpuSolver.cu -o cudaobj/GpuSolver.o
+	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/GpuSolver.cu -o cudaobj/GpuSolver.o
 
 cudaobj/rand_gpu.o: cudasrc/rand_gpu.cu
-	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/rand_gpu.cu -o cudaobj/rand_gpu.o
+	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/rand_gpu.cu -o cudaobj/rand_gpu.o
 
 cudaobj/GpuSolverKernels.o: cudasrc/GpuSolverKernels.cu
-	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/GpuSolverKernels.cu -o cudaobj/GpuSolverKernels.o
+	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC --std=c++11 -dc -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcudadevrt -lcuda -lcudart -lcurand -licudata -lcudart_static cudasrc/GpuSolverKernels.cu -o cudaobj/GpuSolverKernels.o
 
 compiler_cudalink_make_all: obj/cuda_link.o
 compiler_cudalink_clean:
@@ -528,7 +528,7 @@ compiler_cudalink_clean:
 obj/cuda_link.o: cudaobj/GpuSolver.o \
 		cudaobj/rand_gpu.o \
 		cudaobj/GpuSolverKernels.o 
-	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC -use_fast_math --std=c++11 -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -dlink cudaobj/GpuSolver.o cudaobj/rand_gpu.o cudaobj/GpuSolverKernels.o -o obj/cuda_link.o -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcuda -lcudart -lcudadevrt -lcurand
+	${CUDA_PATH}/bin/nvcc -ccbin /usr/bin/g++ -m64 -g -G -gencode arch=compute_50,code=sm_50 -gencode arch=compute_${CUDA_ARCH},code=sm_${CUDA_ARCH} --compiler-options -fno-strict-aliasing --compiler-options -fPIC --std=c++11 -Iinclude -I${CUDA_PATH}/include -I${CUDA_PATH}/include/cuda -I${CUDA_PATH}/samples/common/inc -I/home/alberto/stableFluids/solver_gpu/../Common  -dlink cudaobj/GpuSolver.o cudaobj/rand_gpu.o cudaobj/GpuSolverKernels.o -o obj/cuda_link.o -L${CUDA_PATH}/lib64 -L${CUDA_PATH}/lib64/nvidia -lcuda -lcudart -lcudadevrt -lcurand
 
 compiler_rcc_make_all:
 compiler_rcc_clean:

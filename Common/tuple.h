@@ -1,6 +1,8 @@
 #ifndef __TUPLE
 #define __TUPLE
 
+typedef double real;
+
 template <class T>
 class tuple
 {

@@ -536,7 +536,8 @@ obj/MacStableSolver.o: src/MacStableSolver.cpp include/MacStableSolver.h \
 		include/rand_cpu.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/MacStableSolver.o src/MacStableSolver.cpp
 
-obj/rand_cpu.o: src/rand_cpu.cpp include/rand_cpu.h
+obj/rand_cpu.o: src/rand_cpu.cpp include/rand_cpu.h \
+		../Common/tuple.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/rand_cpu.o src/rand_cpu.cpp
 
 ####### Install

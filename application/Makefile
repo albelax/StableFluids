@@ -1014,6 +1014,7 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 ####### Compile
 
 obj/main.o: src/main.cpp ../include/rand_cpu.h \
+		../Common/tuple.h \
 		../include/rand_gpu.h \
 		include/MainWindow.h \
 		include/GLWindow.h \
@@ -1246,7 +1247,6 @@ obj/main.o: src/main.cpp ../include/rand_cpu.h \
 		../Common/glm/gtx/scalar_multiplication.hpp \
 		../Common/glm/gtx/range.hpp \
 		../include/MacStableSolver.h \
-		../Common/tuple.h \
 		../Common/testing.h \
 		../include/GpuSolver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp

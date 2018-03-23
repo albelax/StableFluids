@@ -27,7 +27,7 @@ TEST( densityBoundary, isEqual )
   cpuSolver.setCellBoundary( cpuSolver.m_density );
 
 
-  float * h_inputD = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell );
+  real * h_inputD = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell );
   gpuSolver.copy( gpuSolver.m_density, h_inputD, gpuSolver.m_totCell );
 
   for ( int i = 0; i < cpuSolver.m_totCell; ++i )

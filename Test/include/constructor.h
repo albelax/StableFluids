@@ -16,7 +16,7 @@ TEST( pvx, isEqual )
   StableSolverCpu cpuSolver;
   cpuSolver.activate();
 
-  tuple<float> * gpu = (tuple<float> *) malloc( sizeof( tuple<float> ) * gpuSolver.m_totVelX );
+  tuple<real> * gpu = (tuple<real> *) malloc( sizeof( tuple<real> ) * gpuSolver.m_totVelX );
   gpuSolver.copy( gpuSolver.m_pvx, gpu, gpuSolver.m_totVelX );
   gpuSolver.exportCSV( "results/gpu_pvx.csv", gpuSolver.m_pvx, gpuSolver.m_rowVelocity.x, gpuSolver.m_columnVelocity.x );
   cpuSolver.exportCSV( "results/cpu_pvx.csv", cpuSolver.m_pvx, cpuSolver.m_rowVelocity.x, cpuSolver.m_columnVelocity.x );
@@ -51,7 +51,7 @@ TEST( pvy, isEqual )
   StableSolverCpu cpuSolver;
   cpuSolver.activate();
 
-  tuple<float> * gpu = (tuple<float> *) malloc( sizeof( tuple<float> ) * gpuSolver.m_totVelX );
+  tuple<real> * gpu = (tuple<real> *) malloc( sizeof( tuple<real> ) * gpuSolver.m_totVelX );
   gpuSolver.copy( gpuSolver.m_pvy, gpu, gpuSolver.m_totVelX );
   gpuSolver.exportCSV( "results/gpu_pvy.csv", gpuSolver.m_pvy, gpuSolver.m_rowVelocity.y, gpuSolver.m_columnVelocity.y );
   cpuSolver.exportCSV( "results/cpu_pvy.csv", cpuSolver.m_pvy, cpuSolver.m_rowVelocity.y, cpuSolver.m_columnVelocity.y );
@@ -85,8 +85,8 @@ TEST( resetDensity, isZero )
   Rand_GPU::randFloats( gpuSolver.m_density,  gpuSolver.m_totCell );
   gpuSolver.reset();
 
-  float * zero = (float *) calloc( gpuSolver.m_totCell, sizeof( float ));
-  float * h_gpu_density = (float *) malloc( sizeof( float ) * gpuSolver.m_totCell);
+  real * zero = (real *) calloc( gpuSolver.m_totCell, sizeof( real ));
+  real * h_gpu_density = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell);
   gpuSolver.copy( gpuSolver.m_density, h_gpu_density, gpuSolver.m_totCell );
 
   for ( unsigned int i = 0; i < gpuSolver.m_totCell; ++i )
@@ -106,9 +106,9 @@ TEST( resetVelocityX, isZero )
   Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
   gpuSolver.reset();
 
-  float * zero = (float *) calloc( gpuSolver.m_totVelX, sizeof( float ));
+  real * zero = (real *) calloc( gpuSolver.m_totVelX, sizeof( real ));
 
-  float * h_gpu_density = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelX);
+  real * h_gpu_density = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelX);
   gpuSolver.copy( gpuSolver.m_velocity.x, h_gpu_density, gpuSolver.m_totVelX );
 
   for ( unsigned int i = 0; i < gpuSolver.m_totVelX; ++i )
@@ -129,9 +129,9 @@ TEST( resetVelocityY, isZero )
   Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
   gpuSolver.reset();
 
-  float * zero = (float *) calloc( gpuSolver.m_totVelY, sizeof( float ));
+  real * zero = (real *) calloc( gpuSolver.m_totVelY, sizeof( real ));
 
-  float * h_gpu_density = (float *) malloc( sizeof( float ) * gpuSolver.m_totVelY);
+  real * h_gpu_density = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY);
   gpuSolver.copy( gpuSolver.m_velocity.y, h_gpu_density, gpuSolver.m_totVelY );
 
   for ( unsigned int i = 0; i < gpuSolver.m_totVelY; ++i )
@@ -149,10 +149,10 @@ TEST( gather, works )
   GpuSolver gpuSolver;
   gpuSolver.activate();
 
-  float * values = (float *) malloc( sizeof( float ) * 10 );
+  real * values = (real *) malloc( sizeof( real ) * 10 );
   for ( int i = 0; i < 10; ++i )
   {
-    values[i] = (float) i;
+    values[i] = (real) i;
   }
 
   unsigned int s = 10;

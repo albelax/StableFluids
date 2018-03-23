@@ -19,6 +19,7 @@
 #define printf(f, ...) ((void)(f, __VA_ARGS__),0)
 #endif
 
+#define DOUBLE 1
 //----------------------------------------------------------------------------------------------------------------------
 
 #define CUDA_CALL(x) {\
@@ -45,7 +46,7 @@
  * \param n The size of the chunk of data
  */
 
-int Rand_GPU::randFloatsInternal(float *&devData, const size_t n)
+int Rand_GPU::randFloatsInternal(real *&devData, const size_t n)
 {
   // The generator, used for random numbers
   curandGenerator_t gen;
@@ -56,9 +57,13 @@ int Rand_GPU::randFloatsInternal(float *&devData, const size_t n)
   // Set seed to be the current time (note that calls close together will have same seed!)
   CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, time(NULL)));
 
-  // Generate n floats on device
-  CURAND_CALL(curandGenerateUniform(gen, devData, n));
-
+#if DOUBLE
+    CURAND_CALL(curandGenerateUniformDouble(gen, devData, n));
+#endif
+#if FLOAT
+    // Generate n floats on device
+    CURAND_CALL(curandGenerateUniform(gen, devData, n));
+#endif
   // Cleanup
   CURAND_CALL(curandDestroyGenerator(gen));
   return EXIT_SUCCESS;
@@ -71,31 +76,33 @@ int Rand_GPU::randFloatsInternal(float *&devData, const size_t n)
  * \param tgt The target vector to fill
  * \return EXIT_SUCCESS if everything went well
  */
-int Rand_GPU::randFloats(std::vector<float>& tgt)
+int Rand_GPU::randFloats(std::vector<real>& tgt)
 {
   int ret_val = EXIT_SUCCESS;
   // Create a device array using CUDA
-  float *d_Rand_ptr;
-  CUDA_CALL(cudaMalloc(&d_Rand_ptr, tgt.size() * sizeof(float)));
+  real *d_Rand_ptr;
+  CUDA_CALL(cudaMalloc(&d_Rand_ptr, tgt.size() * sizeof(real)));
 
   // Fill the thrust vector using the randFloats() function
   randFloatsInternal(d_Rand_ptr, tgt.size());
 
   // Copy the data back to the input vector
-  float *h_Rand_ptr = (float*) malloc(tgt.size() * sizeof(float));
+  real *h_Rand_ptr = (real*) malloc(tgt.size() * sizeof(real));
 
   // Need to check if the malloc was successful
   if (h_Rand_ptr != NULL)
   {
     // Copy the memory to the local pointer
-    CUDA_CALL(cudaMemcpy(h_Rand_ptr, d_Rand_ptr, sizeof(float) * tgt.size(), cudaMemcpyDeviceToHost));
+    CUDA_CALL(cudaMemcpy(h_Rand_ptr, d_Rand_ptr, sizeof(real) * tgt.size(), cudaMemcpyDeviceToHost));
 
     // Transfer this memory into the target structure
     std::copy(h_Rand_ptr, h_Rand_ptr + tgt.size(), tgt.begin());
 
     // Free up the local memory
     free(h_Rand_ptr);
-  } else {
+  }
+  else
+  {
     // The memory allocation failed so this will ensure the exit is "graceful"
     ret_val = EXIT_FAILURE;
   }
@@ -107,7 +114,7 @@ int Rand_GPU::randFloats(std::vector<float>& tgt)
   return ret_val;
 }
 
-int Rand_GPU::randFloats(float *&devData, const size_t n)
+int Rand_GPU::randFloats(real *&devData, const size_t n)
 {
   // The generator, used for random numbers
   curandGenerator_t gen;
@@ -118,9 +125,13 @@ int Rand_GPU::randFloats(float *&devData, const size_t n)
   // Set seed to be the current time (note that calls close together will have same seed!)
   CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, time(NULL)));
 
-  // Generate n floats on device
-  CURAND_CALL(curandGenerateUniform(gen, devData, n));
-
+#if DOUBLE
+    CURAND_CALL(curandGenerateUniformDouble(gen, devData, n));
+#endif
+#if FLOAT
+    // Generate n floats on device
+    CURAND_CALL(curandGenerateUniform(gen, devData, n));
+#endif
   // Cleanup
   CURAND_CALL(curandDestroyGenerator(gen));
 

@@ -61,9 +61,9 @@ void StableSolverCpu::activate()
   m_totVelY = m_rowVelocity.y * m_columnVelocity.y;
 
   m_min.x = 0.0f;
-  m_max.x = (float) m_gridSize.x;
+  m_max.x = (real) m_gridSize.x;
   m_min.y = 0.0f;
-  m_max.y = (float) m_gridSize.y;
+  m_max.y = (real) m_gridSize.y;
 
   //params
   m_timeStep = 1.0f;
@@ -71,23 +71,23 @@ void StableSolverCpu::activate()
   m_viscosity = 0.0f;
   m_inputDensity = 100.0f;
 
-  m_velocity.x = (float *)malloc(sizeof(float)*m_totVelX);
-  m_velocity.y = (float *)malloc(sizeof(float)*m_totVelY);
-  m_previousVelocity.x = (float *)malloc(sizeof(float)*m_totVelX);
-  m_previousVelocity.y = (float *)malloc(sizeof(float)*m_totVelY);
-  m_density = (float *)malloc(sizeof(float)*m_totCell);
-  m_previousDensity = (float *)malloc(sizeof(float)*m_totCell);
-  m_divergence = (float *)malloc(sizeof(float)*m_totCell);
-  m_pressure = (float *)malloc(sizeof(float)*m_totCell);
-  m_pvx = (tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelX);
-  m_pvy = (tuple<float> *)malloc(sizeof(tuple<float>)*m_totVelY);
+  m_velocity.x = (real *)malloc(sizeof(real)*m_totVelX);
+  m_velocity.y = (real *)malloc(sizeof(real)*m_totVelY);
+  m_previousVelocity.x = (real *)malloc(sizeof(real)*m_totVelX);
+  m_previousVelocity.y = (real *)malloc(sizeof(real)*m_totVelY);
+  m_density = (real *)malloc(sizeof(real)*m_totCell);
+  m_previousDensity = (real *)malloc(sizeof(real)*m_totCell);
+  m_divergence = (real *)malloc(sizeof(real)*m_totCell);
+  m_pressure = (real *)malloc(sizeof(real)*m_totCell);
+  m_pvx = (tuple<real> *)malloc(sizeof(tuple<real>)*m_totVelX);
+  m_pvy = (tuple<real> *)malloc(sizeof(tuple<real>)*m_totVelY);
 
   for(int i=0; i<m_rowVelocity.x; ++i)
   {
     for(int j=0; j<m_columnVelocity.x; ++j)
     {
-      m_pvx[vxIdx(i, j)].x = (float)i;
-      m_pvx[vxIdx(i, j)].y = (float)j+0.5f;
+      m_pvx[vxIdx(i, j)].x = (real)i;
+      m_pvx[vxIdx(i, j)].y = (real)j+0.5f;
     }
   }
 
@@ -95,8 +95,8 @@ void StableSolverCpu::activate()
   {
     for(int j=0; j<m_columnVelocity.y; ++j)
     {
-      m_pvy[vyIdx(i, j)].x = (float)i+0.5f;
-      m_pvy[vyIdx(i, j)].y = (float)j;
+      m_pvy[vyIdx(i, j)].x = (real)i+0.5f;
+      m_pvy[vyIdx(i, j)].y = (real)j;
     }
   }
 }
@@ -164,7 +164,7 @@ void StableSolverCpu::setVelBoundary(int flag)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void StableSolverCpu::setCellBoundary(float *value)
+void StableSolverCpu::setCellBoundary(real *value)
 {
   for(int i=1; i<=m_gridSize.x-2; ++i)
   {
@@ -193,7 +193,7 @@ void StableSolverCpu::projection()
     for(int j=1; j<=m_gridSize.y-2; ++j)
     {
       m_divergence[cIdx(i, j)] = (m_velocity.x[vxIdx(i+1, j)]-m_velocity.x[vxIdx(i, j)]+m_velocity.y[vyIdx(i, j+1)]-m_velocity.y[vyIdx(i, j)]);
-      m_pressure[cIdx(i, j)] = 0.0f;
+      m_pressure[cIdx(i, j)] = 0.0;
     }
   }
   //  count++;
@@ -211,7 +211,7 @@ void StableSolverCpu::projection()
             +m_pressure[cIdx(i-1, j)]
             +m_pressure[cIdx(i, j+1)]
             +m_pressure[cIdx(i, j-1)]
-            -m_divergence[cIdx(i, j)])/4.0f;
+            -m_divergence[cIdx(i, j)])/4.0;
       }
     }
         setCellBoundary(m_pressure);
@@ -245,11 +245,11 @@ void StableSolverCpu::advectVel()
   {
     for(int j=1; j<=m_columnVelocity.x-2; ++j)
     {
-      float nvx = m_previousVelocity.x[vxIdx(i, j)];
-      float nvy = (m_previousVelocity.y[vyIdx(i-1, j)]+m_previousVelocity.y[vyIdx(i-1, j+1)]+m_previousVelocity.y[vyIdx(i, j)]+m_previousVelocity.y[vyIdx(i, j+1)])/4;
+      real nvx = m_previousVelocity.x[vxIdx(i, j)];
+      real nvy = (m_previousVelocity.y[vyIdx(i-1, j)]+m_previousVelocity.y[vyIdx(i-1, j+1)]+m_previousVelocity.y[vyIdx(i, j)]+m_previousVelocity.y[vyIdx(i, j+1)])/4;
 
-      float oldX = m_pvx[vxIdx(i, j)].x - nvx*m_timeStep;
-      float oldY = m_pvx[vxIdx(i, j)].y - nvy*m_timeStep;
+      real oldX = m_pvx[vxIdx(i, j)].x - nvx*m_timeStep;
+      real oldY = m_pvx[vxIdx(i, j)].y - nvy*m_timeStep;
 
       if(oldX < 0.5f) oldX = 0.5f;
       if(oldX > m_max.x-0.5f) oldX = m_max.x-0.5f;
@@ -261,10 +261,10 @@ void StableSolverCpu::advectVel()
       int i1 = i0+1;
       int j1 = j0+1;
 
-      float wL = m_pvx[vxIdx(i1, j0)].x-oldX;
-      float wR = 1.0f-wL;
-      float wB = m_pvx[vxIdx(i0, j1)].y-oldY;
-      float wT = 1.0f-wB;
+      real wL = m_pvx[vxIdx(i1, j0)].x-oldX;
+      real wR = 1.0f-wL;
+      real wB = m_pvx[vxIdx(i0, j1)].y-oldY;
+      real wT = 1.0f-wB;
 
       //printf("%f, %f, %f, %f\n", wL, wR, wB, wT);
 
@@ -277,11 +277,11 @@ void StableSolverCpu::advectVel()
   {
     for(int j=1; j<=m_columnVelocity.y-2; ++j)
     {
-      float nvx = (m_previousVelocity.x[vxIdx(i, j-1)]+m_previousVelocity.x[vxIdx(i+1, j-1)]+m_previousVelocity.x[vxIdx(i, j)]+m_previousVelocity.x[vxIdx(i+1, j)])/4;
-      float nvy = m_previousVelocity.y[vyIdx(i, j)];
+      real nvx = (m_previousVelocity.x[vxIdx(i, j-1)]+m_previousVelocity.x[vxIdx(i+1, j-1)]+m_previousVelocity.x[vxIdx(i, j)]+m_previousVelocity.x[vxIdx(i+1, j)])/4;
+      real nvy = m_previousVelocity.y[vyIdx(i, j)];
 
-      float oldX = m_pvy[vyIdx(i, j)].x - nvx*m_timeStep;
-      float oldY = m_pvy[vyIdx(i, j)].y - nvy*m_timeStep;
+      real oldX = m_pvy[vyIdx(i, j)].x - nvx*m_timeStep;
+      real oldY = m_pvy[vyIdx(i, j)].y - nvy*m_timeStep;
 
       if(oldX < 1.0f) oldX = 1.0f;
       if(oldX > m_max.x-1.0f) oldX = m_max.x-1.0f;
@@ -293,10 +293,10 @@ void StableSolverCpu::advectVel()
       int i1 = i0+1;
       int j1 = j0+1;
 
-      float wL = m_pvy[vyIdx(i1, j0)].x-oldX;
-      float wR = 1.0f-wL;
-      float wB = m_pvy[vyIdx(i0, j1)].y-oldY;
-      float wT = 1.0f-wB;
+      real wL = m_pvy[vyIdx(i1, j0)].x-oldX;
+      real wR = 1.0f-wL;
+      real wB = m_pvy[vyIdx(i0, j1)].y-oldY;
+      real wT = 1.0f-wB;
 
       m_velocity.y[vyIdx(i, j)] = wB*(wL*m_previousVelocity.y[vyIdx(i0, j0)]+wR*m_previousVelocity.y[vyIdx(i1, j0)])+
           wT*(wL*m_previousVelocity.y[vyIdx(i0, j1)]+wR*m_previousVelocity.y[vyIdx(i1, j1)]);
@@ -309,28 +309,28 @@ void StableSolverCpu::advectVel()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void StableSolverCpu::advectCell(float *value, float *value0)
+void StableSolverCpu::advectCell(real *value, real *value0)
 {
-  float oldX;
-  float oldY;
+  real oldX;
+  real oldY;
   int i0;
   int i1;
   int j0;
   int j1;
-  float wL;
-  float wR;
-  float wB;
-  float wT;
+  real wL;
+  real wR;
+  real wB;
+  real wT;
 
   for(int i=1; i<=m_gridSize.x-2; ++i)
   {
     for(int j=1; j<=m_gridSize.y-2; ++j)
     {
-      float cvx = getCellVel(i, j).x;
-      float cvy = getCellVel(i, j).y;
+      real cvx = getCellVel(i, j).x;
+      real cvy = getCellVel(i, j).y;
 
-      oldX = (float)i+0.5f - cvx*m_timeStep;
-      oldY = (float)j+0.5f - cvy*m_timeStep;
+      oldX = (real)i+0.5f - cvx*m_timeStep;
+      oldY = (real)j+0.5f - cvy*m_timeStep;
 
       if(oldX < 1.0f) oldX = 1.0f;
       if(oldX > m_gridSize.x-1.0f) oldX = m_gridSize.x-1.0f;
@@ -342,9 +342,9 @@ void StableSolverCpu::advectCell(float *value, float *value0)
       i1 = i0+1;
       j1 = j0+1;
 
-      wL = (float)i1+0.5f-oldX;
+      wL = (real)i1+0.5f-oldX;
       wR = 1.0f-wL;
-      wB = (float)j1+0.5f-oldY;
+      wB = (real)j1+0.5f-oldY;
       wT = 1.0f-wB;
 
       value[cIdx(i, j)] = wB*(wL*value0[cIdx(i0, j0)]+wR*value0[cIdx(i1, j0)])+
@@ -361,7 +361,7 @@ void StableSolverCpu::diffuseVel()
 {
   for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0.0f;
   for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0.0f;
-  float a = m_diffusion*m_timeStep;
+  real a = m_diffusion*m_timeStep;
 
   for(int k=0; k<20; k++)
   {
@@ -390,10 +390,10 @@ void StableSolverCpu::diffuseVel()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void StableSolverCpu::diffuseCell(float *value, float *value0)
+void StableSolverCpu::diffuseCell(real *value, real *value0)
 {
   for(int i=0; i<m_totCell; ++i) value[i] = 0.0f;
-  float a = m_viscosity*m_timeStep;
+  real a = m_viscosity*m_timeStep;
 
   for(int k=0; k<20; ++k)
   {
@@ -457,7 +457,7 @@ void StableSolverCpu::animDen()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void StableSolverCpu::exportCSV( std::string _file, tuple<float> * _t, int _sizeX, int _sizeY )
+void StableSolverCpu::exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int _sizeY )
 {
   std::ofstream out;
   out.open( _file );
@@ -482,7 +482,7 @@ void StableSolverCpu::randomizeArrays()
   // used only for testing and allocate data before a benchmark
 
   //----------- cell based arrays
-  std::vector<float> tmp_cell;
+  std::vector<real> tmp_cell;
   tmp_cell.reserve( m_totCell );
   Rand_CPU::randFloats( tmp_cell );
   for ( int i = 0; i < m_totCell; ++i )
@@ -491,7 +491,7 @@ void StableSolverCpu::randomizeArrays()
     m_divergence[i] = tmp_cell[i];
   }
   //----------- X VELOCITY
-  std::vector<float> tmp_vel_x;
+  std::vector<real> tmp_vel_x;
   tmp_vel_x.reserve( m_totVelX );
   Rand_CPU::randFloats( tmp_vel_x );
   for ( int i = 0; i < m_totVelX; ++i )
@@ -499,7 +499,7 @@ void StableSolverCpu::randomizeArrays()
     m_velocity.x[i] = tmp_vel_x[i];
   }
   //----------- Y VELOCITY
-  std::vector<float> tmp_vel_y;
+  std::vector<real> tmp_vel_y;
   tmp_vel_y.reserve( m_totVelY );
   Rand_CPU::randFloats( tmp_vel_y );
   for ( int i = 0; i < m_totVelX; ++i )
