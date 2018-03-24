@@ -193,6 +193,22 @@ void GpuSolver::projection()
 
 //----------------------------------------------------------------------------------------------------------------------
 
+void GpuSolver::advectVelocity()
+{
+  unsigned int bins = 81 * sizeof(real);
+  int nBlocks = m_totCell / 1024;
+  int blockDim = 1024 / m_gridSize.x + 1;
+
+  dim3 block(blockDim, blockDim);
+  dim3 grid(nBlocks, nBlocks);
+  d_advectVelocity<<<grid, block, bins>>>( m_previousVelocity, m_velocity, m_pvx, m_pvy,
+                                           m_rowVelocity, m_columnVelocity, m_gridSize );
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("Advection Error: %s\n", cudaGetErrorString(err));
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
 void GpuSolver::exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int _sizeY )
 {
   std::ofstream out;

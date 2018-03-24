@@ -268,8 +268,11 @@ void StableSolverCpu::advectVel()
 
       //printf("%f, %f, %f, %f\n", wL, wR, wB, wT);
 
-      m_velocity.x[vxIdx(i, j)] = wB*(wL*m_previousVelocity.x[vxIdx(i0, j0)]+wR*m_previousVelocity.x[vxIdx(i1, j0)])+
-          wT*(wL*m_previousVelocity.x[vxIdx(i0, j1)]+wR*m_previousVelocity.x[vxIdx(i1, j1)]);
+      m_velocity.x[vxIdx(i, j)] = wB*(wL*m_previousVelocity.x[vxIdx(i0, j0)]+
+          wR*m_previousVelocity.x[vxIdx(i1, j0)])+
+          wT*(wL*m_previousVelocity.x[vxIdx(i0, j1)]+
+          wR*m_previousVelocity.x[vxIdx(i1, j1)]);
+
     }
   }
 
@@ -277,7 +280,13 @@ void StableSolverCpu::advectVel()
   {
     for(int j=1; j<=m_columnVelocity.y-2; ++j)
     {
-      real nvx = (m_previousVelocity.x[vxIdx(i, j-1)]+m_previousVelocity.x[vxIdx(i+1, j-1)]+m_previousVelocity.x[vxIdx(i, j)]+m_previousVelocity.x[vxIdx(i+1, j)])/4;
+      real nvx = (
+          m_previousVelocity.x[vxIdx(i, j-1)]+
+          m_previousVelocity.x[vxIdx(i+1, j-1)]+
+          m_previousVelocity.x[vxIdx(i, j)]+
+          m_previousVelocity.x[vxIdx(i+1, j)]
+          )/4;
+
       real nvy = m_previousVelocity.y[vyIdx(i, j)];
 
       real oldX = m_pvy[vyIdx(i, j)].x - nvx*m_timeStep;
@@ -298,13 +307,16 @@ void StableSolverCpu::advectVel()
       real wB = m_pvy[vyIdx(i0, j1)].y-oldY;
       real wT = 1.0f-wB;
 
-      m_velocity.y[vyIdx(i, j)] = wB*(wL*m_previousVelocity.y[vyIdx(i0, j0)]+wR*m_previousVelocity.y[vyIdx(i1, j0)])+
-          wT*(wL*m_previousVelocity.y[vyIdx(i0, j1)]+wR*m_previousVelocity.y[vyIdx(i1, j1)]);
+      m_velocity.y[vyIdx(i, j)] = wB*(wL*m_previousVelocity.y[vyIdx(i0, j0)]+
+          wR*m_previousVelocity.y[vyIdx(i1, j0)])+
+          wT*(wL*m_previousVelocity.y[vyIdx(i0, j1)]+
+          wR*m_previousVelocity.y[vyIdx(i1, j1)]);
+//      m_velocity.y[vyIdx(i, j)] = nvx;
     }
   }
 
-  setVelBoundary(1);
-  setVelBoundary(2);
+//  setVelBoundary(1);
+//  setVelBoundary(2);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

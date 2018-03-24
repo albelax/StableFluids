@@ -239,10 +239,10 @@ __global__ void d_projection( real * _pressure, real * _divergence, tuple<unsign
     int up = (idy - 1) * _gridSize.x + idx;
 
     local_pressure[sIdx] = ( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0;
-//    __syncthreads();
+    //    __syncthreads();
 
     _pressure[currentCell] = local_pressure[sIdx];
-//    __syncthreads();
+    //    __syncthreads();
   }
 }
 
@@ -275,7 +275,7 @@ __global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<rea
 
     _pressure[currentCell] = 0.0;
     _divergence[currentCell] = local_divergence[sIdx];
-//    __syncthreads();
+    //    __syncthreads();
   }
 }
 
@@ -300,7 +300,7 @@ __global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity,
     int cellLeft = idy * _gridSize.x + (idx - 1);
 
     local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellLeft];
-//    __syncthreads();
+    //    __syncthreads();
     _velocity.x[velocityIdx] -= local_velocity[sIdx];
   }
 
@@ -321,3 +321,91 @@ __global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity,
 
 
 //----------------------------------------------------------------------------------------------------------------------
+//int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
+//int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
+//int cIdx(int i, int j){ return j*m_gridSize.x+i; }
+
+__global__ void d_advectVelocity( tuple<real *> _previousVelocity, tuple<real *> _velocity,
+                                  tuple<real> * _pvx, tuple<real> * _pvy,
+                                  tuple<unsigned int> _rowVelocity,
+                                  tuple<unsigned int> _columnVelocity,
+                                  tuple<unsigned int> _gridSize )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+  unsigned short currentIdx = idy * _rowVelocity.x + idx;
+  unsigned short currentIdy = idy * _rowVelocity.y + idx;
+
+  if ( idx > 0 && idx < _rowVelocity.x - 1 &&
+       idy > 0 && idy < _columnVelocity.x - 1 )
+  {
+    real nvx = _previousVelocity.x[currentIdx];
+    real nvy = (_previousVelocity.y[idy * _rowVelocity.y + idx-1] +
+        _previousVelocity.y[(idy + 1) * _rowVelocity.y + (idx - 1)] +
+        _previousVelocity.y[currentIdy]+
+        _previousVelocity.y[(idy + 1) * _rowVelocity.y + idx])/4;
+
+    real oldX = _pvx[currentIdx].x - nvx * 1;
+    real oldY = _pvx[currentIdx].y - nvy * 1;
+
+    if(oldX < 0.5f) oldX = 0.5f;
+    if(oldX > _gridSize.x-0.5f) oldX = _gridSize.x-0.5f;
+    if(oldY < 1.0f) oldY = 1.0f;
+    if(oldY > _gridSize.y-1.0f) oldY = _gridSize.y-1.0f;
+
+    int i0 = (int)oldX;
+    int j0 = (int)(oldY-0.5f);
+    int i1 = i0+1;
+    int j1 = j0+1;
+
+    real wL = _pvx[j0 * _rowVelocity.x + i1].x-oldX;
+    real wR = 1.0f-wL;
+    real wB = _pvx[j1 * _rowVelocity.x + i0].y-oldY;
+    real wT = 1.0f-wB;
+
+    _velocity.x[currentIdx] = wB * (wL * _previousVelocity.x[j0 * _rowVelocity.x + i0] +
+        wR * _previousVelocity.x[j0 * _rowVelocity.x + i1]) +
+        wT * (wL * _previousVelocity.x[j1 * _rowVelocity.x + i0] +
+        wR * _previousVelocity.x[j1 * _rowVelocity.x + i1]);
+  }
+
+  if ( idx > 0 && idx < _rowVelocity.y - 1 &&
+       idy > 0 && idy < _columnVelocity.y - 1 )
+  {
+    real nvx = (
+        _previousVelocity.x[(idy - 1) * _rowVelocity.x + idx]+
+        _previousVelocity.x[(idy - 1) * _rowVelocity.x + (idx + 1)] +
+        _previousVelocity.x[currentIdx]+
+        _previousVelocity.x[idy * _rowVelocity.x + (idx + 1)]
+        )/4;
+
+    real nvy = _previousVelocity.y[currentIdy];
+
+    real oldX = _pvy[currentIdy].x - nvx*1;
+    real oldY = _pvy[currentIdy].y - nvy*1;
+
+    if(oldX < 1.0f) oldX = 1.0f;
+    if(oldX > _gridSize.x-1.0f) oldX = _gridSize.x-1.0f;
+    if(oldY < 0.5f) oldY = 0.5f;
+    if(oldY > _gridSize.y-0.5f) oldY = _gridSize.y-0.5f;
+
+    int i0 = (int)(oldX-0.5f);
+    int j0 = (int)oldY;
+    int i1 = i0+1;
+    int j1 = j0+1;
+
+    real wL = _pvy[j0 * _rowVelocity.y + i1].x-oldX;
+    real wR = 1.0f-wL;
+    real wB = _pvy[j1 * _rowVelocity.y + i0].y-oldY;
+    real wT = 1.0f-wB;
+
+    _velocity.y[currentIdy] = wB * (wL * _previousVelocity.y[j0 * _rowVelocity.y + i0] +
+        wR * _previousVelocity.y[j0 * _rowVelocity.y + i1]) +
+        wT * (wL * _previousVelocity.y[j1 * _rowVelocity.y + i0] +
+        wR * _previousVelocity.y[j1 * _rowVelocity.y + i1]);
+//    _velocity.y[currentIdy] = nvx;
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+

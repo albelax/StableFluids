@@ -135,4 +135,70 @@ TEST( projection, checkVelocity_y )
 }
 
 ////----------------------------------------------------------------------------------------------------------------------
+
+TEST( advection, checkVelocity_x )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+  Rand_GPU::randFloats( gpuSolver.m_previousVelocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_previousVelocity.y,  gpuSolver.m_totVelY );
+
+
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+
+  gpuSolver.copy( gpuSolver.m_previousVelocity.x, cpuSolver.m_previousVelocity.x, gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_previousVelocity.y, cpuSolver.m_previousVelocity.y, gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
+
+  gpuSolver.advectVelocity();
+  cpuSolver.advectVel();
+
+  real * h_velocity_x = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.x, h_velocity_x, gpuSolver.m_totVelX );
+
+  int x = cpuSolver.m_totVelX;
+  for ( int i = 0; i < x; ++i )
+  {
+    ASSERT_EQ( cpuSolver.m_velocity.x[i], h_velocity_x[i]);//, 0.5f );
+  }
+  free( h_velocity_x );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
+TEST( advection, checkVelocity_y )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+  Rand_GPU::randFloats( gpuSolver.m_previousVelocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_previousVelocity.y,  gpuSolver.m_totVelY );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
+
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+
+  gpuSolver.copy( gpuSolver.m_previousVelocity.y, cpuSolver.m_previousVelocity.y, gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
+
+
+  gpuSolver.advectVelocity();
+  cpuSolver.advectVel();
+
+  real * h_velocity_y = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_velocity.y, h_velocity_y, gpuSolver.m_totVelY );
+
+  int x = cpuSolver.m_totVelY;
+  for ( int i = 0; i < x; ++i )
+  {
+    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f );
+  }
+  free( h_velocity_y );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
 #endif // _VELOCITY_H

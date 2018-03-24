@@ -12,8 +12,7 @@
 // friends the test functions with this class
 #define TESTING 1
 // testing gpu functions with the gpu solver
-#define CROSS_TESTING 1
-
+#define CROSS_TESTING 0
 #if TESTING
 #include <gtest/gtest.h>
 #endif // TESTING
@@ -34,6 +33,7 @@ public:
   void setVelBoundary( int flag );
   void setCellBoundary( real * _value, tuple<unsigned int> _size );
   void projection();
+  void advectVelocity();
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
   int cIdx(int i, int j){ return j*m_gridSize.x+i; }
@@ -46,6 +46,7 @@ public:
 #if !CROSS_TESTING
 private:
 #endif
+
   void setParameters();
   void allocateArrays();
   unsigned int m_totCell;
@@ -90,6 +91,8 @@ private:
   FRIEND_TEST( projection, checkDivergence );
   FRIEND_TEST( projection, checkVelocity_x );
   FRIEND_TEST( projection, checkVelocity_y );
+  FRIEND_TEST( advection, checkVelocity_x );
+  FRIEND_TEST( advection, checkVelocity_y );
 #endif // TESTING
 };
 

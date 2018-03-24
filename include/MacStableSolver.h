@@ -33,7 +33,7 @@
 // friends the test functions with this class
 #define TESTING 1
 // testing gpu functions with the gpu solver
-#define CROSS_TESTING 1
+#define CROSS_TESTING 0
 
 
 #if TESTING
@@ -112,6 +112,7 @@ public:
 #if !CROSS_TESTING
 private:
 #endif
+
   int m_totCell;
   int m_totVelX;
   int m_totVelY;
@@ -148,6 +149,9 @@ private:
   FRIEND_TEST( projection, checkDivergence );
   FRIEND_TEST( projection, checkVelocity_x );
   FRIEND_TEST( projection, checkVelocity_y );
+  FRIEND_TEST( advection, checkVelocity_x );
+  FRIEND_TEST( advection, checkVelocity_y );
+
 #endif // TESTING
 };
 
