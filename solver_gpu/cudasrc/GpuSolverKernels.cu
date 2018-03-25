@@ -325,7 +325,7 @@ __global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity )
 //----------------------------------------------------------------------------------------------------------------------
 
 __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> _velocity,
-                                  tuple<real> * _pvx, tuple<real> * _pvy, real _timestep)
+                                 tuple<real> * _pvx, tuple<real> * _pvy, real _timestep)
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
@@ -369,7 +369,7 @@ __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> 
        idy > 0 && idy < c_columnVelocity[1] - 1 )
   {
     real nvx = (
-        _previousVelocity.x[(idy - 1) * c_rowVelocity[0] + idx]+
+          _previousVelocity.x[(idy - 1) * c_rowVelocity[0] + idx]+
         _previousVelocity.x[(idy - 1) * c_rowVelocity[0] + (idx + 1)] +
         _previousVelocity.x[currentIdx]+
         _previousVelocity.x[idy * c_rowVelocity[0] + (idx + 1)]
@@ -404,3 +404,41 @@ __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> 
 
 //----------------------------------------------------------------------------------------------------------------------
 
+__global__ void d_advectCell( real * _value, real * _value0, tuple<real *> _velocity, real _timestep )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+  unsigned short currentIdx = idy * c_gridSize[0] + idx;
+
+  if ( idx > 0 && idx < c_gridSize[0] - 1 &&
+       idy > 0 && idy < c_gridSize[1] - 1 )
+  {
+    real cvx = ( _velocity.x[idy * c_rowVelocity[0] + idx] + _velocity.x[idy * c_rowVelocity[0] + (idx + 1)] ) / 2.0f;
+    real cvy = ( _velocity.y[idy * c_rowVelocity[1] + idx] + _velocity.y[(idy + 1) * c_rowVelocity[1] + idx] ) / 2.0f;
+
+    real oldX = (real)idx + 0.5f - cvx * _timestep;
+    real oldY = (real)idy + 0.5f - cvy * _timestep;
+
+    if(oldX < 1.0f) oldX = 1.0f;
+    if(oldX > c_gridSize[0]-1.0f) oldX = c_gridSize[0]-1.0f;
+    if(oldY < 1.0f) oldY = 1.0f;
+    if(oldY > c_gridSize[1]-1.0f) oldY = c_gridSize[1]-1.0f;
+
+    int i0 = (int)(oldX-0.5f);
+    int j0 = (int)(oldY-0.5f);
+    int i1 = i0+1;
+    int j1 = j0+1;
+
+    real wL = (real)i1+0.5f-oldX;
+    real wR = 1.0f-wL;
+    real wB = (real)j1+0.5f-oldY;
+    real wT = 1.0f-wB;
+
+    _value[currentIdx] = wB*(wL*_value0[j0 * c_gridSize[0] + i0]
+        +wR*_value0[j0 * c_gridSize[0] + i1])+
+        wT*(wL*_value0[j1 * c_gridSize[0] + i0]
+        +wR*_value0[j1 * c_gridSize[0] + i1]);
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------

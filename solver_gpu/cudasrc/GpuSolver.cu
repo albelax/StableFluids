@@ -2,7 +2,7 @@
 #include "GpuSolver.h"
 #include <stdio.h>
 #include <iostream>
-#include <fstream> 
+#include <fstream>
 #include <sys/time.h>
 #include <time.h>
 #include "rand_gpu.h"
@@ -173,27 +173,27 @@ void GpuSolver::projection()
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
   d_divergenceStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity );
-//  cudaThreadSynchronize();
+  //  cudaThreadSynchronize();
 
   setCellBoundary( m_pressure, m_gridSize );
   setCellBoundary( m_divergence, m_gridSize );
-//  cudaThreadSynchronize();
+  //  cudaThreadSynchronize();
 
   for(unsigned int k = 0; k < 20; k++)
   {
     d_projection<<<grid, block, bins>>>( m_pressure, m_divergence );
-//    cudaThreadSynchronize();
+    //    cudaThreadSynchronize();
 
     setCellBoundary( m_pressure, m_gridSize );
-//    cudaThreadSynchronize();
+    //    cudaThreadSynchronize();
   }
 
   d_velocityStep<<<grid, block, bins>>>( m_pressure, m_velocity );
-//  cudaThreadSynchronize();
+  //  cudaThreadSynchronize();
 
   setVelBoundary(1);
   setVelBoundary(2);
-//  cudaThreadSynchronize();
+  //  cudaThreadSynchronize();
 
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Projection Error: %s\n", cudaGetErrorString(err));
@@ -212,6 +212,23 @@ void GpuSolver::advectVelocity()
   d_advectVelocity<<<grid, block, bins>>>( m_previousVelocity, m_velocity, m_pvx, m_pvy, m_timeStep );
   setVelBoundary(1);
   setVelBoundary(2);
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("Advection Error: %s\n", cudaGetErrorString(err));
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::advectCell()
+{
+  //  unsigned int bins = 81 * sizeof(real);
+  int nBlocks = m_totCell / 1024;
+  int blockDim = 1024 / m_gridSize.x + 1;
+
+  dim3 block(blockDim, blockDim);
+  dim3 grid(nBlocks, nBlocks);
+  d_advectCell<<<grid, block>>>( m_density, m_previousDensity, m_velocity, m_timeStep );
+  setCellBoundary( m_density, m_gridSize );
+
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Advection Error: %s\n", cudaGetErrorString(err));
 }

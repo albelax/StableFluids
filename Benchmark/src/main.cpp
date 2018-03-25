@@ -59,7 +59,7 @@ BENCHMARK(GPU_solverActivation);
 
 ///----------------------------------------------------------------------------------------------
 
-static void CPU_projection( benchmark::State& state ) //
+static void CPU_projection( benchmark::State& state )
 {
   StableSolverCpu solver;
   solver.activate();
@@ -67,7 +67,6 @@ static void CPU_projection( benchmark::State& state ) //
   for ( auto _ : state )
   {
     solver.projection();
-
   }
 
 }
@@ -75,7 +74,7 @@ BENCHMARK(CPU_projection);
 
 ///----------------------------------------------------------------------------------------------
 
-static void GPU_projection( benchmark::State& state ) //
+static void GPU_projection( benchmark::State& state )
 {
   GpuSolver solver;
   solver.activate();
@@ -90,7 +89,7 @@ BENCHMARK(GPU_projection);
 
 ///----------------------------------------------------------------------------------------------
 
-static void CPU_advectVelocity( benchmark::State& state ) //
+static void CPU_advectVelocity( benchmark::State& state )
 {
   StableSolverCpu solver;
   solver.activate();
@@ -106,7 +105,7 @@ BENCHMARK(CPU_advectVelocity);
 ///----------------------------------------------------------------------------------------------
 
 
-static void GPU_advectVelocity( benchmark::State& state ) //
+static void GPU_advectVelocity( benchmark::State& state )
 {
   GpuSolver solver;
   solver.activate();
@@ -120,8 +119,40 @@ static void GPU_advectVelocity( benchmark::State& state ) //
 BENCHMARK(GPU_advectVelocity);
 
 ///----------------------------------------------------------------------------------------------
-///
-static void CPU_diffuseVelocity( benchmark::State& state ) //
+
+
+static void CPU_advectCell( benchmark::State& state )
+{
+  StableSolverCpu solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.advectCell( solver.m_density, solver.m_previousDensity );
+
+  }
+}
+BENCHMARK( CPU_advectCell );
+
+///----------------------------------------------------------------------------------------------
+
+
+static void GPU_advectCell( benchmark::State& state )
+{
+  GpuSolver solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.advectCell();
+
+  }
+}
+BENCHMARK( GPU_advectCell );
+
+///----------------------------------------------------------------------------------------------
+
+static void CPU_diffuseVelocity( benchmark::State& state )
 {
   StableSolverCpu solver;
   solver.activate();

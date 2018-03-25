@@ -100,6 +100,8 @@ __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> 
 
 //----------------------------------------------------------------------------------------------------------------------
 
-//__global__ void d_advectCell( real * _value, real * _value0 )
+__global__ void d_advectCell( real * _value, real * _value0, tuple<real *> _velocity, real _timestep );
+
+//----------------------------------------------------------------------------------------------------------------------
 
 #endif
