@@ -25,6 +25,7 @@
 #include <fstream>
 #include <sys/time.h>
 #include <time.h>
+#include "parameters.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -46,19 +47,17 @@ StableSolverCpu::~StableSolverCpu()
 
 void StableSolverCpu::activate()
 {
-  float mul = 1;
-  m_gridSize.x = 128 * mul;
-  m_gridSize.y = 128 * mul;
+  m_gridSize.x = Common::gridWidth;
+  m_gridSize.y = Common::gridHeight;
+  m_totCell = Common::totCells; //m_gridSize.x * m_gridSize.y;
+  m_rowVelocity.x = Common::rowVelocityX;
+  m_rowVelocity.y = Common::rowVelocityY;
 
-  m_totCell = m_gridSize.x * m_gridSize.y;
-  m_rowVelocity.x = m_gridSize.x + 1;
-  m_rowVelocity.y = m_gridSize.x;
+  m_columnVelocity.x = Common::columnVelocityX;
+  m_columnVelocity.y = Common::columnVelocityY;
 
-  m_columnVelocity.x = m_gridSize.y;
-  m_columnVelocity.y = m_gridSize.y + 1;
-
-  m_totVelX = m_rowVelocity.x * m_columnVelocity.x;
-  m_totVelY = m_rowVelocity.y * m_columnVelocity.y;
+  m_totVelX = Common::totHorizontalVelocity; //m_rowVelocity.x * m_columnVelocity.x;
+  m_totVelY = Common::totVerticalVelocity; //m_rowVelocity.y * m_columnVelocity.y;
 
   m_min.x = 0.0f;
   m_max.x = (real) m_gridSize.x;
@@ -311,12 +310,11 @@ void StableSolverCpu::advectVel()
           wR*m_previousVelocity.y[vyIdx(i1, j0)])+
           wT*(wL*m_previousVelocity.y[vyIdx(i0, j1)]+
           wR*m_previousVelocity.y[vyIdx(i1, j1)]);
-//      m_velocity.y[vyIdx(i, j)] = nvx;
     }
   }
 
-//  setVelBoundary(1);
-//  setVelBoundary(2);
+  setVelBoundary(1);
+  setVelBoundary(2);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

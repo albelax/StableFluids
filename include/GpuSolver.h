@@ -12,7 +12,7 @@
 // friends the test functions with this class
 #define TESTING 1
 // testing gpu functions with the gpu solver
-#define CROSS_TESTING 0
+#define CROSS_TESTING 1
 #if TESTING
 #include <gtest/gtest.h>
 #endif // TESTING

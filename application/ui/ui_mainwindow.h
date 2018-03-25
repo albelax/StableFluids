@@ -157,8 +157,8 @@ public:
         Density = new QDoubleSpinBox(s_transformGB);
         Density->setObjectName(QStringLiteral("Density"));
         Density->setMaximum(500);
-        Density->setSingleStep(1);
-        Density->setValue(100);
+        Density->setSingleStep(10);
+        Density->setValue(200);
 
         gridLayout->addWidget(Density, 8, 2, 1, 1);
 

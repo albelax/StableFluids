@@ -162,7 +162,7 @@ TEST( advection, checkVelocity_x )
   int x = cpuSolver.m_totVelX;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_EQ( cpuSolver.m_velocity.x[i], h_velocity_x[i]);//, 0.5f );
+    ASSERT_EQ( cpuSolver.m_velocity.x[i], h_velocity_x[i]);
   }
   free( h_velocity_x );
 }
@@ -195,8 +195,8 @@ TEST( advection, checkVelocity_y )
   int x = cpuSolver.m_totVelY;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f );
-  }
+    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i],0.5f);
+ }
   free( h_velocity_y );
 }
 

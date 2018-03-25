@@ -100,13 +100,27 @@ static void CPU_advectVelocity( benchmark::State& state ) //
     solver.advectVel();
 
   }
-
 }
 BENCHMARK(CPU_advectVelocity);
 
 ///----------------------------------------------------------------------------------------------
 
 
+static void GPU_advectVelocity( benchmark::State& state ) //
+{
+  GpuSolver solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.advectVelocity();
+
+  }
+}
+BENCHMARK(GPU_advectVelocity);
+
+///----------------------------------------------------------------------------------------------
+///
 static void CPU_diffuseVelocity( benchmark::State& state ) //
 {
   StableSolverCpu solver;

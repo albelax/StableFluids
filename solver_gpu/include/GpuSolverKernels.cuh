@@ -1,3 +1,7 @@
+#ifndef _GPU_SOLVER_KERNELS_H
+#define _GPU_SOLVER_KERNELS_H
+
+
 // Cuda includes begin
 #include <cuda.h>
 #include <curand.h>
@@ -10,8 +14,18 @@
 #include <thrust/sort.h>
 #include <thrust/execution_policy.h>
 // cuda includes end
-#include "GpuSolver.h"
+
+//#include "GpuSolver.h"
 #include "tuple.h"
+
+
+extern __constant__ unsigned int c_gridSize[2];
+extern __constant__ unsigned int c_rowVelocity[2];
+extern __constant__ unsigned int c_columnVelocity[2];
+extern __constant__ unsigned int c_totVelocity[2];
+
+
+//----------------------------------------------------------------------------------------------------------------------
 
 __global__ void d_vectorAdd( real *sum, real *A, real *B, size_t arrayLength );
 
@@ -19,13 +33,13 @@ __global__ void d_vectorAdd( real *sum, real *A, real *B, size_t arrayLength );
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_setPvx(tuple<real> * _pvx, unsigned int _size );
+__global__ void d_setPvx(tuple<real> * _pvx);
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_setPvy( tuple<real> * _pvy, unsigned int _size );
+__global__ void d_setPvy( tuple<real> * _pvy );
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -87,7 +101,11 @@ __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> 
                                            tuple<real> * _pvx, tuple<real> * _pvy,
                                            tuple<unsigned int> _rowVelocity,
                                            tuple<unsigned int> _columnVelocity,
-                                           tuple<unsigned int> _gridSize );
+                                           tuple<unsigned int> _gridSize, real _timestep );
 
 
 //----------------------------------------------------------------------------------------------------------------------
+
+//__global__ void d_advectCell( real * _value, real * _value0 )
+
+#endif

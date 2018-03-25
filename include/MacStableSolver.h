@@ -25,7 +25,6 @@
 #include <stdio.h>
 #include <iostream>
 #include "tuple.h"
-#include "testing.h"
 #include "rand_cpu.h"
 
 #define SWAP(value0,value) { real *tmp = value0; value0 = value; value = tmp; }
@@ -33,7 +32,7 @@
 // friends the test functions with this class
 #define TESTING 1
 // testing gpu functions with the gpu solver
-#define CROSS_TESTING 0
+#define CROSS_TESTING 1
 
 
 #if TESTING
@@ -112,7 +111,6 @@ public:
 #if !CROSS_TESTING
 private:
 #endif
-
   int m_totCell;
   int m_totVelX;
   int m_totVelY;
@@ -151,7 +149,6 @@ private:
   FRIEND_TEST( projection, checkVelocity_y );
   FRIEND_TEST( advection, checkVelocity_x );
   FRIEND_TEST( advection, checkVelocity_y );
-
 #endif // TESTING
 };
 

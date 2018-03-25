@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include "rand_gpu.h"
+#include "parameters.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -27,19 +28,17 @@ GpuSolver::~GpuSolver()
 
 void GpuSolver::setParameters()
 {
-  float mul = 1;
-  m_gridSize.x = 128 * mul;
-  m_gridSize.y = 128 * mul;
+  m_gridSize.x = Common::gridWidth;
+  m_gridSize.y = Common::gridHeight;
+  m_totCell = Common::totCells;
+  m_rowVelocity.x = Common::rowVelocityX;
+  m_rowVelocity.y = Common::rowVelocityY;
 
-  m_totCell = m_gridSize.x * m_gridSize.y;
-  m_rowVelocity.x = m_gridSize.x + 1;
-  m_rowVelocity.y = m_gridSize.x;
+  m_columnVelocity.x = Common::columnVelocityX;
+  m_columnVelocity.y = Common::columnVelocityY;
 
-  m_columnVelocity.x = m_gridSize.y;
-  m_columnVelocity.y = m_gridSize.y + 1;
-
-  m_totVelX = m_rowVelocity.x * m_columnVelocity.x;
-  m_totVelY = m_rowVelocity.y * m_columnVelocity.y;
+  m_totVelX = Common::totHorizontalVelocity;
+  m_totVelY = Common::totVerticalVelocity;
 
   m_min.x = 0.0f;
   m_max.x = (real)m_gridSize.x;
@@ -74,6 +73,20 @@ void GpuSolver::activate()
   setParameters();
   allocateArrays();
 
+  unsigned int tmp_gridSize[] = { m_gridSize.x, m_gridSize.y };
+
+  cudaMemcpyToSymbol(c_gridSize, tmp_gridSize, sizeof(unsigned int)*2 );
+
+  unsigned int tmp_rowVelocity[] = { m_rowVelocity.x, m_rowVelocity.y };
+  cudaMemcpyToSymbol(c_rowVelocity, tmp_rowVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
+
+  unsigned int tmp_columnVelocity[] = { m_columnVelocity.x, m_columnVelocity.y };
+  cudaMemcpyToSymbol(c_columnVelocity, tmp_columnVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
+
+  unsigned int tmp_totVelocity[] = { m_totVelX, m_totVelY };
+  cudaMemcpyToSymbol(c_totVelocity, tmp_totVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
+
+
   // 1024 -> max threads per block, in this case it will fire 16 blocks
   int nBlocks = m_totVelX / 1024;
   int blockDim = 1024 / m_gridSize.x + 1; // 9 threads per block
@@ -81,8 +94,8 @@ void GpuSolver::activate()
   dim3 block(blockDim, blockDim); // block of (X,Y) threads
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
-  d_setPvx<<<grid, block>>>( m_pvx, m_rowVelocity.x );
-  d_setPvy<<<grid, block>>>( m_pvy, m_rowVelocity.y );
+  d_setPvx<<<grid, block>>>( m_pvx );
+  d_setPvy<<<grid, block>>>( m_pvy );
 
   //  cudaThreadSynchronize();
 
@@ -94,6 +107,8 @@ void GpuSolver::activate()
 
 void GpuSolver::reset()
 {
+  // will have to change this one,
+  // the kenel launch overhead it too damn high
   int threads = 1024;
   unsigned int densityBlocks = m_totCell / threads + 1;
   unsigned int xVelocityBlocks = m_totVelX / threads + 1;
@@ -202,7 +217,9 @@ void GpuSolver::advectVelocity()
   dim3 block(blockDim, blockDim);
   dim3 grid(nBlocks, nBlocks);
   d_advectVelocity<<<grid, block, bins>>>( m_previousVelocity, m_velocity, m_pvx, m_pvy,
-                                           m_rowVelocity, m_columnVelocity, m_gridSize );
+                                           m_rowVelocity, m_columnVelocity, m_gridSize, m_timeStep );
+  setVelBoundary(1);
+  setVelBoundary(2);
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("Advection Error: %s\n", cudaGetErrorString(err));
 }

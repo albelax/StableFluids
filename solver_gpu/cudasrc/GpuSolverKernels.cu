@@ -10,14 +10,20 @@
 //----------------------------------------------------------------------------------------------------------------------
 // KERNELS -------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
+__constant__ unsigned int c_gridSize[2];
+__constant__ unsigned int c_rowVelocity[2];
+__constant__ unsigned int c_columnVelocity[2];
+__constant__ unsigned int c_totVelocity[2];
 
-__global__ void d_setPvx( tuple<real> * _pvx, unsigned int _size )
+
+
+__global__ void d_setPvx( tuple<real> * _pvx )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
-  if ( idx < _size )
+  if ( idx < c_rowVelocity[0] )
   {
-    int i = idy * _size + idx;
+    int i = idy * c_rowVelocity[0] + idx;
     _pvx[i].x = idx;
     _pvx[i].y = idy + 0.5f;
   }
@@ -25,13 +31,13 @@ __global__ void d_setPvx( tuple<real> * _pvx, unsigned int _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setPvy( tuple<real> * _pvy, unsigned int _size )
+__global__ void d_setPvy( tuple<real> * _pvy )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
-  if ( idx < _size )
+  if ( idx < c_rowVelocity[1] )
   {
-    int i = idy * _size + idx;
+    int i = idy * c_rowVelocity[1] + idx;
     _pvy[i].x = (real) idx + 0.5f;
     _pvy[i].y = idy;
   }
@@ -325,11 +331,11 @@ __global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity,
 //int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
 //int cIdx(int i, int j){ return j*m_gridSize.x+i; }
 
-__global__ void d_advectVelocity( tuple<real *> _previousVelocity, tuple<real *> _velocity,
+__global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> _velocity,
                                   tuple<real> * _pvx, tuple<real> * _pvy,
                                   tuple<unsigned int> _rowVelocity,
                                   tuple<unsigned int> _columnVelocity,
-                                  tuple<unsigned int> _gridSize )
+                                  tuple<unsigned int> _gridSize , real _timestep)
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
@@ -345,8 +351,8 @@ __global__ void d_advectVelocity( tuple<real *> _previousVelocity, tuple<real *>
         _previousVelocity.y[currentIdy]+
         _previousVelocity.y[(idy + 1) * _rowVelocity.y + idx])/4;
 
-    real oldX = _pvx[currentIdx].x - nvx * 1;
-    real oldY = _pvx[currentIdx].y - nvy * 1;
+    real oldX = _pvx[currentIdx].x - nvx * _timestep;
+    real oldY = _pvx[currentIdx].y - nvy * _timestep;
 
     if(oldX < 0.5f) oldX = 0.5f;
     if(oldX > _gridSize.x-0.5f) oldX = _gridSize.x-0.5f;
@@ -381,8 +387,8 @@ __global__ void d_advectVelocity( tuple<real *> _previousVelocity, tuple<real *>
 
     real nvy = _previousVelocity.y[currentIdy];
 
-    real oldX = _pvy[currentIdy].x - nvx*1;
-    real oldY = _pvy[currentIdy].y - nvy*1;
+    real oldX = _pvy[currentIdy].x - nvx * _timestep;
+    real oldY = _pvy[currentIdy].y - nvy * _timestep;
 
     if(oldX < 1.0f) oldX = 1.0f;
     if(oldX > _gridSize.x-1.0f) oldX = _gridSize.x-1.0f;
@@ -403,7 +409,6 @@ __global__ void d_advectVelocity( tuple<real *> _previousVelocity, tuple<real *>
         wR * _previousVelocity.y[j0 * _rowVelocity.y + i1]) +
         wT * (wL * _previousVelocity.y[j1 * _rowVelocity.y + i0] +
         wR * _previousVelocity.y[j1 * _rowVelocity.y + i1]);
-//    _velocity.y[currentIdy] = nvx;
   }
 }
 
