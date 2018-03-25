@@ -67,20 +67,20 @@ __global__ void d_reset( real * _in, unsigned int arrayLength )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setVelBoundaryX( real * _velocity, tuple<unsigned int> _size )
+__global__ void d_setVelBoundaryX( real * _velocity )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
-  if ( idx > 0 && idx < _size.x - 1 ) // rowsize
+  if ( idx > 0 && idx < c_rowVelocity[0] - 1 ) // rowsize
   {
-    _velocity[idx] =  _velocity[idx + _size.x]; // set the top row to be the same as the second row
-    _velocity[idx + _size.x * (_size.y-1)] = _velocity[idx + _size.x * (_size.y - 2)]; // set the last row to be the same as the second to last row
+    _velocity[idx] =  _velocity[idx + c_rowVelocity[0]]; // set the top row to be the same as the second row
+    _velocity[idx + c_rowVelocity[0] * (c_columnVelocity[0]-1)] = _velocity[idx + c_rowVelocity[0] * (c_columnVelocity[0] - 2)]; // set the last row to be the same as the second to last row
   }
 
-  if ( idx > 0 && idx < _size.y - 1 ) // colsize
+  if ( idx > 0 && idx < c_columnVelocity[0] - 1 ) // colsize
   {
-    _velocity[idx * _size.x] = -_velocity[idx * _size.x + 1]; // set the first column on the left to be the same as the next
-    _velocity[idx * _size.x + ( _size.x - 1)] = -_velocity[idx * _size.x + (_size.x - 2)]; // set the first column on the right to be the same as the previous
+    _velocity[idx * c_rowVelocity[0]] = -_velocity[idx * c_rowVelocity[0] + 1]; // set the first column on the left to be the same as the next
+    _velocity[idx * c_rowVelocity[0] + ( c_rowVelocity[0] - 1)] = -_velocity[idx * c_rowVelocity[0] + (c_rowVelocity[0] - 2)]; // set the first column on the right to be the same as the previous
   }
 
   __syncthreads();
@@ -91,21 +91,21 @@ __global__ void d_setVelBoundaryX( real * _velocity, tuple<unsigned int> _size )
     // horrible, wasteful way of doing it
     // but for now I just need this to work
 
-    _velocity[0] = ( _velocity[1] + _velocity[_size.x] ) / 2;
+    _velocity[0] = ( _velocity[1] + _velocity[c_rowVelocity[0]] ) / 2;
 
-    int dst = _size.x - 1;
-    int left = _size.x - 2;
-    int down = _size.x + _size.x - 1;
+    int dst = c_rowVelocity[0] - 1;
+    int left = c_rowVelocity[0] - 2;
+    int down = c_rowVelocity[0] + c_rowVelocity[0] - 1;
     _velocity[dst] = (_velocity[left] + _velocity[down])/2;
 
-    int up = (_size.y - 1) * _size.x + 1;
-    left = (_size.y - 2) * _size.x;
-    dst = (_size.y - 1) * _size.x;
+    int up = (c_columnVelocity[0] - 1) * c_rowVelocity[0] + 1;
+    left = (c_columnVelocity[0] - 2) * c_rowVelocity[0];
+    dst = (c_columnVelocity[0] - 1) * c_rowVelocity[0];
     _velocity[dst] = (_velocity[up] + _velocity[left])/2;
 
-    dst = (_size.y - 1) * _size.x + (_size.x -1);
-    left = (_size.y - 1) * _size.x + (_size.x - 2);
-    up = (_size.y - 2) * _size.x + (_size.x - 1);
+    dst = (c_columnVelocity[0] - 1) * c_rowVelocity[0] + (c_rowVelocity[0] -1);
+    left = (c_columnVelocity[0] - 1) * c_rowVelocity[0] + (c_rowVelocity[0] - 2);
+    up = (c_columnVelocity[0] - 2) * c_rowVelocity[0] + (c_rowVelocity[0] - 1);
 
     _velocity[dst] = ( _velocity[left] + _velocity[up] ) / 2;
   }
@@ -115,21 +115,21 @@ __global__ void d_setVelBoundaryX( real * _velocity, tuple<unsigned int> _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setVelBoundaryY( real * _velocity, tuple<unsigned int> _size )
+__global__ void d_setVelBoundaryY( real * _velocity )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
-  if ( idx > 0 && idx < _size.x - 1 ) // rowsize
+  if ( idx > 0 && idx < c_rowVelocity[1] - 1 ) // rowsize
   {
-    _velocity[idx] = - _velocity[idx + _size.x]; // set the top row to be the same as the second row
-    _velocity[idx + _size.x * (_size.y-1)] = -_velocity[idx + _size.x * (_size.y - 2)]; // set the last row to be the same as the second to last row
+    _velocity[idx] = - _velocity[idx + c_rowVelocity[1]]; // set the top row to be the same as the second row
+    _velocity[idx + c_rowVelocity[1] * (c_columnVelocity[1]-1)] = -_velocity[idx + c_rowVelocity[1] * (c_columnVelocity[1] - 2)]; // set the last row to be the same as the second to last row
 
   }
 
-  if ( idx > 0 && idx < _size.y - 1 ) // colsize
+  if ( idx > 0 && idx < c_columnVelocity[1] - 1 ) // colsize
   {
-    _velocity[idx * _size.x] = _velocity[idx * _size.x + 1]; // set the first column on the left to be the same as the next
-    _velocity[idx * _size.x + ( _size.x - 1)] = _velocity[idx * _size.x + (_size.x - 2)]; // set the first column on the right to be the same as the previous
+    _velocity[idx * c_rowVelocity[1]] = _velocity[idx * c_rowVelocity[1] + 1]; // set the first column on the left to be the same as the next
+    _velocity[idx * c_rowVelocity[1] + ( c_rowVelocity[1] - 1)] = _velocity[idx * c_rowVelocity[1] + (c_rowVelocity[1] - 2)]; // set the first column on the right to be the same as the previous
 
   }
 
@@ -141,21 +141,21 @@ __global__ void d_setVelBoundaryY( real * _velocity, tuple<unsigned int> _size )
     // horrible, wasteful way of doing it
     // but for now I just need this to work
 
-    _velocity[0] = ( _velocity[1] + _velocity[_size.x] ) / 2;
+    _velocity[0] = ( _velocity[1] + _velocity[c_rowVelocity[1]] ) / 2;
 
-    int dst = _size.x - 1;
-    int left = _size.x - 2;
-    int down = _size.x + _size.x - 1;
-    _velocity[dst] = (_velocity[left] + _velocity[down])/2;
+    int dst = c_rowVelocity[1] - 1;
+    int left = c_rowVelocity[1] - 2;
+    int down = c_rowVelocity[1] + c_rowVelocity[1] - 1;
+    _velocity[dst] = ( _velocity[left] + _velocity[down] )/2;
 
-    int up = (_size.y - 1) * _size.x + 1;
-    left = (_size.y - 2) * _size.x;
-    dst = (_size.y - 1) * _size.x;
+    int up = (c_columnVelocity[1] - 1) * c_rowVelocity[1] + 1;
+    left = (c_columnVelocity[1] - 2) * c_rowVelocity[1];
+    dst = (c_columnVelocity[1] - 1) * c_rowVelocity[1];
     _velocity[dst] = (_velocity[up] + _velocity[left])/2;
 
-    dst = (_size.y - 1) * _size.x + (_size.x -1);
-    left = (_size.y - 1) * _size.x + (_size.x - 2);
-    up = (_size.y - 2) * _size.x + (_size.x - 1);
+    dst = (c_columnVelocity[1] - 1) * c_rowVelocity[1] + (c_rowVelocity[1] -1);
+    left = (c_columnVelocity[1] - 1) * c_rowVelocity[1] + (c_rowVelocity[1] - 2);
+    up = (c_columnVelocity[1] - 2) * c_rowVelocity[1] + (c_rowVelocity[1] - 1);
 
     _velocity[dst] = ( _velocity[left] + _velocity[up] ) / 2;
   }
@@ -163,20 +163,20 @@ __global__ void d_setVelBoundaryY( real * _velocity, tuple<unsigned int> _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_setCellBoundary( real * _value , tuple<unsigned int> _size )
+__global__ void d_setCellBoundary( real * _value )
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
-  if ( idx > 0 && idx < _size.x - 1 )
+  if ( idx > 0 && idx < c_gridSize[0] - 1 )
   {
-    _value[idx] = _value[idx + _size.x];
-    _value[idx + _size.x * (_size.y - 1)] = _value[idx + _size.x * (_size.y - 2)];
+    _value[idx] = _value[idx + c_gridSize[0]];
+    _value[idx + c_gridSize[0] * (c_gridSize[1] - 1)] = _value[idx + c_gridSize[0] * (c_gridSize[1] - 2)];
   }
 
-  if ( idx > 0 && idx < _size.y - 1 )
+  if ( idx > 0 && idx < c_gridSize[1] - 1 )
   {
-    _value[idx * _size.x] = _value[idx * _size.x + 1]; // set the first column on the left to be the same as the next
-    _value[idx * _size.x + ( _size.x - 1)] = _value[idx * _size.x + (_size.x - 2)];
+    _value[idx * c_gridSize[0]] = _value[idx * c_gridSize[0] + 1]; // set the first column on the left to be the same as the next
+    _value[idx * c_gridSize[0] + ( c_gridSize[0] - 1)] = _value[idx * c_gridSize[0] + (c_gridSize[0] - 2)];
   }
 
   if ( idx == 0 )
@@ -186,21 +186,21 @@ __global__ void d_setCellBoundary( real * _value , tuple<unsigned int> _size )
     // horrible, wasteful way of doing it
     // but for now I just need this to work
 
-    _value[0] = ( _value[1] + _value[_size.x] ) / 2;
+    _value[0] = ( _value[1] + _value[c_gridSize[0]] ) / 2;
 
-    int dst = _size.x - 1;
-    int left = _size.x - 2;
-    int down = _size.x + _size.x - 1;
+    int dst = c_gridSize[0] - 1;
+    int left = c_gridSize[0] - 2;
+    int down = c_gridSize[0] + c_gridSize[0] - 1;
     _value[dst] = (_value[left] + _value[down]) / 2;
 
-    int up = (_size.y - 1) * _size.x + 1;
-    left = (_size.y - 2) * _size.x;
-    dst = (_size.y - 1) * _size.x;
+    int up = (c_gridSize[1] - 1) * c_gridSize[0] + 1;
+    left = (c_gridSize[1] - 2) * c_gridSize[0];
+    dst = (c_gridSize[1] - 1) * c_gridSize[0];
     _value[dst] = (_value[up] + _value[left])/2;
 
-    dst = (_size.y - 1) * _size.x + (_size.x -1);
-    left = (_size.y - 1) * _size.x + (_size.x - 2);
-    up = (_size.y - 2) * _size.x + (_size.x - 1);
+    dst = (c_gridSize[1] - 1) * c_gridSize[0] + (c_gridSize[0] -1);
+    left = (c_gridSize[1] - 1) * c_gridSize[0] + (c_gridSize[0] - 2);
+    up = (c_gridSize[1] - 2) * c_gridSize[0] + (c_gridSize[0] - 1);
 
     _value[dst] = ( _value[left] + _value[up] ) / 2;
   }
@@ -223,7 +223,7 @@ __global__ void d_gather( real * _value, unsigned int _size )
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_projection( real * _pressure, real * _divergence, tuple<unsigned int> _gridSize)
+__global__ void d_projection( real * _pressure, real * _divergence )
 {
   // projection Step
   // this should be in a loop...
@@ -232,17 +232,17 @@ __global__ void d_projection( real * _pressure, real * _divergence, tuple<unsign
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
 
-  if ( idx > 0 && idx < _gridSize.x - 1 &&
-       idy > 0 && idy < _gridSize.y - 1 )
+  if ( idx > 0 && idx < c_gridSize[0] - 1 &&
+       idy > 0 && idy < c_gridSize[1] - 1 )
   {
 
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
-    int currentCell = idy * _gridSize.x + idx;
+    int currentCell = idy * c_gridSize[0] + idx;
 
-    int right = idy * _gridSize.x + (idx + 1);
-    int left = idy * _gridSize.x + (idx - 1);
-    int down = (idy + 1) * _gridSize.x + idx;
-    int up = (idy - 1) * _gridSize.x + idx;
+    int right = idy * c_gridSize[0] + (idx + 1);
+    int left = idy * c_gridSize[0] + (idx - 1);
+    int down = (idy + 1) * c_gridSize[0] + idx;
+    int up = (idy - 1) * c_gridSize[0] + idx;
 
     local_pressure[sIdx] = ( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0;
     //    __syncthreads();
@@ -254,8 +254,7 @@ __global__ void d_projection( real * _pressure, real * _divergence, tuple<unsign
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<real *> _velocity,
-                                 tuple<unsigned int> _rowVelocity, tuple<unsigned int> _gridSize)
+__global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<real *> _velocity )
 {
   // memory shared within the block, I will treat this as a tiny 2D array,
   // the size is decided outside the kernel,
@@ -265,16 +264,16 @@ __global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<rea
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
 
-  if ( idx > 0 && idx < _gridSize.x - 1 &&
-       idy > 0 && idy < _gridSize.y - 1 )
+  if ( idx > 0 && idx < c_gridSize[0] - 1 &&
+       idy > 0 && idy < c_gridSize[1] - 1 )
   {
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
-    int currentCell = idy * _gridSize.x + idx;
-    int right = idy * _rowVelocity.x + (idx + 1);
-    int currentVelX = idy * _rowVelocity.x + idx;
-    int down = (idy + 1) * _rowVelocity.y + idx;
-    int currentVelY = idy * _rowVelocity.y + idx;
+    int currentCell = idy * c_gridSize[0] + idx;
+    int right = idy * c_rowVelocity[0] + (idx + 1);
+    int currentVelX = idy * c_rowVelocity[0] + idx;
+    int down = (idy + 1) * c_rowVelocity[1] + idx;
+    int currentVelY = idy * c_rowVelocity[1] + idx;
 
     // index of the shared memory
     local_divergence[sIdx] = _velocity.x[right] - _velocity.x[currentVelX] + _velocity.y[down] - _velocity.y[currentVelY];
@@ -287,102 +286,93 @@ __global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<rea
 
 //----------------------------------------------------------------------------------------------------------------------
 
-__global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity,
-                               tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
-                               tuple<unsigned int> _gridSize)
+__global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity )
 {
   extern __shared__ real local_velocity[];
 
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
 
-  if ( idx > 0 && idx < _rowVelocity.x - 1 &&
-       idy > 0 && idy < _columnVelocity.x - 1 )
+  if ( idx > 0 && idx < c_rowVelocity[0] - 1 &&
+       idy > 0 && idy < c_columnVelocity[0] - 1 )
   {
-    int velocityIdx = idy * _rowVelocity.x + idx;
+    int velocityIdx = idy * c_rowVelocity[0] + idx;
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
-    int cellIdx = idy * _gridSize.x + idx;
-    int cellLeft = idy * _gridSize.x + (idx - 1);
+    int cellIdx = idy * c_gridSize[0] + idx;
+    int cellLeft = idy * c_gridSize[0] + (idx - 1);
 
     local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellLeft];
     //    __syncthreads();
     _velocity.x[velocityIdx] -= local_velocity[sIdx];
   }
 
-  if ( idx > 0 && idx < _rowVelocity.y - 1 &&
-       idy > 0 && idy < _columnVelocity.y - 1 )
+  if ( idx > 0 && idx < c_rowVelocity[1] - 1 &&
+       idy > 0 && idy < c_columnVelocity[1] - 1 )
   {
 
-    int velocityIdx = idy * _rowVelocity.y + idx;
+    int velocityIdx = idy * c_rowVelocity[1] + idx;
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
-    int cellIdx = idy * _gridSize.x + idx;
-    int cellUp = (idy-1) * _gridSize.x + idx;
+    int cellIdx = idy * c_gridSize[0] + idx;
+    int cellUp = (idy-1) * c_gridSize[0] + idx;
 
     local_velocity[sIdx] = _pressure[cellIdx] - _pressure[cellUp];
     _velocity.y[velocityIdx] -= local_velocity[sIdx];
   }
 }
 
-
 //----------------------------------------------------------------------------------------------------------------------
-//int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
-//int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
-//int cIdx(int i, int j){ return j*m_gridSize.x+i; }
 
 __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> _velocity,
-                                  tuple<real> * _pvx, tuple<real> * _pvy,
-                                  tuple<unsigned int> _rowVelocity,
-                                  tuple<unsigned int> _columnVelocity,
-                                  tuple<unsigned int> _gridSize , real _timestep)
+                                  tuple<real> * _pvx, tuple<real> * _pvy, real _timestep)
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
-  unsigned short currentIdx = idy * _rowVelocity.x + idx;
-  unsigned short currentIdy = idy * _rowVelocity.y + idx;
+  unsigned short currentIdx = idy * c_rowVelocity[0] + idx;
+  unsigned short currentIdy = idy * c_rowVelocity[1] + idx;
 
-  if ( idx > 0 && idx < _rowVelocity.x - 1 &&
-       idy > 0 && idy < _columnVelocity.x - 1 )
+  if ( idx > 0 && idx < c_rowVelocity[0] - 1 &&
+       idy > 0 && idy < c_columnVelocity[0] - 1 )
   {
     real nvx = _previousVelocity.x[currentIdx];
-    real nvy = (_previousVelocity.y[idy * _rowVelocity.y + idx-1] +
-        _previousVelocity.y[(idy + 1) * _rowVelocity.y + (idx - 1)] +
+    real nvy = (_previousVelocity.y[idy * c_rowVelocity[1] + idx-1] +
+        _previousVelocity.y[(idy + 1) * c_rowVelocity[1] + (idx - 1)] +
         _previousVelocity.y[currentIdy]+
-        _previousVelocity.y[(idy + 1) * _rowVelocity.y + idx])/4;
+        _previousVelocity.y[(idy + 1) * c_rowVelocity[1] + idx])/4;
 
     real oldX = _pvx[currentIdx].x - nvx * _timestep;
     real oldY = _pvx[currentIdx].y - nvy * _timestep;
 
     if(oldX < 0.5f) oldX = 0.5f;
-    if(oldX > _gridSize.x-0.5f) oldX = _gridSize.x-0.5f;
+    if(oldX > c_gridSize[0]-0.5f) oldX = c_gridSize[0]-0.5f;
     if(oldY < 1.0f) oldY = 1.0f;
-    if(oldY > _gridSize.y-1.0f) oldY = _gridSize.y-1.0f;
+    if(oldY > c_gridSize[1]-1.0f) oldY = c_gridSize[1]-1.0f;
 
     int i0 = (int)oldX;
     int j0 = (int)(oldY-0.5f);
     int i1 = i0+1;
     int j1 = j0+1;
 
-    real wL = _pvx[j0 * _rowVelocity.x + i1].x-oldX;
+    real wL = _pvx[j0 * c_rowVelocity[0] + i1].x-oldX;
     real wR = 1.0f-wL;
-    real wB = _pvx[j1 * _rowVelocity.x + i0].y-oldY;
+    real wB = _pvx[j1 * c_rowVelocity[0] + i0].y-oldY;
     real wT = 1.0f-wB;
 
-    _velocity.x[currentIdx] = wB * (wL * _previousVelocity.x[j0 * _rowVelocity.x + i0] +
-        wR * _previousVelocity.x[j0 * _rowVelocity.x + i1]) +
-        wT * (wL * _previousVelocity.x[j1 * _rowVelocity.x + i0] +
-        wR * _previousVelocity.x[j1 * _rowVelocity.x + i1]);
+    _velocity.x[currentIdx] = wB * (wL * _previousVelocity.x[j0 * c_rowVelocity[0] + i0] +
+        wR * _previousVelocity.x[j0 * c_rowVelocity[0] + i1]) +
+        wT * (wL * _previousVelocity.x[j1 * c_rowVelocity[0] + i0] +
+        wR * _previousVelocity.x[j1 * c_rowVelocity[0] + i1]);
   }
 
-  if ( idx > 0 && idx < _rowVelocity.y - 1 &&
-       idy > 0 && idy < _columnVelocity.y - 1 )
+  if ( idx > 0 && idx < c_rowVelocity[1] - 1 &&
+       idy > 0 && idy < c_columnVelocity[1] - 1 )
   {
     real nvx = (
-        _previousVelocity.x[(idy - 1) * _rowVelocity.x + idx]+
-        _previousVelocity.x[(idy - 1) * _rowVelocity.x + (idx + 1)] +
+        _previousVelocity.x[(idy - 1) * c_rowVelocity[0] + idx]+
+        _previousVelocity.x[(idy - 1) * c_rowVelocity[0] + (idx + 1)] +
         _previousVelocity.x[currentIdx]+
-        _previousVelocity.x[idy * _rowVelocity.x + (idx + 1)]
+        _previousVelocity.x[idy * c_rowVelocity[0] + (idx + 1)]
         )/4;
 
     real nvy = _previousVelocity.y[currentIdy];
@@ -391,24 +381,24 @@ __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> 
     real oldY = _pvy[currentIdy].y - nvy * _timestep;
 
     if(oldX < 1.0f) oldX = 1.0f;
-    if(oldX > _gridSize.x-1.0f) oldX = _gridSize.x-1.0f;
+    if(oldX > c_gridSize[0]-1.0f) oldX = c_gridSize[0]-1.0f;
     if(oldY < 0.5f) oldY = 0.5f;
-    if(oldY > _gridSize.y-0.5f) oldY = _gridSize.y-0.5f;
+    if(oldY > c_gridSize[1]-0.5f) oldY = c_gridSize[1]-0.5f;
 
     int i0 = (int)(oldX-0.5f);
     int j0 = (int)oldY;
     int i1 = i0+1;
     int j1 = j0+1;
 
-    real wL = _pvy[j0 * _rowVelocity.y + i1].x-oldX;
+    real wL = _pvy[j0 * c_rowVelocity[1] + i1].x-oldX;
     real wR = 1.0f-wL;
-    real wB = _pvy[j1 * _rowVelocity.y + i0].y-oldY;
+    real wB = _pvy[j1 * c_rowVelocity[1] + i0].y-oldY;
     real wT = 1.0f-wB;
 
-    _velocity.y[currentIdy] = wB * (wL * _previousVelocity.y[j0 * _rowVelocity.y + i0] +
-        wR * _previousVelocity.y[j0 * _rowVelocity.y + i1]) +
-        wT * (wL * _previousVelocity.y[j1 * _rowVelocity.y + i0] +
-        wR * _previousVelocity.y[j1 * _rowVelocity.y + i1]);
+    _velocity.y[currentIdy] = wB * (wL * _previousVelocity.y[j0 * c_rowVelocity[1] + i0] +
+        wR * _previousVelocity.y[j0 * c_rowVelocity[1] + i1]) +
+        wT * (wL * _previousVelocity.y[j1 * c_rowVelocity[1] + i0] +
+        wR * _previousVelocity.y[j1 * c_rowVelocity[1] + i1]);
   }
 }
 

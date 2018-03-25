@@ -64,17 +64,9 @@ void GpuSolver::allocateArrays()
   cudaMalloc( &m_previousVelocity.x, sizeof(real)*m_totVelX );
   cudaMalloc( &m_previousVelocity.y, sizeof(real)*m_totVelY );
   cudaMalloc( &m_previousDensity, sizeof(real)*m_totCell );
-}
 
-//----------------------------------------------------------------------------------------------------------------------
-
-void GpuSolver::activate()
-{
-  setParameters();
-  allocateArrays();
-
+  // allocate constant memory
   unsigned int tmp_gridSize[] = { m_gridSize.x, m_gridSize.y };
-
   cudaMemcpyToSymbol(c_gridSize, tmp_gridSize, sizeof(unsigned int)*2 );
 
   unsigned int tmp_rowVelocity[] = { m_rowVelocity.x, m_rowVelocity.y };
@@ -85,7 +77,14 @@ void GpuSolver::activate()
 
   unsigned int tmp_totVelocity[] = { m_totVelX, m_totVelY };
   cudaMemcpyToSymbol(c_totVelocity, tmp_totVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
+}
 
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::activate()
+{
+  setParameters();
+  allocateArrays();
 
   // 1024 -> max threads per block, in this case it will fire 16 blocks
   int nBlocks = m_totVelX / 1024;
@@ -141,31 +140,25 @@ void GpuSolver::setVelBoundary( int flag )
   {
     int threads = 1024;
     unsigned int blocks = std::max( m_columnVelocity.x, m_rowVelocity.x ) / threads + 1;
-    tuple<unsigned int> size;
-    size.x = m_rowVelocity.x;
-    size.y = m_columnVelocity.x;
-    d_setVelBoundaryX<<< blocks, threads>>>( m_velocity.x, size );
+    d_setVelBoundaryX<<< blocks, threads>>>( m_velocity.x );
   }
 
   else if(flag == 2)
   {
     int threads = 1024;
     unsigned int blocks = std::max( m_columnVelocity.y, m_rowVelocity.y ) / threads + 1;
-    tuple<unsigned int> size;
-    size.x = m_rowVelocity.y;
-    size.y = m_columnVelocity.y;
-    d_setVelBoundaryY<<< blocks, threads>>>( m_velocity.y, size );
+    d_setVelBoundaryY<<< blocks, threads>>>( m_velocity.y );
   }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void GpuSolver::setCellBoundary(real * _value, tuple<unsigned int> _size )
+void GpuSolver::setCellBoundary(real * _value, tuple<unsigned int> & _size )
 {
   int threads = 1024;
   unsigned int blocks = std::max( _size.x, _size.y ) / threads + 1;
 
-  d_setCellBoundary<<< blocks, threads>>>( _value, _size );
+  d_setCellBoundary<<< blocks, threads>>>( _value );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -179,7 +172,7 @@ void GpuSolver::projection()
   dim3 block(blockDim, blockDim); // block of (X,Y) threads
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
 
-  d_divergenceStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity, m_rowVelocity,  m_gridSize );
+  d_divergenceStep<<<grid, block, bins>>>( m_pressure, m_divergence, m_velocity );
 //  cudaThreadSynchronize();
 
   setCellBoundary( m_pressure, m_gridSize );
@@ -188,14 +181,14 @@ void GpuSolver::projection()
 
   for(unsigned int k = 0; k < 20; k++)
   {
-    d_projection<<<grid, block, bins>>>( m_pressure, m_divergence, m_gridSize );
+    d_projection<<<grid, block, bins>>>( m_pressure, m_divergence );
 //    cudaThreadSynchronize();
 
     setCellBoundary( m_pressure, m_gridSize );
 //    cudaThreadSynchronize();
   }
 
-  d_velocityStep<<<grid, block, bins>>>( m_pressure, m_velocity, m_rowVelocity, m_columnVelocity, m_gridSize );
+  d_velocityStep<<<grid, block, bins>>>( m_pressure, m_velocity );
 //  cudaThreadSynchronize();
 
   setVelBoundary(1);
@@ -216,8 +209,7 @@ void GpuSolver::advectVelocity()
 
   dim3 block(blockDim, blockDim);
   dim3 grid(nBlocks, nBlocks);
-  d_advectVelocity<<<grid, block, bins>>>( m_previousVelocity, m_velocity, m_pvx, m_pvy,
-                                           m_rowVelocity, m_columnVelocity, m_gridSize, m_timeStep );
+  d_advectVelocity<<<grid, block, bins>>>( m_previousVelocity, m_velocity, m_pvx, m_pvy, m_timeStep );
   setVelBoundary(1);
   setVelBoundary(2);
   cudaError_t err = cudaGetLastError();

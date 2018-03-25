@@ -9,16 +9,18 @@
 #include <cuda_runtime_api.h>
 #include <device_functions.h>
 
-#include <thrust/host_vector.h>
-#include <thrust/device_vector.h>
-#include <thrust/sort.h>
-#include <thrust/execution_policy.h>
+//#include <thrust/host_vector.h>
+//#include <thrust/device_vector.h>
+//#include <thrust/sort.h>
+//#include <thrust/execution_policy.h>
 // cuda includes end
 
-//#include "GpuSolver.h"
 #include "tuple.h"
 
-
+// constant memory is a small chunk of memory off chip,
+// slower than the L1 cache but a lot faster than global memory
+// since these values will be used often it's worth storing them
+// in constant memory instead of feeding them to the gpu when the kernel is launched
 extern __constant__ unsigned int c_gridSize[2];
 extern __constant__ unsigned int c_rowVelocity[2];
 extern __constant__ unsigned int c_columnVelocity[2];
@@ -51,19 +53,19 @@ __global__ void d_reset( real * _in, unsigned int arrayLength );
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_setVelBoundaryX( real * _velocity, tuple<unsigned int> _size );
+__global__ void d_setVelBoundaryX( real * _velocity );
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_setVelBoundaryY( real * _velocity, tuple<unsigned int> _size );
+__global__ void d_setVelBoundaryY( real * _velocity );
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_setCellBoundary(real *_value, tuple<unsigned int> _size );
+__global__ void d_setCellBoundary( real *_value );
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -75,33 +77,25 @@ __global__ void d_gather( real * _value, unsigned int _size );
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_projection(real * _pressure, real * _divergence,
-                             tuple<unsigned int> _gridSize);
+__global__ void d_projection( real * _pressure, real * _divergence );
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<real *> _velocity,
-                                 tuple<unsigned int> _rowVelocity,
-                                 tuple<unsigned int> _gridSize);
+__global__ void d_divergenceStep( real * _pressure, real * _divergence, tuple<real *> _velocity );
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-__global__ void d_velocityStep(real * _pressure, tuple<real *> _velocity,
-                               tuple<unsigned int> _rowVelocity, tuple<unsigned int> _columnVelocity,
-                               tuple<unsigned int> _gridSize);
+__global__ void d_velocityStep( real * _pressure, tuple<real *> _velocity );
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
 __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> _velocity,
-                                           tuple<real> * _pvx, tuple<real> * _pvy,
-                                           tuple<unsigned int> _rowVelocity,
-                                           tuple<unsigned int> _columnVelocity,
-                                           tuple<unsigned int> _gridSize, real _timestep );
+                                           tuple<real> * _pvx, tuple<real> * _pvy, real _timestep );
 
 
 //----------------------------------------------------------------------------------------------------------------------

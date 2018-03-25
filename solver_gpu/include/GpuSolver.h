@@ -31,7 +31,7 @@ public:
   void setDensity( real _density ) { m_inputDensity = _density; }
 
   void setVelBoundary( int flag );
-  void setCellBoundary( real * _value, tuple<unsigned int> _size );
+  void setCellBoundary( real * _value, tuple<unsigned int> & _size );
   void projection();
   void advectVelocity();
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
