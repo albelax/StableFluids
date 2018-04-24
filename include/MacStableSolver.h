@@ -138,21 +138,21 @@ private:
   FRIEND_TEST( pvx, isEqual );
   FRIEND_TEST( pvy, isEqual );
   FRIEND_TEST( resetDensity, isEqual );
-  FRIEND_TEST( velBoundaryX, isEqual );
-  FRIEND_TEST( velBoundaryY, isEqual );
+  FRIEND_TEST( boundary, velocity_x );
+  FRIEND_TEST( boundary, velocity_y );
   FRIEND_TEST( densityBoundary, isEqual );
-  FRIEND_TEST( pressureBoundary, isEqual );
+  FRIEND_TEST( boundary, pressure );
   FRIEND_TEST( divergenceBoundary, isEqual );
-  FRIEND_TEST( projection, checkPressure );
+  FRIEND_TEST( projection, pressure );
   FRIEND_TEST( projection, checkDivergence );
-  FRIEND_TEST( projection, checkVelocity_x );
-  FRIEND_TEST( projection, checkVelocity_y );
-  FRIEND_TEST( advection, checkVelocity_x );
-  FRIEND_TEST( advection, checkVelocity_y );
+  FRIEND_TEST( projection, velocity_x );
+  FRIEND_TEST( projection, velocity_y );
+  FRIEND_TEST( advect, velocity_x );
+  FRIEND_TEST( advect, velocity_y );
+  FRIEND_TEST( velocity_x, diffuse );
+  FRIEND_TEST( velocity_y, diffuse );
+
 #endif // TESTING
 };
 
-
-
-
-#endif
+#endif //__MACSTABLESOLVER_H

@@ -442,3 +442,55 @@ __global__ void d_advectCell( real * _value, real * _value0, tuple<real *> _velo
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *> _velocity, real _timestep, real _diffusion )
+{
+  // to be continued... still need to check boundary conditions
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+  extern __shared__ real local_velocity[];
+  real a = _diffusion * _timestep;
+  int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
+
+  if ( (idy * c_rowVelocity[0] + idx) < c_totVelocity[0] )
+  {
+    _velocity.x[idy * c_rowVelocity[0] + idx] = 0;
+  }
+
+  if ( (idy * c_rowVelocity[1] + idx) < c_totVelocity[1] )
+  {
+    _velocity.y[idy * c_rowVelocity[1] + idx] = 0;
+  }
+
+  __syncthreads();
+  for(int k=0; k<20; k++)
+  {
+    if ( idx > 0 && idx < c_rowVelocity[0] - 1 &&
+         idy > 0 && idy < c_columnVelocity[0] - 1 )
+    {
+      local_velocity[sIdx] = (_previousVelocity.x[idy * c_rowVelocity[0] + idx]+
+          a*(_velocity.x[idy * c_rowVelocity[0] + (idx + 1)]+
+          _velocity.x[idy * c_rowVelocity[0] + (idx - 1)]+
+          _velocity.x[(idy + 1) * c_rowVelocity[0] + idx]+
+          _velocity.x[(idy + 1) * c_rowVelocity[0] + idx])) / (4.0f*a+1.0f);
+      __syncthreads();
+      _velocity.x[idy * c_rowVelocity[0] + idx] = local_velocity[sIdx];
+    }
+
+    if ( idx > 0 && idx < c_rowVelocity[1] - 1 &&
+         idy > 0 && idy < c_columnVelocity[1] - 1 )
+    {
+      local_velocity[sIdx] =
+          (_previousVelocity.y[idy * c_rowVelocity[1] + idx]+
+          a*(_velocity.y[idy * c_rowVelocity[1] + (idx + 1)]+
+          _velocity.y[idy * c_rowVelocity[1] + (idx - 1)]+
+          _velocity.y[(idy + 1) * c_rowVelocity[1] + idx]+
+          _velocity.y[(idy + 1) * c_rowVelocity[1] + idx])) / (4.0f*a+1.0f);
+      __syncthreads();
+      _velocity.y[idy * c_rowVelocity[1] + idx] = local_velocity[sIdx];
+    }
+    __syncthreads();
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------

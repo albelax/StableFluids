@@ -104,4 +104,10 @@ __global__ void d_advectCell( real * _value, real * _value0, tuple<real *> _velo
 
 //----------------------------------------------------------------------------------------------------------------------
 
+__global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *> _velocity, real _timestep, real _diffusion );
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__device__ real velocityBoundary(tuple<real *> _velocity , int _idx, int _idy);
+
 #endif

@@ -213,27 +213,27 @@ void StableSolverCpu::projection()
             -m_divergence[cIdx(i, j)])/4.0;
       }
     }
-        setCellBoundary(m_pressure);
+    setCellBoundary(m_pressure);
   }
 
-      //velocity minus grad of Pressure
-      for(int i=1; i<=m_rowVelocity.x-2; ++i)
-      {
-        for(int j=1; j<=m_columnVelocity.x-2; ++j)
-        {
-          m_velocity.x[vxIdx(i, j)] -= (m_pressure[cIdx(i, j)] -m_pressure[cIdx(i-1, j)]);
-        }
-      }
+  //velocity minus grad of Pressure
+  for(int i=1; i<=m_rowVelocity.x-2; ++i)
+  {
+    for(int j=1; j<=m_columnVelocity.x-2; ++j)
+    {
+      m_velocity.x[vxIdx(i, j)] -= (m_pressure[cIdx(i, j)] -m_pressure[cIdx(i-1, j)]);
+    }
+  }
 
-      for(int i=1; i<=m_rowVelocity.y-2; ++i)
-      {
-        for(int j=1; j<=m_columnVelocity.y-2; ++j)
-        {
-          m_velocity.y[vyIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i, j-1)]);
-        }
-      }
-      setVelBoundary(1);
-      setVelBoundary(2);
+  for(int i=1; i<=m_rowVelocity.y-2; ++i)
+  {
+    for(int j=1; j<=m_columnVelocity.y-2; ++j)
+    {
+      m_velocity.y[vyIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i, j-1)]);
+    }
+  }
+  setVelBoundary(1);
+  setVelBoundary(2);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -280,7 +280,7 @@ void StableSolverCpu::advectVel()
     for(int j=1; j<=m_columnVelocity.y-2; ++j)
     {
       real nvx = (
-          m_previousVelocity.x[vxIdx(i, j-1)]+
+            m_previousVelocity.x[vxIdx(i, j-1)]+
           m_previousVelocity.x[vxIdx(i+1, j-1)]+
           m_previousVelocity.x[vxIdx(i, j)]+
           m_previousVelocity.x[vxIdx(i+1, j)]
@@ -381,6 +381,7 @@ void StableSolverCpu::diffuseVel()
       for(int j=1; j<=m_columnVelocity.x-2; ++j)
       {
         m_velocity.x[vxIdx(i, j)] = (m_previousVelocity.x[vxIdx(i, j)]+a*(m_velocity.x[vxIdx(i+1, j)]+m_velocity.x[vxIdx(i-1, j)]+m_velocity.x[vxIdx(i, j+1)]+m_velocity.x[vxIdx(i, j-1)])) / (4.0f*a+1.0f);
+        //        m_velocity.x[vxIdx(i, j)] = i;
       }
     }
     //diffuse velY
@@ -388,13 +389,15 @@ void StableSolverCpu::diffuseVel()
     {
       for(int j=1; j<=m_columnVelocity.y-2; ++j)
       {
-        m_velocity.y[vyIdx(i, j)] = (m_previousVelocity.y[vyIdx(i, j)]+a*(m_velocity.y[vyIdx(i+1, j)]+m_velocity.y[vyIdx(i-1, j)]+m_velocity.y[vyIdx(i, j+1)]+m_velocity.y[vyIdx(i, j-1)])) / (4.0f*a+1.0f);
+        m_velocity.y[vyIdx(i, j)] = (m_previousVelocity.y[vyIdx(i, j)]+
+            a*(m_velocity.y[vyIdx(i+1, j)]+m_velocity.y[vyIdx(i-1, j)]+
+            m_velocity.y[vyIdx(i, j+1)]+m_velocity.y[vyIdx(i, j-1)])) / (4.0f*a+1.0f);
       }
     }
 
     //boundary
-    setVelBoundary(1);
-    setVelBoundary(2);
+        setVelBoundary(1);
+        setVelBoundary(2);
   }
 }
 

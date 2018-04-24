@@ -8,7 +8,7 @@
 
 ////----------------------------------------------------------------------------------------------------------------------
 
-TEST( pressureBoundary, isEqual )
+TEST( boundary, pressure )
 {
   GpuSolver gpuSolver;
   gpuSolver.activate();
@@ -39,7 +39,7 @@ TEST( pressureBoundary, isEqual )
 
 ////----------------------------------------------------------------------------------------------------------------------
 
-TEST( projection, checkPressure )
+TEST( projection, pressure )
 {
   GpuSolver gpuSolver;
   gpuSolver.activate();

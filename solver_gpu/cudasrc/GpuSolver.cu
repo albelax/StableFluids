@@ -235,6 +235,22 @@ void GpuSolver::advectCell()
 
 //----------------------------------------------------------------------------------------------------------------------
 
+void GpuSolver::diffuseVelocity()
+{
+  unsigned int bins = 81 * sizeof(real);
+  int nBlocks = m_totCell / 1024;
+  int blockDim = 1024 / m_gridSize.x + 1;
+
+  dim3 block(blockDim, blockDim);
+  dim3 grid(nBlocks, nBlocks);
+  d_diffuseVelocity<<<grid, block, bins>>>( m_previousVelocity, m_velocity, m_timeStep, m_diffusion );
+
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("Advection Error: %s\n", cudaGetErrorString(err));
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
 void GpuSolver::exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int _sizeY )
 {
   std::ofstream out;
@@ -255,6 +271,18 @@ void GpuSolver::exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int 
     out << "\n";
   }
   free( result );
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::animVel()
+{
+  projection();
+  SWAP(m_previousVelocity.x, m_velocity.x);
+  SWAP(m_previousVelocity.y, m_velocity.y);
+  advectVelocity();
+
+  projection();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

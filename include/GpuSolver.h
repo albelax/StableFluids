@@ -35,6 +35,10 @@ public:
   void projection();
   void advectVelocity();
   void advectCell();
+  void diffuseVelocity(); // to be completed
+  void addSource();
+  void animVel();
+
 
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
   int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
@@ -83,18 +87,21 @@ private:
   FRIEND_TEST( resetDensity, isZero );
   FRIEND_TEST( resetVelocityX, isZero );
   FRIEND_TEST( resetVelocityY, isZero );
-  FRIEND_TEST( velBoundaryX, isEqual );
-  FRIEND_TEST( velBoundaryY, isEqual );
+  FRIEND_TEST( boundary, velocity_x );
+  FRIEND_TEST( boundary, velocity_y );
   FRIEND_TEST( densityBoundary, isEqual );
-  FRIEND_TEST( pressureBoundary, isEqual );
+  FRIEND_TEST( boundary, pressure );
   FRIEND_TEST( divergenceBoundary, isEqual );
   FRIEND_TEST( gather, works );
-  FRIEND_TEST( projection, checkPressure );
+  FRIEND_TEST( projection, pressure );
   FRIEND_TEST( projection, checkDivergence );
-  FRIEND_TEST( projection, checkVelocity_x );
-  FRIEND_TEST( projection, checkVelocity_y );
-  FRIEND_TEST( advection, checkVelocity_x );
-  FRIEND_TEST( advection, checkVelocity_y );
+  FRIEND_TEST( projection, velocity_x );
+  FRIEND_TEST( projection, velocity_y );
+  FRIEND_TEST( advect, velocity_x );
+  FRIEND_TEST( advect, velocity_y );
+  FRIEND_TEST( velocity_x, diffuse );
+  FRIEND_TEST( velocity_y, diffuse );
+
 #endif // TESTING
 };
 
