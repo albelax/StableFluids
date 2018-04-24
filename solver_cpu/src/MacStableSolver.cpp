@@ -66,7 +66,7 @@ void StableSolverCpu::activate()
 
   //params
   m_timeStep = 1.0f;
-  m_diffusion = 0.0f;
+  m_diffusion = 1.0f;
   m_viscosity = 0.0f;
   m_inputDensity = 100.0f;
 
@@ -369,25 +369,25 @@ void StableSolverCpu::advectCell(real *value, real *value0)
 
 void StableSolverCpu::diffuseVel()
 {
-  for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0.0f;
-  for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0.0f;
-  real a = m_diffusion*m_timeStep;
+//  for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0;
+//  for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0;
+  real a = m_diffusion * m_timeStep;
 
   for(int k=0; k<20; k++)
   {
     //diffuse velX
-    for(int i=1; i<=m_rowVelocity.x-2; ++i)
+    for(int i=1; i <= m_rowVelocity.x-2; ++i)
     {
-      for(int j=1; j<=m_columnVelocity.x-2; ++j)
+      for(int j=1; j <= m_columnVelocity.x-2; ++j)
       {
         m_velocity.x[vxIdx(i, j)] = (m_previousVelocity.x[vxIdx(i, j)]+a*(m_velocity.x[vxIdx(i+1, j)]+m_velocity.x[vxIdx(i-1, j)]+m_velocity.x[vxIdx(i, j+1)]+m_velocity.x[vxIdx(i, j-1)])) / (4.0f*a+1.0f);
         //        m_velocity.x[vxIdx(i, j)] = i;
       }
     }
     //diffuse velY
-    for(int i=1; i<=m_rowVelocity.y-2; ++i)
+    for(int i = 1; i <= m_rowVelocity.y-2; ++i)
     {
-      for(int j=1; j<=m_columnVelocity.y-2; ++j)
+      for(int j = 1; j <= m_columnVelocity.y-2; ++j)
       {
         m_velocity.y[vyIdx(i, j)] = (m_previousVelocity.y[vyIdx(i, j)]+
             a*(m_velocity.y[vyIdx(i+1, j)]+m_velocity.y[vyIdx(i-1, j)]+
@@ -396,8 +396,8 @@ void StableSolverCpu::diffuseVel()
     }
 
     //boundary
-        setVelBoundary(1);
-        setVelBoundary(2);
+//        setVelBoundary(1);
+//        setVelBoundary(2);
   }
 }
 

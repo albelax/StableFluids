@@ -123,14 +123,12 @@ __global__ void d_setVelBoundaryY( real * _velocity )
   {
     _velocity[idx] = - _velocity[idx + c_rowVelocity[1]]; // set the top row to be the same as the second row
     _velocity[idx + c_rowVelocity[1] * (c_columnVelocity[1]-1)] = -_velocity[idx + c_rowVelocity[1] * (c_columnVelocity[1] - 2)]; // set the last row to be the same as the second to last row
-
   }
 
   if ( idx > 0 && idx < c_columnVelocity[1] - 1 ) // colsize
   {
     _velocity[idx * c_rowVelocity[1]] = _velocity[idx * c_rowVelocity[1] + 1]; // set the first column on the left to be the same as the next
     _velocity[idx * c_rowVelocity[1] + ( c_rowVelocity[1] - 1)] = _velocity[idx * c_rowVelocity[1] + (c_rowVelocity[1] - 2)]; // set the first column on the right to be the same as the previous
-
   }
 
   __syncthreads();
@@ -448,21 +446,25 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
   // to be continued... still need to check boundary conditions
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
+
   extern __shared__ real local_velocity[];
+
   real a = _diffusion * _timestep;
+
   int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
-  if ( (idy * c_rowVelocity[0] + idx) < c_totVelocity[0] )
-  {
-    _velocity.x[idy * c_rowVelocity[0] + idx] = 0;
-  }
+//  if ( (idy * c_rowVelocity[0] + idx) < c_totVelocity[0] )
+//  {
+//    _velocity.x[idy * c_rowVelocity[0] + idx] = 0;
+//  }
 
-  if ( (idy * c_rowVelocity[1] + idx) < c_totVelocity[1] )
-  {
-    _velocity.y[idy * c_rowVelocity[1] + idx] = 0;
-  }
+//  if ( (idy * c_rowVelocity[1] + idx) < c_totVelocity[1] )
+//  {
+//    _velocity.y[idy * c_rowVelocity[1] + idx] = 0;
+//  }
 
-  __syncthreads();
+//  __syncthreads();
+
   for(int k=0; k<20; k++)
   {
     if ( idx > 0 && idx < c_rowVelocity[0] - 1 &&
@@ -472,7 +474,7 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
           a*(_velocity.x[idy * c_rowVelocity[0] + (idx + 1)]+
           _velocity.x[idy * c_rowVelocity[0] + (idx - 1)]+
           _velocity.x[(idy + 1) * c_rowVelocity[0] + idx]+
-          _velocity.x[(idy + 1) * c_rowVelocity[0] + idx])) / (4.0f*a+1.0f);
+          _velocity.x[(idy - 1) * c_rowVelocity[0] + idx])) / (4.0*a+1.0);
       __syncthreads();
       _velocity.x[idy * c_rowVelocity[0] + idx] = local_velocity[sIdx];
     }
@@ -485,11 +487,24 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
           a*(_velocity.y[idy * c_rowVelocity[1] + (idx + 1)]+
           _velocity.y[idy * c_rowVelocity[1] + (idx - 1)]+
           _velocity.y[(idy + 1) * c_rowVelocity[1] + idx]+
-          _velocity.y[(idy + 1) * c_rowVelocity[1] + idx])) / (4.0f*a+1.0f);
+          _velocity.y[(idy - 1) * c_rowVelocity[1] + idx])) / (4.0*a+1.0);
+
       __syncthreads();
       _velocity.y[idy * c_rowVelocity[1] + idx] = local_velocity[sIdx];
     }
-    __syncthreads();
+
+//    __syncthreads();
+//    // boundary cases
+//    if ( idx > 0 && idx < c_rowVelocity[1] - 1 ) // rowsize
+//    {
+//      _velocity.x[idx] = - _velocity.x[idx + c_rowVelocity[1]]; // set the top row to be the same as the second row
+//      _velocity.x[idx + c_rowVelocity.x[1] * (c_columnVelocity[1]-1)] = -_velocity.x[idx + c_rowVelocity[1] * (c_columnVelocity[1] - 2)]; // set the last row to be the same as the second to last row
+//    }
+//    if ( idx > 0 && idx < c_columnVelocity[1] - 1 ) // colsize
+//    {
+//      _velocity.y[idx * c_rowVelocity[1]] = _velocity.y[idx * c_rowVelocity[1] + 1]; // set the first column on the left to be the same as the next
+//      _velocity.y[idx * c_rowVelocity[1] + ( c_rowVelocity[1] - 1)] = _velocity.y[idx * c_rowVelocity[1] + (c_rowVelocity[1] - 2)]; // set the first column on the right to be the same as the previous
+//    }
   }
 }
 

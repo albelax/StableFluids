@@ -95,7 +95,7 @@ TEST( projection, velocity_x )
   int x = cpuSolver.m_totVelX;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_NEAR( cpuSolver.m_velocity.x[i], h_velocity_x[i], 0.5f); // should probably try to bring it down a bit...
+    EXPECT_NEAR( cpuSolver.m_velocity.x[i], h_velocity_x[i], 0.5f); // should probably try to bring it down a bit...
   }
   free( h_velocity_x );
 }
@@ -129,7 +129,7 @@ TEST( projection, velocity_y )
   int x = cpuSolver.m_totVelY;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f); // should probably try to bring it down a bit...
+    EXPECT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f); // should probably try to bring it down a bit...
   }
   free( h_velocity_y );
 }
@@ -211,7 +211,6 @@ TEST( velocity_x, diffuse ) // to be continued...
   Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
   Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
 
-
   StableSolverCpu cpuSolver;
   cpuSolver.activate();
 
@@ -219,7 +218,6 @@ TEST( velocity_x, diffuse ) // to be continued...
   gpuSolver.copy( gpuSolver.m_previousVelocity.y, cpuSolver.m_previousVelocity.y, gpuSolver.m_totVelY );
   gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
   gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
-
 
   gpuSolver.diffuseVelocity();
   cpuSolver.diffuseVel();
@@ -230,14 +228,14 @@ TEST( velocity_x, diffuse ) // to be continued...
   int x = cpuSolver.m_totVelX;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_NEAR( cpuSolver.m_velocity.x[i], h_velocity_x[i], 0.5f);
+    EXPECT_NEAR( cpuSolver.m_velocity.x[i], h_velocity_x[i], 0.5f);
   }
   free( h_velocity_x );
 }
 
 ////----------------------------------------------------------------------------------------------------------------------
 
-TEST( velocity_y, diffuse ) // to be continued...
+TEST( velocity_y, diffuse )
 {
   GpuSolver gpuSolver;
   gpuSolver.activate();
@@ -262,10 +260,12 @@ TEST( velocity_y, diffuse ) // to be continued...
   real * h_velocity_y = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY );
   gpuSolver.copy( gpuSolver.m_velocity.y, h_velocity_y, gpuSolver.m_totVelY );
 
-  int x = cpuSolver.m_totVelX;
+  int x = cpuSolver.m_totVelY;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f);
+    EXPECT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f);
+//    EXPECT_FLOAT_EQ( cpuSolver.m_velocity.y[i], h_velocity_y[i] );
+
   }
   free( h_velocity_y );
 }

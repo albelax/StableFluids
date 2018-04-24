@@ -9,7 +9,7 @@
 
 
 // testing gpu functions with the gpu solver
-#define CROSS_TESTING 1
+#define CROSS_TESTING 0
 
 const std::string address = "../application/"; // if the program is fired from the bin folder
 

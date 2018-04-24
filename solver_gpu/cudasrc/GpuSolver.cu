@@ -46,7 +46,7 @@ void GpuSolver::setParameters()
   m_max.y = (real)m_gridSize.y;
 
   m_timeStep = 1.0f;
-  m_diffusion = 0.0f;
+  m_diffusion = 1.0f;
   m_viscosity = 0.0f;
 }
 
@@ -243,10 +243,14 @@ void GpuSolver::diffuseVelocity()
 
   dim3 block(blockDim, blockDim);
   dim3 grid(nBlocks, nBlocks);
+
+//  cudaMemset( (void **)&m_velocity.x, 0, sizeof(real)*m_totVelX );
+//  cudaMemset( (void **)&m_velocity.y, 0, sizeof(real)*m_totVelY );
+
   d_diffuseVelocity<<<grid, block, bins>>>( m_previousVelocity, m_velocity, m_timeStep, m_diffusion );
 
   cudaError_t err = cudaGetLastError();
-  if ( err != cudaSuccess ) printf("Advection Error: %s\n", cudaGetErrorString(err));
+  if ( err != cudaSuccess ) printf("Diffusion Error: %s\n", cudaGetErrorString(err));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
