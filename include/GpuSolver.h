@@ -38,6 +38,7 @@ public:
   void diffuseVelocity(); // to be completed
   void addSource();
   void animVel();
+  void animDen();
 
 
   int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }

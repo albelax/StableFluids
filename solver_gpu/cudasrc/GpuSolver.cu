@@ -46,7 +46,7 @@ void GpuSolver::setParameters()
   m_max.y = (real)m_gridSize.y;
 
   m_timeStep = 1.0f;
-  m_diffusion = 1.0f;
+  m_diffusion = 0.0f;
   m_viscosity = 0.0f;
 }
 
@@ -165,9 +165,9 @@ void GpuSolver::setCellBoundary(real * _value, tuple<unsigned int> & _size )
 
 void GpuSolver::projection()
 {
-  unsigned int bins = 81 * sizeof(real);
   int nBlocks = m_totCell / 1024;
   int blockDim = 1024 / m_gridSize.x + 1; // 9 threads per block
+  unsigned int bins = blockDim * blockDim * sizeof(real);
 
   dim3 block(blockDim, blockDim); // block of (X,Y) threads
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
@@ -203,9 +203,9 @@ void GpuSolver::projection()
 
 void GpuSolver::advectVelocity()
 {
-  unsigned int bins = 81 * sizeof(real);
   int nBlocks = m_totCell / 1024;
   int blockDim = 1024 / m_gridSize.x + 1;
+  unsigned int bins = blockDim * blockDim * sizeof(real);
 
   dim3 block(blockDim, blockDim);
   dim3 grid(nBlocks, nBlocks);
@@ -220,7 +220,6 @@ void GpuSolver::advectVelocity()
 
 void GpuSolver::advectCell()
 {
-  //  unsigned int bins = 81 * sizeof(real);
   int nBlocks = m_totCell / 1024;
   int blockDim = 1024 / m_gridSize.x + 1;
 
@@ -237,9 +236,9 @@ void GpuSolver::advectCell()
 
 void GpuSolver::diffuseVelocity()
 {
-  unsigned int bins = 81 * sizeof(real);
   int nBlocks = m_totCell / 1024;
   int blockDim = 1024 / m_gridSize.x + 1;
+  unsigned int bins = blockDim * blockDim * sizeof(real);
 
   dim3 block(blockDim, blockDim);
   dim3 grid(nBlocks, nBlocks);
@@ -262,7 +261,7 @@ void GpuSolver::exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int 
   out.clear();
   int totSize = _sizeX * _sizeY;
   tuple<real> * result = (tuple<real> *) malloc( sizeof( tuple<real> ) * totSize );
-  if( cudaMemcpy( result, _t, totSize * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
+  if( cudaMemcpyAsync( result, _t, totSize * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
     exit(0);
 
   for(int i = 0; i < _sizeX; ++i)
@@ -282,6 +281,14 @@ void GpuSolver::exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int 
 void GpuSolver::animVel()
 {
   projection();
+
+  if(m_diffusion > 0.0f)
+  {
+    SWAP(m_previousVelocity.x, m_velocity.x);
+    SWAP(m_previousVelocity.y, m_velocity.y);
+    diffuseVelocity();
+  }
+
   SWAP(m_previousVelocity.x, m_velocity.x);
   SWAP(m_previousVelocity.y, m_velocity.y);
   advectVelocity();
@@ -291,9 +298,23 @@ void GpuSolver::animVel()
 
 //----------------------------------------------------------------------------------------------------------------------
 
+void GpuSolver::animDen()
+{
+  if(m_viscosity > 0.0f)
+  {
+    SWAP(m_previousDensity, m_density);
+//    diffuseCell(m_density, m_previousDensity);
+  }
+
+  SWAP(m_previousDensity, m_density);
+  advectCell();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
 void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
 {
-  if( cudaMemcpy( _dst, _src, _size * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
+  if( cudaMemcpyAsync( _dst, _src, _size * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
     exit(0);
 }
 
@@ -301,7 +322,7 @@ void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
 
 void GpuSolver::copy( real * _src, real * _dst, int _size )
 {
-  if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyDeviceToHost) != cudaSuccess )
+  if( cudaMemcpyAsync( _dst, _src, _size * sizeof( real ), cudaMemcpyDeviceToHost) != cudaSuccess )
     exit(0);
 }
 
@@ -309,7 +330,7 @@ void GpuSolver::copy( real * _src, real * _dst, int _size )
 
 void GpuSolver::copyToDevice( real * _src, real * _dst, int _size )
 {
-  if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyHostToDevice ) != cudaSuccess )
+  if( cudaMemcpyAsync( _dst, _src, _size * sizeof( real ), cudaMemcpyHostToDevice ) != cudaSuccess )
     exit(0);
 }
 
@@ -322,12 +343,11 @@ void GpuSolver::gather( real * _value, unsigned int _size )
 
   real * d_values;
   cudaMalloc( &d_values, sizeof(real) * _size );
-  if( cudaMemcpy( d_values, _value, _size * sizeof( real ), cudaMemcpyHostToDevice) != cudaSuccess )
+  if( cudaMemcpyAsync( d_values, _value, _size * sizeof( real ), cudaMemcpyHostToDevice) != cudaSuccess )
     exit(0);
 
   unsigned int bins = 10;
   d_gather<<< blocks, threads, bins * sizeof(real)>>>( d_values, _size );
-  //  cudaThreadSynchronize();
 
   copy( d_values, _value, _size );
 }
@@ -341,3 +361,5 @@ void GpuSolver::randomizeArrays()
   Rand_GPU::randFloats( m_velocity.x, m_totVelX );
   Rand_GPU::randFloats( m_velocity.y, m_totVelY );
 }
+
+//----------------------------------------------------------------------------------------------------------------------

@@ -453,19 +453,19 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
 
   int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
-//  if ( (idy * c_rowVelocity[0] + idx) < c_totVelocity[0] )
-//  {
-//    _velocity.x[idy * c_rowVelocity[0] + idx] = 0;
-//  }
+  //  if ( (idy * c_rowVelocity[0] + idx) < c_totVelocity[0] )
+  //  {
+  //    _velocity.x[idy * c_rowVelocity[0] + idx] = 0;
+  //  }
 
-//  if ( (idy * c_rowVelocity[1] + idx) < c_totVelocity[1] )
-//  {
-//    _velocity.y[idy * c_rowVelocity[1] + idx] = 0;
-//  }
+  //  if ( (idy * c_rowVelocity[1] + idx) < c_totVelocity[1] )
+  //  {
+  //    _velocity.y[idy * c_rowVelocity[1] + idx] = 0;
+  //  }
 
-//  __syncthreads();
+  //  __syncthreads();
 
-  for(int k=0; k<20; k++)
+  for(int k = 0; k < 20; k++)
   {
     if ( idx > 0 && idx < c_rowVelocity[0] - 1 &&
          idy > 0 && idy < c_columnVelocity[0] - 1 )
@@ -493,18 +493,78 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
       _velocity.y[idy * c_rowVelocity[1] + idx] = local_velocity[sIdx];
     }
 
-//    __syncthreads();
-//    // boundary cases
-//    if ( idx > 0 && idx < c_rowVelocity[1] - 1 ) // rowsize
-//    {
-//      _velocity.x[idx] = - _velocity.x[idx + c_rowVelocity[1]]; // set the top row to be the same as the second row
-//      _velocity.x[idx + c_rowVelocity.x[1] * (c_columnVelocity[1]-1)] = -_velocity.x[idx + c_rowVelocity[1] * (c_columnVelocity[1] - 2)]; // set the last row to be the same as the second to last row
-//    }
-//    if ( idx > 0 && idx < c_columnVelocity[1] - 1 ) // colsize
-//    {
-//      _velocity.y[idx * c_rowVelocity[1]] = _velocity.y[idx * c_rowVelocity[1] + 1]; // set the first column on the left to be the same as the next
-//      _velocity.y[idx * c_rowVelocity[1] + ( c_rowVelocity[1] - 1)] = _velocity.y[idx * c_rowVelocity[1] + (c_rowVelocity[1] - 2)]; // set the first column on the right to be the same as the previous
-//    }
+    __syncthreads();
+
+    // boundary cases
+    if ( idx > 0 && idx < c_rowVelocity[0] - 1 ) // rowsize
+    {
+      _velocity.x[idx] =  _velocity.x[idx + c_rowVelocity[0]];
+      _velocity.x[idx + c_rowVelocity[0] * (c_columnVelocity[0]-1)] = _velocity.x[idx + c_rowVelocity[0] * (c_columnVelocity[0] - 2)];
+    }
+
+    if ( idx > 0 && idx < c_rowVelocity[1] - 1 )
+    {
+      _velocity.y[idx] = - _velocity.y[idx + c_rowVelocity[1]];
+      _velocity.y[idx + c_rowVelocity[1] * (c_columnVelocity[1]-1)] = -_velocity.y[idx + c_rowVelocity[1] * (c_columnVelocity[1] - 2)];
+    }
+
+
+    if ( idx > 0 && idx < c_columnVelocity[0] - 1 ) // colsize
+    {
+      _velocity.x[idx * c_rowVelocity[0]] = -_velocity.x[idx * c_rowVelocity[0] + 1];
+      _velocity.x[idx * c_rowVelocity[0] + ( c_rowVelocity[0] - 1)] = -_velocity.x[idx * c_rowVelocity[0] + (c_rowVelocity[0] - 2)];
+    }
+
+    if ( idx > 0 && idx < c_columnVelocity[1] - 1 ) // colsize
+    {
+      _velocity.y[idx * c_rowVelocity[1]] = _velocity.y[idx * c_rowVelocity[1] + 1];
+      _velocity.y[idx * c_rowVelocity[1] + ( c_rowVelocity[1] - 1)] = _velocity.y[idx * c_rowVelocity[1] + (c_rowVelocity[1] - 2)];
+    }
+    __syncthreads();
+
+    // corners
+    if ( idx == 0 && idy == 0 )
+    {
+      _velocity.x[0] = ( _velocity.x[1] + _velocity.x[c_rowVelocity[0]] ) / 2;
+
+      int dst = c_rowVelocity[0] - 1;
+      int left = c_rowVelocity[0] - 2;
+      int down = c_rowVelocity[0] + c_rowVelocity[0] - 1;
+      _velocity.x[dst] = (_velocity.x[left] + _velocity.x[down])/2;
+
+      int up = (c_columnVelocity[0] - 1) * c_rowVelocity[0] + 1;
+      left = (c_columnVelocity[0] - 2) * c_rowVelocity[0];
+      dst = (c_columnVelocity[0] - 1) * c_rowVelocity[0];
+      _velocity.x[dst] = (_velocity.x[up] + _velocity.x[left])/2;
+
+      dst = (c_columnVelocity[0] - 1) * c_rowVelocity[0] + (c_rowVelocity[0] -1);
+      left = (c_columnVelocity[0] - 1) * c_rowVelocity[0] + (c_rowVelocity[0] - 2);
+      up = (c_columnVelocity[0] - 2) * c_rowVelocity[0] + (c_rowVelocity[0] - 1);
+
+      _velocity.x[dst] = ( _velocity.x[left] + _velocity.x[up] ) / 2;
+    }
+
+    if ( idx == 1 && idy == 1 )
+    {
+      _velocity.y[0] = ( _velocity.y[1] + _velocity.y[c_rowVelocity[1]] ) / 2;
+
+      int dst = c_rowVelocity[1] - 1;
+      int left = c_rowVelocity[1] - 2;
+      int down = c_rowVelocity[1] + c_rowVelocity[1] - 1;
+      _velocity.y[dst] = ( _velocity.y[left] + _velocity.y[down] )/2;
+
+      int up = (c_columnVelocity[1] - 1) * c_rowVelocity[1] + 1;
+      left = (c_columnVelocity[1] - 2) * c_rowVelocity[1];
+      dst = (c_columnVelocity[1] - 1) * c_rowVelocity[1];
+      _velocity.y[dst] = (_velocity.y[up] + _velocity.y[left])/2;
+
+      dst = (c_columnVelocity[1] - 1) * c_rowVelocity[1] + (c_rowVelocity[1] -1);
+      left = (c_columnVelocity[1] - 1) * c_rowVelocity[1] + (c_rowVelocity[1] - 2);
+      up = (c_columnVelocity[1] - 2) * c_rowVelocity[1] + (c_rowVelocity[1] - 1);
+
+      _velocity.y[dst] = ( _velocity.y[left] + _velocity.y[up] ) / 2;
+    }
+    __syncthreads();
   }
 }
 

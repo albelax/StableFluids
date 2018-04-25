@@ -161,9 +161,22 @@ static void CPU_diffuseVelocity( benchmark::State& state )
   {
     solver.diffuseVel();
   }
-
 }
 BENCHMARK(CPU_diffuseVelocity);
+
+///----------------------------------------------------------------------------------------------
+
+static void GPU_diffuseVelocity( benchmark::State& state )
+{
+  GpuSolver solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.diffuseVelocity();
+  }
+}
+BENCHMARK(GPU_diffuseVelocity);
 
 ///---------------------------------------------------------------------------------------------- 
 
@@ -191,7 +204,6 @@ static void GPU_animateVelocity( benchmark::State& state )
   {
     solver.animVel();
   }
-
 }
 BENCHMARK(GPU_animateVelocity);
 

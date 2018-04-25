@@ -9,7 +9,7 @@
 
 
 // testing gpu functions with the gpu solver
-#define CROSS_TESTING 0
+#define CROSS_TESTING 1
 
 const std::string address = "../application/"; // if the program is fired from the bin folder
 
@@ -63,7 +63,7 @@ GLWindow::~GLWindow()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void GLWindow::mouseMove(QMouseEvent * _event)
+void GLWindow::mouseMove( QMouseEvent * _event )
 {
   m_solver.cleanBuffer();
 
@@ -187,20 +187,22 @@ void GLWindow::paintGL()
 
   m_solverGpu.copyToDevice( m_solver.m_previousVelocity.x, m_solverGpu.m_previousVelocity.x, m_solver.m_totVelX );
   m_solverGpu.copyToDevice( m_solver.m_previousVelocity.y, m_solverGpu.m_previousVelocity.y, m_solver.m_totVelY);
+  m_solverGpu.copyToDevice( m_solver.m_density, m_solverGpu.m_density, m_solver.m_totCell);
 
   m_solverGpu.animVel();
+  m_solverGpu.animDen();
 
-
+  m_solverGpu.copy( m_solverGpu.m_density,    m_solver.m_density,    m_solver.m_totCell );
   m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
   m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
   m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
-  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY);
+  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY );
   //----------------------------------------
 
 #else
   m_solver.animVel();
-#endif
   m_solver.animDen();
+#endif
 
   glClearColor( 1, 1, 1, 1.0f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.0
+** Created by: Qt User Interface Compiler version 5.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -122,7 +122,7 @@ public:
 
         Diffusion = new QDoubleSpinBox(s_transformGB);
         Diffusion->setObjectName(QStringLiteral("Diffusion"));
-        Diffusion->setMaximum(10);
+        Diffusion->setMaximum(100);
         Diffusion->setSingleStep(0.1);
 
         gridLayout->addWidget(Diffusion, 4, 2, 1, 1);
@@ -178,15 +178,15 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stable Fluids", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stable Fluids", 0));
         s_drawGB->setTitle(QString());
         s_transformGB->setTitle(QString());
-        DensityLabel->setText(QApplication::translate("MainWindow", "Density", Q_NULLPTR));
-        TimestepLabel->setText(QApplication::translate("MainWindow", "TimeStep", Q_NULLPTR));
+        DensityLabel->setText(QApplication::translate("MainWindow", "Density", 0));
+        TimestepLabel->setText(QApplication::translate("MainWindow", "TimeStep", 0));
         label->setText(QString());
-        reset->setText(QApplication::translate("MainWindow", "Reset", Q_NULLPTR));
-        DiffusionLabel->setText(QApplication::translate("MainWindow", "Diffusion", Q_NULLPTR));
-        ViscosityLabel->setText(QApplication::translate("MainWindow", "Viscosity", Q_NULLPTR));
+        reset->setText(QApplication::translate("MainWindow", "Reset", 0));
+        DiffusionLabel->setText(QApplication::translate("MainWindow", "Diffusion", 0));
+        ViscosityLabel->setText(QApplication::translate("MainWindow", "Viscosity", 0));
     } // retranslateUi
 
 };
