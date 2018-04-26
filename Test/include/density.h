@@ -77,4 +77,33 @@ TEST( advectDensity, isEqual )
 
 ////----------------------------------------------------------------------------------------------------------------------
 
+TEST( density, diffuse )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+  Rand_GPU::randFloats( gpuSolver.m_previousDensity,  gpuSolver.m_totCell );
+  Rand_GPU::randFloats( gpuSolver.m_density,  gpuSolver.m_totCell );
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+
+  gpuSolver.copy( gpuSolver.m_previousDensity, cpuSolver.m_previousDensity, gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_density, cpuSolver.m_density, gpuSolver.m_totCell );
+
+  gpuSolver.diffuseCell();
+  cpuSolver.diffuseCell( cpuSolver.m_density, cpuSolver.m_previousDensity);
+
+  real * h_density = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell );
+  gpuSolver.copy( gpuSolver.m_density, h_density, gpuSolver.m_totCell );
+
+  int x = cpuSolver.m_totCell;
+  for ( int i = 0; i < x; ++i )
+  {
+    EXPECT_NEAR( cpuSolver.m_density[i], h_density[i], 0.5f);
+  }
+  free( h_density );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
 #endif // DENSITY_H

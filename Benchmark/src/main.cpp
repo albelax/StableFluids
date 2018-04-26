@@ -113,7 +113,6 @@ static void GPU_advectVelocity( benchmark::State& state )
   for ( auto _ : state )
   {
     solver.advectVelocity();
-
   }
 }
 BENCHMARK(GPU_advectVelocity);

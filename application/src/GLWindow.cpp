@@ -7,7 +7,6 @@
 #include <QScreen>
 #include <unistd.h>
 
-
 // testing gpu functions with the gpu solver
 #define CROSS_TESTING 1
 
@@ -26,7 +25,7 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
 
   m_image = QPixmap( 128, 128 ).toImage();
   m_image.fill(Qt::white);
-  m_solver.activate();
+    m_solver.activate();
 
   m_solverGpu.activate();
 }
@@ -51,7 +50,7 @@ void GLWindow::initializeGL()
 
   init();
 
-  m_MV = glm::translate( m_MV, glm::vec3(0.0f, 0.0f, -2.0f) );
+  m_MV = glm::translate( m_MV, glm::vec3( 0.0f, 0.0f, -2.0f) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -65,8 +64,8 @@ GLWindow::~GLWindow()
 
 void GLWindow::mouseMove( QMouseEvent * _event )
 {
-  m_solver.cleanBuffer();
-
+    m_solver.cleanBuffer();
+//  m_solverGpu.cleanBuffer();
   m_camera.handleMouseMove( _event->pos().x(), _event->pos().y() );
 
   float posx = _event->pos().x() / static_cast<float>(width()) * 127.0f;
@@ -79,12 +78,14 @@ void GLWindow::mouseMove( QMouseEvent * _event )
   if ( y < 1 ) y = 1;
 
   if ( _event->buttons() == Qt::RightButton )
-    m_solver.setVel0(x,y, _event->pos().x() - prevX, _event->pos().y() - prevY );
+        m_solver.setVel0(x,y, _event->pos().x() - prevX, _event->pos().y() - prevY );
+//    m_solverGpu.setVel0(x,y, _event->pos().x() - prevX, _event->pos().y() - prevY );
   else if ( _event->buttons() == Qt::LeftButton )
-    m_solver.setD0(x, y);
+        m_solver.setD0(x, y);
+//    m_solverGpu.setD0(x,y);
 
-  m_solver.addSource();
-
+    m_solver.addSource();
+//  m_solverGpu.addSource();
   update();
 }
 
@@ -92,14 +93,15 @@ void GLWindow::mouseMove( QMouseEvent * _event )
 
 void GLWindow::mouseClick(QMouseEvent * _event)
 {
-  m_solver.cleanBuffer();
+  //  m_solver.cleanBuffer();
+  m_solverGpu.cleanBuffer();
 
   prevX = _event->pos().x();
   prevY = _event->pos().y();
 
-
   if ( _event->buttons() == Qt::LeftButton )
-    m_solver.setD0(prevX, prevY);
+        m_solver.setD0(prevX, prevY);
+//    m_solverGpu.setD0(prevX, prevY);
   update();
 }
 
@@ -168,9 +170,6 @@ void GLWindow::init()
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
   glGenerateMipmap( GL_TEXTURE_2D );
-  //  GLenum error = glGetError();
-  //  if ( error !=  GL_NO_ERROR )
-  //    std::cout << "GL Error " << error << '\n';
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -179,24 +178,26 @@ void GLWindow::paintGL()
 {
 #if CROSS_TESTING
 
-  //---------------------------------------- animVel
-  m_solverGpu.copyToDevice( m_solver.m_pressure, m_solverGpu.m_pressure, m_solver.m_totCell );
-  m_solverGpu.copyToDevice( m_solver.m_divergence, m_solverGpu.m_divergence, m_solver.m_totCell );
-  m_solverGpu.copyToDevice( m_solver.m_velocity.x, m_solverGpu.m_velocity.x, m_solver.m_totVelX );
-  m_solverGpu.copyToDevice( m_solver.m_velocity.y, m_solverGpu.m_velocity.y, m_solver.m_totVelY);
+  //---------------------------------------- gpu
 
-  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.x, m_solverGpu.m_previousVelocity.x, m_solver.m_totVelX );
-  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.y, m_solverGpu.m_previousVelocity.y, m_solver.m_totVelY);
-  m_solverGpu.copyToDevice( m_solver.m_density, m_solverGpu.m_density, m_solver.m_totCell);
+    m_solverGpu.copyToDevice( m_solver.m_pressure, m_solverGpu.m_pressure, m_solver.m_totCell );
+    m_solverGpu.copyToDevice( m_solver.m_divergence, m_solverGpu.m_divergence, m_solver.m_totCell );
+    m_solverGpu.copyToDevice( m_solver.m_velocity.x, m_solverGpu.m_velocity.x, m_solver.m_totVelX );
+    m_solverGpu.copyToDevice( m_solver.m_velocity.y, m_solverGpu.m_velocity.y, m_solver.m_totVelY);
+
+    m_solverGpu.copyToDevice( m_solver.m_previousVelocity.x, m_solverGpu.m_previousVelocity.x, m_solver.m_totVelX );
+    m_solverGpu.copyToDevice( m_solver.m_previousVelocity.y, m_solverGpu.m_previousVelocity.y, m_solver.m_totVelY);
+    m_solverGpu.copyToDevice( m_solver.m_density, m_solverGpu.m_density, m_solver.m_totCell);
 
   m_solverGpu.animVel();
   m_solverGpu.animDen();
 
-  m_solverGpu.copy( m_solverGpu.m_density,    m_solver.m_density,    m_solver.m_totCell );
-  m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
-  m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
-  m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
-  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY );
+    m_solverGpu.copy( m_solverGpu.m_density,    m_solver.m_density,    m_solver.m_totCell );
+    m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
+    m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
+    m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
+    m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY );
+
   //----------------------------------------
 
 #else
@@ -207,20 +208,8 @@ void GLWindow::paintGL()
   glClearColor( 1, 1, 1, 1.0f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
+  draw( m_solverGpu.getDensity(), m_solverGpu.getRowCell() );
 
-  for ( int i = 0; i < m_image.height(); ++i )
-  {
-    for ( int j = 0; j < m_image.width(); ++j )
-    {
-      float r,g,b = 0;
-
-      r = 255 - ( m_solver.getDens(i, j) > 255 ? 255 : m_solver.getDens(i, j) );
-      g = 255 - ( m_solver.getDens(i, j) > 255 ? 255 : m_solver.getDens(i, j) );
-      b = 255 - ( m_solver.getDens(i, j) > 255 ? 255 : m_solver.getDens(i, j) );
-
-      m_image.setPixel(i,j,qRgb(r,g,b) );
-    }
-  }
   auto m_glImage = QGLWidget::convertToGLFormat( m_image );
   if(m_glImage.isNull())
     qWarning("IMAGE IS NULL");
@@ -261,6 +250,27 @@ void GLWindow::renderScene()
 void GLWindow::reset()
 {
   m_solver.reset();
+//  m_solverGpu.reset();
+}
+//------------------------------------------------------------------------------------------------------------------------------
+
+void GLWindow::draw( const real *_density, int _size )
+{
+  for ( int i = 0; i < m_image.height(); ++i )
+  {
+    for ( int j = 0; j < m_image.width(); ++j )
+    {
+      float density = (_density[(j - 1) * _size + (i - 1)] +
+          _density[(j - 1) * _size + i] +
+          _density[j * _size + (i - 1)] +
+          _density[j * _size + i])/4.0f;
+
+      float r = 255 - ( density > 255 ? 255 : density );
+      if ( i == 0 || j == 0 || i == m_image.height()-1 || j == m_image.width()-1 )
+        r = 255;
+      m_image.setPixel(i, j, qRgb(r, r, r) );
+    }
+  }
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -299,8 +309,6 @@ void GLWindow::addTexture()
   m_textures.push_back(tmp);
   glActiveTexture( GL_TEXTURE0 + ( m_textures.size() - 1 ) );
   glGenTextures( 1, &m_textures[ m_textures.size() - 1 ] );
-
-  //  m_image.load(_image.c_str());
 
   auto m_glImage = QGLWidget::convertToGLFormat( m_image );
   if(m_glImage.isNull())

@@ -1,6 +1,7 @@
 #ifndef _GPU_SOLVER_KERNELS_H
 #define _GPU_SOLVER_KERNELS_H
 
+#define CUDA_API_PER_THREAD_DEFAULT_STREAM
 
 // Cuda includes begin
 #include <cuda.h>
@@ -9,16 +10,10 @@
 #include <cuda_runtime_api.h>
 #include <device_functions.h>
 
-//#include <thrust/host_vector.h>
-//#include <thrust/device_vector.h>
-//#include <thrust/sort.h>
-//#include <thrust/execution_policy.h>
-// cuda includes end
-
 #include "tuple.h"
 
 // constant memory is a small chunk of memory off chip,
-// slower than the L1 cache but a lot faster than global memory
+// slower than registers and L1 cache, but a lot faster than global memory
 // since these values will be used often it's worth storing them
 // in constant memory instead of feeding them to the gpu when the kernel is launched
 extern __constant__ unsigned int c_gridSize[2];
@@ -110,4 +105,21 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
 
 __device__ real velocityBoundary(tuple<real *> _velocity , int _idx, int _idy);
 
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_diffuseCell(real * _previousDensity, real * _density, real _timestep, real _viscosity );
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_addVelocity_x( real * _previousVelocity, real * _velocity );
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_addVelocity_y( real * _previousVelocity, real * _velocity );
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_addDensity( real * _previousDensity, real * _density );
+
+//----------------------------------------------------------------------------------------------------------------------
 #endif

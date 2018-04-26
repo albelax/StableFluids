@@ -26,6 +26,7 @@
 #include <iostream>
 #include "tuple.h"
 #include "rand_cpu.h"
+#include <QImage>
 
 #define SWAP(value0,value) { real *tmp = value0; value0 = value; value = tmp; }
 
@@ -63,26 +64,30 @@ public:
   void addSource();
   void animVel();
   void animDen();
+  QImage draw( const QImage & _image ) const;
 
-  //getter
-  int getRowCell(){ return m_gridSize.x; }
-  int getColCell(){ return m_gridSize.y; }
-  int getTotCell(){ return m_totCell; }
-  int getRowVelX(){ return m_rowVelocity.x; }
-  int getcolVelX(){ return m_columnVelocity.x; }
-  int getTotVelX(){ return m_totVelX; }
-  int getRowVelY(){ return m_rowVelocity.y; }
-  int getColVelY(){ return m_columnVelocity.y; }
-  int getTotVelY(){ return m_totVelY; }
-  int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
-  int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
-  int cIdx(int i, int j){ return j*m_gridSize.x+i; }
-  real* getVX(){ return m_velocity.x; }
-  real* getVY(){ return m_velocity.y; }
-  real* getD(){ return m_density; }
-  tuple<real> * getPVX(){ return m_pvx; }
-  tuple<real> * getPVY(){ return m_pvy; }
-  tuple<real> getCellVel(int i, int j)
+  //getters
+  int vxIdx(int i, int j) const { return j*m_rowVelocity.x+i; }
+  int vyIdx(int i, int j) const { return j*m_rowVelocity.y+i; }
+  int cIdx(int i, int j) const { return j*m_gridSize.x+i; }
+
+  int getcolVelX() const { return m_columnVelocity.x; }
+  int getColVelY() const { return m_columnVelocity.y; }
+  int getRowVelX() const { return m_rowVelocity.x; }
+  int getRowVelY() const { return m_rowVelocity.y; }
+  int getRowCell() const { return m_gridSize.x; }
+  int getColCell() const { return m_gridSize.y; }
+  int getTotCell() const { return m_totCell; }
+  int getTotVelX() const { return m_totVelX; }
+  int getTotVelY() const { return m_totVelY; }
+  real* getVX() const { return m_velocity.x; }
+  real* getVY() const { return m_velocity.y; }
+  real* getD() const { return m_density; }
+  tuple<real> * getPVX() const { return m_pvx; }
+  tuple<real> * getPVY() const { return m_pvy; }
+  const real * getDensity() const { return m_density; }
+
+  tuple<real> getCellVel(int i, int j) const
   {
     real x = (m_velocity.x[vxIdx(i, j)]+m_velocity.x[vxIdx(i+1, j)]) / 2.0f;
     real y = (m_velocity.y[vyIdx(i, j)]+m_velocity.y[vyIdx(i, j+1)]) / 2.0f;
@@ -90,7 +95,7 @@ public:
     return ret;
   }
 
-  real getDens(int i, int j) // calculates density of cell
+  real getDens(int i, int j) const // calculates density of cell
   {
     real dens = m_density[cIdx(i-1, j-1)] + m_density[cIdx(i, j-1)] +
         m_density[cIdx(i-1, j)] + m_density[cIdx(i, j)];
@@ -99,10 +104,10 @@ public:
 
   void setVel0(int i, int j, real _vx0, real _vy0)
   {
-    m_previousVelocity.x[vxIdx(i, j)] += _vx0;
-    m_previousVelocity.x[vxIdx(i+1, j)] += _vx0;
-    m_previousVelocity.y[vyIdx(i, j)] += _vy0;
-    m_previousVelocity.y[vyIdx(i, j+1)] += _vy0;
+    m_previousVelocity.x[vxIdx(i, j)] = _vx0;
+    m_previousVelocity.x[vxIdx(i+1, j)] = _vx0;
+    m_previousVelocity.y[vyIdx(i, j)] = _vy0;
+    m_previousVelocity.y[vyIdx(i, j+1)] = _vy0;
   }
   void setD0(int i, int j ){ m_previousDensity[cIdx(i, j)] = m_inputDensity; }
   void exportCSV( std::string _file, tuple<real> * _t, int _sizeX, int _sizeY );

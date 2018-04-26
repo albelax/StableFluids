@@ -1,5 +1,5 @@
 #include "GpuSolverKernels.cuh"
-#include "GpuSolver.h"
+//#include "GpuSolver.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -233,7 +233,6 @@ __global__ void d_projection( real * _pressure, real * _divergence )
   if ( idx > 0 && idx < c_gridSize[0] - 1 &&
        idy > 0 && idy < c_gridSize[1] - 1 )
   {
-
     int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
     int currentCell = idy * c_gridSize[0] + idx;
 
@@ -243,7 +242,7 @@ __global__ void d_projection( real * _pressure, real * _divergence )
     int up = (idy - 1) * c_gridSize[0] + idx;
 
     local_pressure[sIdx] = ( _pressure[right] + _pressure[left] + _pressure[down] + _pressure[up] - _divergence[currentCell])/4.0;
-    //    __syncthreads();
+    __syncthreads();
 
     _pressure[currentCell] = local_pressure[sIdx];
     //    __syncthreads();
@@ -276,7 +275,7 @@ __global__ void d_divergenceStep(real * _pressure, real * _divergence, tuple<rea
     // index of the shared memory
     local_divergence[sIdx] = _velocity.x[right] - _velocity.x[currentVelX] + _velocity.y[down] - _velocity.y[currentVelY];
 
-    _pressure[currentCell] = 0.0;
+    //    _pressure[currentCell] = 0.0;
     _divergence[currentCell] = local_divergence[sIdx];
     //    __syncthreads();
   }
@@ -453,18 +452,6 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
 
   int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
 
-  //  if ( (idy * c_rowVelocity[0] + idx) < c_totVelocity[0] )
-  //  {
-  //    _velocity.x[idy * c_rowVelocity[0] + idx] = 0;
-  //  }
-
-  //  if ( (idy * c_rowVelocity[1] + idx) < c_totVelocity[1] )
-  //  {
-  //    _velocity.y[idy * c_rowVelocity[1] + idx] = 0;
-  //  }
-
-  //  __syncthreads();
-
   for(int k = 0; k < 20; k++)
   {
     if ( idx > 0 && idx < c_rowVelocity[0] - 1 &&
@@ -565,6 +552,102 @@ __global__ void d_diffuseVelocity( tuple<real *> _previousVelocity, tuple<real *
       _velocity.y[dst] = ( _velocity.y[left] + _velocity.y[up] ) / 2;
     }
     __syncthreads();
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_diffuseCell( real * _previousDensity, real * _density, real _timestep, real _viscosity )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int idy = threadIdx.y + blockDim.y * blockIdx.y;
+
+  extern __shared__ real local_density[];
+
+  real a = _viscosity * _timestep;
+
+  int sIdx = threadIdx.y * blockDim.x + threadIdx.x;
+  for(int k = 0; k < 20; k++)
+  {
+    if ( idx > 0 && idx < c_gridSize[0] - 1 &&
+         idy > 0 && idy < c_gridSize[1] - 1 )
+    {
+      local_density[sIdx] = (_previousDensity[idy * c_gridSize[0] + idx]+
+          a*(_density[idy * c_gridSize[0] + idx+1]+_density[idy * c_gridSize[0] + idx-1]+
+          _density[(idy + 1) * c_gridSize[0] + idx]+
+          _density[(idy - 1) * c_gridSize[0] + idx])) / (4.0f*a+1.0f);
+      __syncthreads();
+
+      _density[idy * c_gridSize[0] + idx] = local_density[sIdx];
+    }
+
+    // TODO: boundary
+    if ( idx > 0 && idx < c_gridSize[0] - 1 )
+    {
+      _density[idx] = _density[idx + c_gridSize[0]];
+      _density[idx + c_gridSize[0] * (c_gridSize[1] - 1)] = _density[idx + c_gridSize[0] * (c_gridSize[1] - 2)];
+    }
+
+    if ( idx > 0 && idx < c_gridSize[1] - 1 )
+    {
+      _density[idx * c_gridSize[0]] = _density[idx * c_gridSize[0] + 1]; // set the first column on the left to be the same as the next
+      _density[idx * c_gridSize[0] + ( c_gridSize[0] - 1)] = _density[idx * c_gridSize[0] + (c_gridSize[0] - 2)];
+    }
+    if ( idx == 0 )
+    {
+      _density[0] = ( _density[1] + _density[c_gridSize[0]] ) / 2;
+
+      int dst = c_gridSize[0] - 1;
+      int left = c_gridSize[0] - 2;
+      int down = c_gridSize[0] + c_gridSize[0] - 1;
+      _density[dst] = (_density[left] + _density[down]) / 2;
+
+      int up = (c_gridSize[1] - 1) * c_gridSize[0] + 1;
+      left = (c_gridSize[1] - 2) * c_gridSize[0];
+      dst = (c_gridSize[1] - 1) * c_gridSize[0];
+      _density[dst] = (_density[up] + _density[left])/2;
+
+      dst = (c_gridSize[1] - 1) * c_gridSize[0] + (c_gridSize[0] -1);
+      left = (c_gridSize[1] - 1) * c_gridSize[0] + (c_gridSize[0] - 2);
+      up = (c_gridSize[1] - 2) * c_gridSize[0] + (c_gridSize[0] - 1);
+
+      _density[dst] = ( _density[left] + _density[up] ) / 2;
+    }
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_addVelocity_x( real * _previousVelocity, real * _velocity )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  if ( idx < c_totVelocity[0] )
+  {
+    _velocity[idx] += _previousVelocity[idx];
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_addVelocity_y( real * _previousVelocity, real * _velocity )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  if ( idx < c_totVelocity[1] )
+  {
+    _velocity[idx] += _previousVelocity[idx];
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+__global__ void d_addDensity( real * _previousDensity, real * _density )
+{
+  int idx = threadIdx.x + blockDim.x * blockIdx.x;
+  int gridSize = c_gridSize[0] * c_gridSize[1];
+
+  if ( idx < gridSize )
+  {
+    _density[idx] += _previousDensity[idx];
   }
 }
 

@@ -81,18 +81,18 @@ void StableSolverCpu::activate()
   m_pvx = (tuple<real> *)malloc(sizeof(tuple<real>)*m_totVelX);
   m_pvy = (tuple<real> *)malloc(sizeof(tuple<real>)*m_totVelY);
 
-  for(int i=0; i<m_rowVelocity.x; ++i)
+  for(int i = 0; i < m_rowVelocity.x; ++i)
   {
-    for(int j=0; j<m_columnVelocity.x; ++j)
+    for(int j = 0; j < m_columnVelocity.x; ++j)
     {
       m_pvx[vxIdx(i, j)].x = (real)i;
       m_pvx[vxIdx(i, j)].y = (real)j+0.5f;
     }
   }
 
-  for(int i=0; i<m_rowVelocity.y; ++i)
+  for( int i = 0; i < m_rowVelocity.y; ++i )
   {
-    for(int j=0; j<m_columnVelocity.y; ++j)
+    for( int j = 0; j < m_columnVelocity.y; ++j )
     {
       m_pvy[vyIdx(i, j)].x = (real)i+0.5f;
       m_pvy[vyIdx(i, j)].y = (real)j;
@@ -369,8 +369,8 @@ void StableSolverCpu::advectCell(real *value, real *value0)
 
 void StableSolverCpu::diffuseVel()
 {
-  //  for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0;
-  //  for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0;
+    for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0;
+    for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0;
   real a = m_diffusion * m_timeStep;
 
   for(int k=0; k<20; k++)
@@ -404,14 +404,14 @@ void StableSolverCpu::diffuseVel()
 
 void StableSolverCpu::diffuseCell(real *value, real *value0)
 {
-  for(int i=0; i<m_totCell; ++i) value[i] = 0.0f;
+  for(int i=0; i<m_totCell; ++i) value[i] = 0;
   real a = m_viscosity*m_timeStep;
 
-  for(int k=0; k<20; ++k)
+  for( int k = 0; k < 20; ++k )
   {
-    for(int i=1; i<=m_gridSize.x-2; ++i)
+    for( int i = 1; i <= m_gridSize.x - 2; ++i )
     {
-      for(int j=1; j<=m_gridSize.y-2; ++j)
+      for( int j = 1; j <= m_gridSize.y - 2; ++j )
       {
         value[cIdx(i, j)] = (value0[cIdx(i, j)]+a*(value[cIdx(i+1, j)]+value[cIdx(i-1, j)]+value[cIdx(i, j+1)]+value[cIdx(i, j-1)])) / (4.0f*a+1.0f);
       }
@@ -439,7 +439,7 @@ void StableSolverCpu::animVel()
 {
   projection();
 
-  if(m_diffusion > 0.0f)
+  if( m_diffusion > 0.0f )
   {
     SWAP(m_previousVelocity.x, m_velocity.x);
     SWAP(m_previousVelocity.y, m_velocity.y);
@@ -522,3 +522,24 @@ void StableSolverCpu::randomizeArrays()
 
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
+QImage StableSolverCpu::draw( const QImage & _image ) const
+{
+  QImage result = _image.copy();
+  for ( int i = 0; i < _image.height(); ++i )
+  {
+    for ( int j = 0; j < _image.width(); ++j )
+    {
+      float r,g,b = 0;
+
+      r = 255 - ( getDens(i, j) > 255 ? 255 : getDens(i, j) );
+      g = 255 - ( getDens(i, j) > 255 ? 255 : getDens(i, j) );
+      b = 255 - ( getDens(i, j) > 255 ? 255 : getDens(i, j) );
+      result.setPixel(i,j,qRgb(r,g,b) );
+    }
+  }
+  return result;
+}
+
+//----------------------------------------------------------------------------------------------------------------------

@@ -53,6 +53,7 @@ protected:
   void paintGL();
   void renderScene();
   void renderTexture();
+  void draw(const real * _density, int _size );
 
 private:
   int prevX;

@@ -32,18 +32,29 @@ public:
 
   void setVelBoundary( int flag );
   void setCellBoundary( real * _value, tuple<unsigned int> & _size );
+  void setVel0(int i, int j, real _vx0, real _vy0);
+  void setD0(int i, int j );
   void projection();
   void advectVelocity();
   void advectCell();
-  void diffuseVelocity(); // to be completed
+  void diffuseVelocity();
+  void diffuseCell();
   void addSource();
   void animVel();
   void animDen();
 
-
-  int vxIdx(int i, int j){ return j*m_rowVelocity.x+i; }
-  int vyIdx(int i, int j){ return j*m_rowVelocity.y+i; }
-  int cIdx(int i, int j){ return j*m_gridSize.x+i; }
+  int vxIdx(int i, int j) const { return j*m_rowVelocity.x+i; }
+  int vyIdx(int i, int j) const { return j*m_rowVelocity.y+i; }
+  int cIdx(int i, int j) const { return j*m_gridSize.x+i; }
+  int getRowCell() const { return m_gridSize.x; }
+  int getColCell() const { return m_gridSize.y; }
+  int getTotCell() const { return m_totCell; }
+  int getRowVelX() const { return m_rowVelocity.x; }
+  int getcolVelX() const { return m_columnVelocity.x; }
+  int getTotVelX() const { return m_totVelX; }
+  int getRowVelY() const { return m_rowVelocity.y; }
+  int getColVelY() const { return m_columnVelocity.y; }
+  int getTotVelY() const { return m_totVelY; }
   void exportCSV( std::string _file, tuple<real> * _t, int _sizeX , int _sizeY );
 
   void gather( real * _value, unsigned int _size );
@@ -65,6 +76,7 @@ private:
   real m_inputDensity;
 
   real * m_density;
+  real * m_cpuDensity;
   real * m_previousDensity;
   real * m_divergence;
   real * m_pressure;
@@ -78,8 +90,11 @@ private:
   tuple<real *> m_previousVelocity;
   tuple<real> * m_pvx;
   tuple<real> * m_pvy;
+  real * getDensity();
   void copy( tuple<real> * _src, tuple<real> * _dst, int _size );
   void copy( real * _src, real * _dst, int _size );
+  void copy( const real * _src, real * _dst, int _size );
+
   void copyToDevice( real * _src, real * _dst, int _size );
 
 #if TESTING // I know friend is bad, but it is only to allow tesats to run :(

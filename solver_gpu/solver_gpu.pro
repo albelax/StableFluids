@@ -11,7 +11,7 @@ OBJECTS_DIR = obj
 TARGET = $$LIB_INSTALL_DIR/solver_gpu
 
 # Set the C++ flags for this compilation when using the host compiler
-QMAKE_CXXFLAGS += -std=c++11 -fPIC
+QMAKE_CXXFLAGS += -std=c++11 -fPIC -Wall -Wextra -pedantic
 
 # Directories
 INCLUDEPATH += include ${CUDA_PATH}/include \
