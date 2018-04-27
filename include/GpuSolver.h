@@ -76,10 +76,15 @@ private:
   real m_inputDensity;
 
   real * m_density;
-  real * m_cpuDensity;
   real * m_previousDensity;
   real * m_divergence;
   real * m_pressure;
+
+  // cpu
+  real * m_cpuDensity;
+  real * m_cpuPrevDensity;
+
+  // end cpu
   tuple<unsigned int> m_gridSize;
   tuple<unsigned int> m_rowVelocity;
   tuple<unsigned int> m_columnVelocity;

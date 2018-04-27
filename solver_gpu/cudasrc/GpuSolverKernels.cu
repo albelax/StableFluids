@@ -647,10 +647,7 @@ __global__ void d_addDensity( real * _previousDensity, real * _density )
 
   if ( idx < gridSize )
   {
-//    printf("density before add %d\n", _density[idx]);
     _density[idx] += _previousDensity[idx];
-//    if ( _density[idx] != 0)
-//    printf("density after add %d\n", _density[idx]);
   }
 }
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.6.2
+** Created by: Qt User Interface Compiler version 5.9.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -178,15 +178,15 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stable Fluids", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stable Fluids", Q_NULLPTR));
         s_drawGB->setTitle(QString());
         s_transformGB->setTitle(QString());
-        DensityLabel->setText(QApplication::translate("MainWindow", "Density", 0));
-        TimestepLabel->setText(QApplication::translate("MainWindow", "TimeStep", 0));
+        DensityLabel->setText(QApplication::translate("MainWindow", "Density", Q_NULLPTR));
+        TimestepLabel->setText(QApplication::translate("MainWindow", "TimeStep", Q_NULLPTR));
         label->setText(QString());
-        reset->setText(QApplication::translate("MainWindow", "Reset", 0));
-        DiffusionLabel->setText(QApplication::translate("MainWindow", "Diffusion", 0));
-        ViscosityLabel->setText(QApplication::translate("MainWindow", "Viscosity", 0));
+        reset->setText(QApplication::translate("MainWindow", "Reset", Q_NULLPTR));
+        DiffusionLabel->setText(QApplication::translate("MainWindow", "Diffusion", Q_NULLPTR));
+        ViscosityLabel->setText(QApplication::translate("MainWindow", "Viscosity", Q_NULLPTR));
     } // retranslateUi
 
 };

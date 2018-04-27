@@ -66,6 +66,8 @@ void GpuSolver::allocateArrays()
   cudaMalloc( &m_previousVelocity.y, sizeof(real)*m_totVelY );
   cudaMalloc( &m_previousDensity, sizeof(real) * m_totCell );
   m_cpuDensity = (real *) calloc( m_totCell, sizeof( real ) );
+  m_cpuPrevDensity = (real *) calloc( m_totCell, sizeof( real ) );
+
 
   //   allocate constant memory
   unsigned int tmp_gridSize[] = { m_gridSize.x, m_gridSize.y };
@@ -158,7 +160,7 @@ void GpuSolver::cleanBuffer()
 
 real * GpuSolver::getDensity()
 {
-  copy( m_density, m_cpuDensity, m_totCell );
+    copy( m_density, m_cpuDensity, m_totCell );
   for (int i = 0; i < m_totCell; ++i )
     if ( m_cpuDensity[i] != 0)
       std::cout << m_cpuDensity[i] << "\n";
@@ -411,12 +413,10 @@ void GpuSolver::randomizeArrays()
 
 void GpuSolver::addSource()
 {
-  int nBlocks = m_totCell / 1024;
-  int blockDim = 1024 / m_gridSize.x + 1;
-
-  dim3 block(blockDim, blockDim);
-  dim3 grid(nBlocks, nBlocks);
-
+  int threads = 1024;
+  unsigned int densityBlocks = m_totCell / threads + 1;
+  unsigned int xVelocityBlocks = m_totVelX / threads + 1;
+  unsigned int yVelocityBlocks = m_totVelY / threads + 1;
   std::vector<cudaStream_t> streams;
   streams.resize(3);
 
@@ -425,44 +425,86 @@ void GpuSolver::addSource()
     cudaStreamCreate( &i );
   }
 
-  d_addDensity<<<grid, block, 0, streams[0]>>>( m_previousDensity, m_density );
-  d_addVelocity_x<<<grid, block, 0, streams[1]>>>( m_previousVelocity.x, m_velocity.x );
-  d_addVelocity_y<<<grid, block, 0, streams[2]>>>( m_previousVelocity.y, m_velocity.y );
-  cudaDeviceSynchronize();
+  d_addDensity<<<densityBlocks, threads, 0, streams[0]>>>( m_previousDensity, m_density );
+  d_addVelocity_x<<<xVelocityBlocks, threads, 0, streams[1]>>>( m_previousVelocity.x, m_velocity.x );
+  d_addVelocity_y<<<yVelocityBlocks, threads, 0, streams[2]>>>( m_previousVelocity.y, m_velocity.y );
+//  cudaDeviceSynchronize();
 
-//  //  d_setCellBoundary<<<grid, block, 0, streams[0]>>>( m_density );
-//  std::cout << "add source \n";
+  //  //  d_setCellBoundary<<<grid, block, 0, streams[0]>>>( m_density );
+  //  std::cout << "add source \n";
+//    copy( m_density, m_cpuDensity, m_totCell );
+
   cudaError_t err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("add source Error: %s\n", cudaGetErrorString(err));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void GpuSolver::setVel0(int i, int j, real _vx0, real _vy0)
-{
-    real * v_x = m_previousVelocity.x + vxIdx(i, j);
-    real * v_y = m_previousVelocity.y + vyIdx(i, j);
-    real * v_down = m_previousVelocity.y + vyIdx(i, j+1);
-    real * v_right = m_previousVelocity.x + vxIdx(i+1, j);
-    cudaMemsetAsync( (void *) v_x, _vx0, sizeof(real) );
-    cudaMemsetAsync( (void *) v_y, _vy0, sizeof(real) );
-    cudaMemsetAsync( (void *) v_down, _vy0, sizeof(real) );
-    cudaMemsetAsync( (void *) v_right, _vx0, sizeof(real) );
+//void GpuSolver::setVel0(int i, int j, real _vx0, real _vy0)
+//{
+  //  real * v_x = m_previousVelocity.x + vxIdx(i, j);
+  //  real * v_y = m_previousVelocity.y + vyIdx(i, j);
+  //  real * v_down = m_previousVelocity.y + vyIdx(i, j+1);
+  //  real * v_right = m_previousVelocity.x + vxIdx(i+1, j);
+  //  cudaMemsetAsync( (void *) v_x, _vx0, sizeof(real) );
+  //  cudaMemsetAsync( (void *) v_y, _vy0, sizeof(real) );
+  //  cudaMemsetAsync( (void *) v_down, _vy0, sizeof(real) );
+  //  cudaMemsetAsync( (void *) v_right, _vx0, sizeof(real) );
 
-    cudaDeviceSynchronize();
+  //  cudaDeviceSynchronize();
 
-    cudaError_t err = cudaGetLastError();
-    if ( err != cudaSuccess ) printf("setVel0 Error: %s\n", cudaGetErrorString(err));
-}
+  //  cudaError_t err = cudaGetLastError();
+  //  if ( err != cudaSuccess ) printf("setVel0 Error: %s\n", cudaGetErrorString(err));
+//}
 
 //----------------------------------------------------------------------------------------------------------------------
 
 void GpuSolver::setD0(int i, int j )
 {
-    real * d = m_previousDensity + cIdx(i, j);
+  real * d = m_previousDensity + cIdx(i, j);
 
-    cudaMemsetAsync( (void *) m_previousDensity, m_inputDensity, sizeof(real));
-    cudaDeviceSynchronize();
-    cudaError_t err = cudaGetLastError();
-    if ( err != cudaSuccess ) printf("setD0 Error: %s\n", cudaGetErrorString(err));
+  cudaMemsetAsync( (void *) d, m_inputDensity, sizeof(real));
+
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("setD0 Error: %s\n", cudaGetErrorString(err));
 }
+
+
+// working cpu version
+
+//void GpuSolver::addSource()
+//{
+//  copy( m_previousDensity, m_cpuPrevDensity, m_totCell );
+
+//  for( int i = 0; i < m_totCell; ++i )
+//  {
+//    m_cpuDensity[i] += m_cpuPrevDensity[i];
+//    if ( m_cpuDensity[i] != 0 )
+//      std::cout << m_cpuDensity[i] << "\n";
+//  }
+
+//  //  setVelBoundary(1);
+//  //  setVelBoundary(2);
+//  //  setCellBoundary( m_density );
+//}
+
+////----------------------------------------------------------------------------------------------------------------------
+
+void GpuSolver::setVel0(int i, int j, real _vx0, real _vy0)
+{
+  m_previousVelocity.x[vxIdx(i, j)] = _vx0;
+  m_previousVelocity.x[vxIdx(i+1, j)] = _vx0;
+  m_previousVelocity.y[vyIdx(i, j)] = _vy0;
+  m_previousVelocity.y[vyIdx(i, j+1)] = _vy0;
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
+//void GpuSolver::setD0(int i, int j )
+//{
+//  real * d = m_cpuPrevDensity + cIdx(i, j);
+//  memset((void *) d, m_inputDensity, sizeof(real) );
+////  m_cpuPrevDensity[cIdx(i, j)] = m_inputDensity;
+//}
+
+

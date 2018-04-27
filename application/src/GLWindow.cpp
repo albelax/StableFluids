@@ -64,8 +64,8 @@ GLWindow::~GLWindow()
 
 void GLWindow::mouseMove( QMouseEvent * _event )
 {
-//  m_solver.cleanBuffer();
-    m_solverGpu.cleanBuffer();
+  //  m_solver.cleanBuffer();
+  m_solverGpu.cleanBuffer();
   m_camera.handleMouseMove( _event->pos().x(), _event->pos().y() );
 
   float posx = _event->pos().x() / static_cast<float>(width()) * 127.0f;
@@ -78,14 +78,15 @@ void GLWindow::mouseMove( QMouseEvent * _event )
   if ( y < 1 ) y = 1;
 
   if ( _event->buttons() == Qt::RightButton )
-//    m_solver.setVel0(x,y, _event->pos().x() - prevX, _event->pos().y() - prevY );
-      m_solverGpu.setVel0(x, y, _event->pos().x() - prevX, _event->pos().y() - prevY );
+    //    m_solver.setVel0(x,y, _event->pos().x() - prevX, _event->pos().y() - prevY );
+    m_solverGpu.setVel0(x, y, _event->pos().x() - prevX, _event->pos().y() - prevY );
   else if ( _event->buttons() == Qt::LeftButton )
-//    m_solver.setD0(x, y);
-      m_solverGpu.setD0(x, y);
+    //    m_solver.setD0(x, y);
+    m_solverGpu.setD0(x, y);
 
-//  m_solver.addSource();
-    m_solverGpu.addSource();
+  //  m_solver.addSource();
+  m_solverGpu.addSource();
+
   update();
 }
 
@@ -93,15 +94,15 @@ void GLWindow::mouseMove( QMouseEvent * _event )
 
 void GLWindow::mouseClick(QMouseEvent * _event)
 {
-    m_solver.cleanBuffer();
-//  m_solverGpu.cleanBuffer();
+  //  m_solver.cleanBuffer();
+  m_solverGpu.cleanBuffer();
 
   prevX = _event->pos().x();
   prevY = _event->pos().y();
 
   if ( _event->buttons() == Qt::LeftButton )
-//    m_solver.setD0(prevX, prevY);
-//      m_solverGpu.setD0(prevX, prevY);
+    //    m_solver.setD0(prevX, prevY);
+    m_solverGpu.setD0(prevX, prevY);
   update();
 }
 
@@ -180,23 +181,23 @@ void GLWindow::paintGL()
 
   //---------------------------------------- gpu
 
-//  m_solverGpu.copyToDevice( m_solver.m_pressure, m_solverGpu.m_pressure, m_solver.m_totCell );
-//  m_solverGpu.copyToDevice( m_solver.m_divergence, m_solverGpu.m_divergence, m_solver.m_totCell );
-//  m_solverGpu.copyToDevice( m_solver.m_velocity.x, m_solverGpu.m_velocity.x, m_solver.m_totVelX );
-//  m_solverGpu.copyToDevice( m_solver.m_velocity.y, m_solverGpu.m_velocity.y, m_solver.m_totVelY);
+  //  m_solverGpu.copyToDevice( m_solver.m_pressure, m_solverGpu.m_pressure, m_solver.m_totCell );
+  //  m_solverGpu.copyToDevice( m_solver.m_divergence, m_solverGpu.m_divergence, m_solver.m_totCell );
+  //  m_solverGpu.copyToDevice( m_solver.m_velocity.x, m_solverGpu.m_velocity.x, m_solver.m_totVelX );
+  //  m_solverGpu.copyToDevice( m_solver.m_velocity.y, m_solverGpu.m_velocity.y, m_solver.m_totVelY);
 
-//  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.x, m_solverGpu.m_previousVelocity.x, m_solver.m_totVelX );
-//  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.y, m_solverGpu.m_previousVelocity.y, m_solver.m_totVelY);
-//  m_solverGpu.copyToDevice( m_solver.m_density, m_solverGpu.m_density, m_solver.m_totCell);
+  //  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.x, m_solverGpu.m_previousVelocity.x, m_solver.m_totVelX );
+  //  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.y, m_solverGpu.m_previousVelocity.y, m_solver.m_totVelY);
+  //  m_solverGpu.copyToDevice( m_solver.m_density, m_solverGpu.m_density, m_solver.m_totCell);
 
   m_solverGpu.animVel();
   m_solverGpu.animDen();
 
-//  m_solverGpu.copy( m_solverGpu.m_density,    m_solver.m_density,    m_solver.m_totCell );
-//  m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
-//  m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
-//  m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
-//  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY );
+  //  m_solverGpu.copy( m_solverGpu.m_density,    m_solver.m_density,    m_solver.m_totCell );
+  //  m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
+  //  m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
+  //  m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
+  //  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY );
 
   //----------------------------------------
 
@@ -209,6 +210,8 @@ void GLWindow::paintGL()
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
   draw( m_solverGpu.getDensity(), m_solverGpu.getRowCell() );
+  //  draw( m_solver.getDensity(), m_solver.getRowCell() );
+
 
   auto m_glImage = QGLWidget::convertToGLFormat( m_image );
   if(m_glImage.isNull())
@@ -249,8 +252,8 @@ void GLWindow::renderScene()
 
 void GLWindow::reset()
 {
-//  m_solver.reset();
-    m_solverGpu.reset();
+  //  m_solver.reset();
+  m_solverGpu.reset();
 }
 //------------------------------------------------------------------------------------------------------------------------------
 
