@@ -60,6 +60,7 @@ public:
   void gather( real * _value, unsigned int _size );
   void gather2D( real * _value, unsigned int _size );
   void randomizeArrays();
+  real * getDensity();
 
 #if !CROSS_TESTING
 private:
@@ -83,8 +84,10 @@ private:
   // cpu
   real * m_cpuDensity;
   real * m_cpuPrevDensity;
+  tuple<real *> m_cpuPreviousVelocity;
 
   // end cpu
+
   tuple<unsigned int> m_gridSize;
   tuple<unsigned int> m_rowVelocity;
   tuple<unsigned int> m_columnVelocity;
@@ -95,7 +98,6 @@ private:
   tuple<real *> m_previousVelocity;
   tuple<real> * m_pvx;
   tuple<real> * m_pvy;
-  real * getDensity();
   void copy( tuple<real> * _src, tuple<real> * _dst, int _size );
   void copy( real * _src, real * _dst, int _size );
   void copy( const real * _src, real * _dst, int _size );
@@ -122,6 +124,7 @@ private:
   FRIEND_TEST( advect, velocity_y );
   FRIEND_TEST( velocity_x, diffuse );
   FRIEND_TEST( velocity_y, diffuse );
+  FRIEND_TEST( inputVelocity, setVel0 );
 
 #endif // TESTING
 };

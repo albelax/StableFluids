@@ -179,27 +179,8 @@ void GLWindow::paintGL()
 {
 #if CROSS_TESTING
 
-  //---------------------------------------- gpu
-
-  //  m_solverGpu.copyToDevice( m_solver.m_pressure, m_solverGpu.m_pressure, m_solver.m_totCell );
-  //  m_solverGpu.copyToDevice( m_solver.m_divergence, m_solverGpu.m_divergence, m_solver.m_totCell );
-  //  m_solverGpu.copyToDevice( m_solver.m_velocity.x, m_solverGpu.m_velocity.x, m_solver.m_totVelX );
-  //  m_solverGpu.copyToDevice( m_solver.m_velocity.y, m_solverGpu.m_velocity.y, m_solver.m_totVelY);
-
-  //  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.x, m_solverGpu.m_previousVelocity.x, m_solver.m_totVelX );
-  //  m_solverGpu.copyToDevice( m_solver.m_previousVelocity.y, m_solverGpu.m_previousVelocity.y, m_solver.m_totVelY);
-  //  m_solverGpu.copyToDevice( m_solver.m_density, m_solverGpu.m_density, m_solver.m_totCell);
-
   m_solverGpu.animVel();
   m_solverGpu.animDen();
-
-  //  m_solverGpu.copy( m_solverGpu.m_density,    m_solver.m_density,    m_solver.m_totCell );
-  //  m_solverGpu.copy( m_solverGpu.m_pressure,   m_solver.m_pressure,   m_solver.m_totCell );
-  //  m_solverGpu.copy( m_solverGpu.m_divergence, m_solver.m_divergence, m_solver.m_totCell );
-  //  m_solverGpu.copy( m_solverGpu.m_velocity.x, m_solver.m_velocity.x, m_solver.m_totVelX );
-  //  m_solverGpu.copy( m_solverGpu.m_velocity.y, m_solver.m_velocity.y, m_solver.m_totVelY );
-
-  //----------------------------------------
 
 #else
   m_solver.animVel();
@@ -208,6 +189,7 @@ void GLWindow::paintGL()
 
   glClearColor( 1, 1, 1, 1.0f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
 
   draw( m_solverGpu.getDensity(), m_solverGpu.getRowCell() );
   //  draw( m_solver.getDensity(), m_solver.getRowCell() );

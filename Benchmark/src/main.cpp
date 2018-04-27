@@ -15,7 +15,7 @@ static void Creation_of_a_string(benchmark::State& state)
 
 BENCHMARK(Creation_of_a_string);
 
-///----------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------- Construction
 
 static void CPU_solverCreation( benchmark::State& state )
 {
@@ -33,7 +33,7 @@ static void GPU_solverCreation( benchmark::State& state )
 }
 BENCHMARK(GPU_solverCreation);
 
-///----------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------- Activation
 
 static void CPU_solverActivation( benchmark::State& state )
 {
@@ -57,7 +57,7 @@ static void GPU_solverActivation( benchmark::State& state )
 }
 BENCHMARK(GPU_solverActivation);
 
-///----------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------- Projection
 
 static void CPU_projection( benchmark::State& state )
 {
@@ -87,7 +87,7 @@ static void GPU_projection( benchmark::State& state )
 }
 BENCHMARK(GPU_projection);
 
-///----------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------- Advect Velocity
 
 static void CPU_advectVelocity( benchmark::State& state )
 {
@@ -97,7 +97,6 @@ static void CPU_advectVelocity( benchmark::State& state )
   for ( auto _ : state )
   {
     solver.advectVel();
-
   }
 }
 BENCHMARK(CPU_advectVelocity);
@@ -117,8 +116,7 @@ static void GPU_advectVelocity( benchmark::State& state )
 }
 BENCHMARK(GPU_advectVelocity);
 
-///----------------------------------------------------------------------------------------------
-
+///---------------------------------------------------------------------------------------------- Advect Density
 
 static void CPU_advectCell( benchmark::State& state )
 {
@@ -135,7 +133,6 @@ BENCHMARK( CPU_advectCell );
 
 ///----------------------------------------------------------------------------------------------
 
-
 static void GPU_advectCell( benchmark::State& state )
 {
   GpuSolver solver;
@@ -144,12 +141,11 @@ static void GPU_advectCell( benchmark::State& state )
   for ( auto _ : state )
   {
     solver.advectCell();
-
   }
 }
 BENCHMARK( GPU_advectCell );
 
-///----------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------- Diffuse Velocity
 
 static void CPU_diffuseVelocity( benchmark::State& state )
 {
@@ -177,7 +173,35 @@ static void GPU_diffuseVelocity( benchmark::State& state )
 }
 BENCHMARK(GPU_diffuseVelocity);
 
-///---------------------------------------------------------------------------------------------- 
+///---------------------------------------------------------------------------------------------- Diffuse Density
+
+static void CPU_diffuseDensity( benchmark::State& state )
+{
+  StableSolverCpu solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.diffuseCell( solver.m_density, solver.m_previousDensity);
+  }
+}
+BENCHMARK(CPU_diffuseDensity);
+
+///----------------------------------------------------------------------------------------------
+
+static void GPU_diffuseDensity( benchmark::State& state )
+{
+  GpuSolver solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.diffuseCell();
+  }
+}
+BENCHMARK(GPU_diffuseDensity);
+
+///---------------------------------------------------------------------------------------------- Animate Velocity
 
 static void CPU_animateVelocity( benchmark::State& state )
 {
@@ -203,10 +227,69 @@ static void GPU_animateVelocity( benchmark::State& state )
   {
     solver.animVel();
   }
+
 }
 BENCHMARK(GPU_animateVelocity);
 
+///---------------------------------------------------------------------------------------------- Animate Density
+
+static void CPU_animateDensity( benchmark::State& state )
+{
+  StableSolverCpu solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.animDen();
+  }
+
+}
+BENCHMARK(CPU_animateDensity);
+
 ///----------------------------------------------------------------------------------------------
+
+static void GPU_animateDensity( benchmark::State& state )
+{
+  GpuSolver solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.animDen();
+  }
+}
+BENCHMARK(GPU_animateDensity);
+
+///---------------------------------------------------------------------------------------------- Add Source
+
+static void CPU_addSource( benchmark::State& state )
+{
+  StableSolverCpu solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.addSource();
+  }
+}
+BENCHMARK(CPU_addSource);
+
+///----------------------------------------------------------------------------------------------
+
+static void GPU_addSource( benchmark::State& state )
+{
+  GpuSolver solver;
+  solver.activate();
+  solver.randomizeArrays();
+  for ( auto _ : state )
+  {
+    solver.addSource();
+  }
+}
+BENCHMARK(GPU_addSource);
+
+///----------------------------------------------------------------------------------------------
+
 BENCHMARK_MAIN();
 
 ///----------------------------------------------------------------------------------------------

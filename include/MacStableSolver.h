@@ -156,6 +156,7 @@ private:
   FRIEND_TEST( advect, velocity_y );
   FRIEND_TEST( velocity_x, diffuse );
   FRIEND_TEST( velocity_y, diffuse );
+  FRIEND_TEST( inputVelocity, setVel0 );
 
 #endif // TESTING
 };

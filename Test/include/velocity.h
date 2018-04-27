@@ -195,7 +195,7 @@ TEST( advect, velocity_y )
   int x = cpuSolver.m_totVelY;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i],0.5f);
+    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i],0.5);
   }
   free( h_velocity_y );
 }
@@ -264,10 +264,52 @@ TEST( velocity_y, diffuse )
   for ( int i = 0; i < x; ++i )
   {
     EXPECT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f);
-//    EXPECT_FLOAT_EQ( cpuSolver.m_velocity.y[i], h_velocity_y[i] );
-
   }
   free( h_velocity_y );
+}
+
+////----------------------------------------------------------------------------------------------------------------------
+
+TEST( inputVelocity, setVel0 )
+{
+  GpuSolver gpuSolver;
+  gpuSolver.activate();
+  Rand_GPU::randFloats( gpuSolver.m_previousVelocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_previousVelocity.y,  gpuSolver.m_totVelY );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.x,  gpuSolver.m_totVelX );
+  Rand_GPU::randFloats( gpuSolver.m_velocity.y,  gpuSolver.m_totVelY );
+
+
+  StableSolverCpu cpuSolver;
+  cpuSolver.activate();
+
+  gpuSolver.copy( gpuSolver.m_previousVelocity.x, cpuSolver.m_previousVelocity.x, gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_previousVelocity.y, cpuSolver.m_previousVelocity.y, gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
+
+  int r_x = random()%128;
+  int r_y = random()%128;
+  int r_x0 = random()%128;
+  int r_y0 = random()%128;
+
+  gpuSolver.setVel0(r_x, r_y, r_x0, r_y0);
+  cpuSolver.setVel0(r_x, r_y, r_x0, r_y0);
+
+  real * h_velocity_y = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_velocity.y, h_velocity_y, gpuSolver.m_totVelY );
+
+  real * h_velocity_x = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelX );
+  gpuSolver.copy( gpuSolver.m_velocity.x, h_velocity_x, gpuSolver.m_totVelX );
+
+  int x = cpuSolver.m_totVelY;
+  for ( int i = 0; i < x; ++i )
+    EXPECT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5f);
+
+  x = cpuSolver.m_totVelX;
+  for ( int i = 0; i < x; ++i )
+    EXPECT_NEAR( cpuSolver.m_velocity.x[i], h_velocity_x[i], 0.5f);
+  free( h_velocity_x );
 }
 
 ////----------------------------------------------------------------------------------------------------------------------
