@@ -1,0 +1,22 @@
+#ifndef _PARAMETERS_H
+#define _PARAMETERS_H
+
+namespace Common 
+{
+  int multiplier = 2;
+  int gridWidth = 128 * multiplier;
+  int gridHeight = 128 * multiplier;
+
+  int totCells = gridWidth * gridHeight;
+
+  int rowVelocityX = gridWidth + 1;
+  int rowVelocityY = gridWidth + 1;
+
+  int columnVelocityX = gridHeight + 1;
+  int columnVelocityY = gridHeight + 1;
+
+  int totHorizontalVelocity = rowVelocityX * columnVelocityX;
+  int totVerticalVelocity = rowVelocityY * columnVelocityY;
+}
+
+#endif // _PARAMETERS_H

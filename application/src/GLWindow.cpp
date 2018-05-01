@@ -6,9 +6,7 @@
 #include <QImage>
 #include <QScreen>
 #include <unistd.h>
-
-// testing gpu functions with the gpu solver
-#define CROSS_TESTING 1
+#include "parameters.h"
 
 const std::string address = "../application/"; // if the program is fired from the bin folder
 
@@ -23,11 +21,17 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
   m_camera.setTarget(0.0f, 0.0f, -2.0f);
   m_camera.setEye(0.0f, 0.0f, 0.0f);
 
-  m_image = QPixmap( 128, 128 ).toImage();
+  m_image = QPixmap( Common::gridWidth, Common::gridHeight ).toImage();
   m_image.fill(Qt::white);
-  m_solver.activate();
 
-  m_solverGpu.activate();
+  m_solverType = solverType::GPU;
+
+  if ( m_solverType == solverType::CPU )
+    m_activeSolver = std::unique_ptr<Solver>( &m_solver );
+  else if ( m_solverType == solverType::GPU )
+    m_activeSolver = std::unique_ptr<Solver>( &m_solverGpu );
+
+  m_activeSolver->activate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -57,35 +61,31 @@ void GLWindow::initializeGL()
 
 GLWindow::~GLWindow()
 {
-
+  m_activeSolver.release();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
 void GLWindow::mouseMove( QMouseEvent * _event )
 {
-  //  m_solver.cleanBuffer();
-  m_solverGpu.cleanBuffer();
-  m_camera.handleMouseMove( _event->pos().x(), _event->pos().y() );
+  m_activeSolver->cleanBuffer();
+  m_camera.handleMouseMove( _event->pos().x() * Common::multiplier, _event->pos().y() * Common::multiplier );
 
-  float posx = _event->pos().x() / static_cast<float>(width()) * 127.0f;
-  float posy = _event->pos().y() / static_cast<float>(height()) * 127.0f;
+  float posx = _event->pos().x() / static_cast<float>(width()) *  Common::gridWidth-1 * Common::multiplier;
+  float posy = _event->pos().y() / static_cast<float>(height()) * Common::gridHeight-1 * Common::multiplier;
 
-  int x = static_cast<int>(posx) > 127 ? 127 : static_cast<int>(posx);
-  int y = static_cast<int>(posy) > 127 ? 127 : static_cast<int>(posy);
+  int x = static_cast<int>( posx ) > Common::gridWidth-1 ? Common::gridWidth-1 : static_cast<int>(posx);
+  int y = static_cast<int>( posy ) > Common::gridHeight-1 ? Common::gridHeight-1 : static_cast<int>(posy);
 
   if ( x < 1 ) x = 1;
   if ( y < 1 ) y = 1;
 
   if ( _event->buttons() == Qt::RightButton )
-    //    m_solver.setVel0(x,y, _event->pos().x() - prevX, _event->pos().y() - prevY );
-    m_solverGpu.setVel0(x, y, _event->pos().x() - prevX, _event->pos().y() - prevY );
-  else if ( _event->buttons() == Qt::LeftButton )
-    //    m_solver.setD0(x, y);
-    m_solverGpu.setD0(x, y);
+    m_activeSolver->setVel0(x, y, _event->pos().x() - prevX, _event->pos().y() - prevY );
 
-  //  m_solver.addSource();
-  m_solverGpu.addSource();
+  else if ( _event->buttons() == Qt::LeftButton )
+    m_activeSolver->setD0(x, y);
+  m_activeSolver->addSource();
 
   update();
 }
@@ -94,15 +94,13 @@ void GLWindow::mouseMove( QMouseEvent * _event )
 
 void GLWindow::mouseClick(QMouseEvent * _event)
 {
-  //  m_solver.cleanBuffer();
-  m_solverGpu.cleanBuffer();
-
+  m_activeSolver->cleanBuffer();
   prevX = _event->pos().x();
   prevY = _event->pos().y();
 
   if ( _event->buttons() == Qt::LeftButton )
-    //    m_solver.setD0(prevX, prevY);
-    m_solverGpu.setD0(prevX, prevY);
+    m_activeSolver->setD0(prevX, prevY);
+
   update();
 }
 
@@ -177,23 +175,12 @@ void GLWindow::init()
 
 void GLWindow::paintGL()
 {
-#if CROSS_TESTING
-
-  m_solverGpu.animVel();
-  m_solverGpu.animDen();
-
-#else
-  m_solver.animVel();
-  m_solver.animDen();
-#endif
-
   glClearColor( 1, 1, 1, 1.0f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-
-  draw( m_solverGpu.getDensity(), m_solverGpu.getRowCell() );
-  //  draw( m_solver.getDensity(), m_solver.getRowCell() );
-
+  m_activeSolver->animVel();
+  m_activeSolver->animDen();
+  draw( m_activeSolver->getDens(), m_activeSolver->getRowCell() );
 
   auto m_glImage = QGLWidget::convertToGLFormat( m_image );
   if(m_glImage.isNull())
@@ -234,8 +221,7 @@ void GLWindow::renderScene()
 
 void GLWindow::reset()
 {
-  //  m_solver.reset();
-  m_solverGpu.reset();
+  m_activeSolver->reset();
 }
 //------------------------------------------------------------------------------------------------------------------------------
 

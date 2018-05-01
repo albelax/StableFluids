@@ -1,5 +1,5 @@
 #include "GpuSolverKernels.cuh"
-//#include "GpuSolver.h"
+#include "GpuSolver.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>

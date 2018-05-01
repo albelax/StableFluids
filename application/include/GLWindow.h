@@ -1,5 +1,5 @@
-#ifndef NGLSCENE_H_
-#define NGLSCENE_H_
+#ifndef OPENGLSCENE_H_
+#define OPENGLSCENE_H_
 
 
 #include "Shader.h"
@@ -14,10 +14,28 @@
 #include <QResizeEvent>
 #include <QEvent>
 #include <memory>
-#include "MacStableSolver.h"
 #include <QImage>
+#include "Solver.h"
+#include "MacStableSolver.h"
 #include <GpuSolver.h>
 
+//class Base
+//{
+//public:
+//  Base() {}
+//  ~Base() {}
+//  virtual void p() = 0;
+//};
+
+//class AA : public Base
+//{
+//public:
+//  AA(){}
+//  ~AA(){}
+//  void p() override { std::cout << "a\n"; }
+//};
+
+enum solverType { CPU, GPU };
 
 class GLWindow : public QOpenGLWidget
 {
@@ -39,10 +57,10 @@ public slots:
   //  void rotating( const bool _rotating ) { m_rotating = _rotating; }
   void init();
   void reset();
-  void setTimestep( double _timeStep ) { m_solver.setTimestep( static_cast<float>( _timeStep ) ); }
-  void setDiffusion( double _diffusion ) { m_solver.setDiffusion( static_cast<float>( _diffusion ) ); }
-  void setViscosity( double _viscosity ) { m_solver.setViscosity( static_cast<float>( _viscosity ) ); }
-  void setDensity( double _density ) { m_solver.setDensity( static_cast<float>( _density ) ); }
+  void setTimestep( double _timeStep ) { m_activeSolver->setTimestep( static_cast<float>( _timeStep ) ); }
+  void setDiffusion( double _diffusion ) { m_activeSolver->setDiffusion( static_cast<float>( _diffusion ) ); }
+  void setViscosity( double _viscosity ) { m_activeSolver->setViscosity( static_cast<float>( _viscosity ) ); }
+  void setDensity( double _density ) { m_activeSolver->setDensity( static_cast<float>( _density ) ); }
 
 protected:
   /// @brief  The following methods must be implimented in the sub class
@@ -56,6 +74,7 @@ protected:
   void draw(const real * _density, int _size );
 
 private:
+  enum solverType m_solverType;
   int prevX;
   int prevY;
   int m_amountVertexData;
@@ -78,12 +97,12 @@ private:
   glm::mat4 m_view;
   glm::mat4 m_MV; 
   glm::mat4 m_MVP; 
-  StableSolverCpu m_solver;  
+  StableSolverCpu m_solver;
   GpuSolver m_solverGpu;
+  std::unique_ptr<Solver> m_activeSolver;
   QImage m_image; 
   std::vector<GLuint> m_textures; 
   void addTexture();  
-
 };
 
 #endif

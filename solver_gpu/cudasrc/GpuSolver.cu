@@ -11,22 +11,24 @@
 
 GpuSolver::~GpuSolver()
 {
-  cudaFree( m_pvx );
-  cudaFree( m_pvy );
-  cudaFree( m_density );
-  cudaFree( m_pressure );
-  cudaFree( m_divergence );
-  cudaFree( m_velocity.x );
-  cudaFree( m_velocity.y );
-  cudaFree( m_previousVelocity.x );
-  cudaFree( m_previousVelocity.y );
-  cudaFree( m_previousDensity );
+  if ( m_active )
+  {
+    cudaFree( m_pvx );
+    cudaFree( m_pvy );
+    cudaFree( m_density );
+    cudaFree( m_pressure );
+    cudaFree( m_divergence );
+    cudaFree( m_velocity.x );
+    cudaFree( m_velocity.y );
+    cudaFree( m_previousVelocity.x );
+    cudaFree( m_previousVelocity.y );
+    cudaFree( m_previousDensity );
 
-  free( m_cpuDensity );
-  free( m_cpuPrevDensity );
-  free( m_cpuPreviousVelocity.x );
-  free( m_cpuPreviousVelocity.y );
-
+    free( m_cpuDensity );
+    free( m_cpuPrevDensity );
+    free( m_cpuPreviousVelocity.x );
+    free( m_cpuPreviousVelocity.y );
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -80,7 +82,7 @@ void GpuSolver::allocateArrays()
   unsigned int tmp_gridSize[] = { m_gridSize.x, m_gridSize.y };
   unsigned int tmp_rowVelocity[] = { m_rowVelocity.x, m_rowVelocity.y };
   unsigned int tmp_columnVelocity[] = { m_columnVelocity.x, m_columnVelocity.y };
-  unsigned int tmp_totVelocity[] = { m_totVelX, m_totVelY };
+  int tmp_totVelocity[] = { m_totVelX, m_totVelY };
 
   cudaMemcpyToSymbolAsync(c_gridSize, tmp_gridSize, sizeof(unsigned int)*2 );
   cudaMemcpyToSymbolAsync(c_rowVelocity, tmp_rowVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
@@ -92,6 +94,7 @@ void GpuSolver::allocateArrays()
 
 void GpuSolver::activate()
 {
+  m_active = true;
   setParameters();
   allocateArrays();
 
@@ -175,7 +178,7 @@ void GpuSolver::cleanBuffer()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-real * GpuSolver::getDensity()
+const real * GpuSolver::getDens()
 {
   copy( m_density, m_cpuDensity, m_totCell );
 
@@ -448,7 +451,7 @@ void GpuSolver::addSource()
   d_addVelocity_x<<<xVelocityBlocks, threads, 0, streams[1]>>>( m_previousVelocity.x, m_velocity.x );
   d_addVelocity_y<<<yVelocityBlocks, threads, 0, streams[2]>>>( m_previousVelocity.y, m_velocity.y );
 
-//  int threads = 1024;
+  //  int threads = 1024;
   unsigned int blocks = std::max( m_gridSize.x, m_gridSize.y ) / threads + 1;
   unsigned int blocksVelocityX = std::max( m_columnVelocity.x, m_rowVelocity.x ) / threads + 1;
   unsigned int blocksVelocityY = std::max( m_columnVelocity.y, m_rowVelocity.y ) / threads + 1;

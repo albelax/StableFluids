@@ -14,16 +14,15 @@ OBJECTS_DIR = obj
 TARGET = $$LIB_INSTALL_DIR/solver_cpu
 
 # Include headers
-HEADERS += include/*.h \
-					 $$PWD/../Common/*.h
+HEADERS += include/*.h
 
 # Include source files
 SOURCES += src/*.cpp
 
 # Set up the include path
 INCLUDEPATH += include \
-							 $$PWD/../Common \
-               $$PWD/../Common/glm \
+							 $$PWD/../Common/include \
+							 $$PWD/../Common/glm \
 
 # Set up the post install script to copy the headers into the appropriate directory
 includeinstall.commands = mkdir -p $$INC_INSTALL_DIR && cp include/*.h $$INC_INSTALL_DIR

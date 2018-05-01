@@ -17,7 +17,7 @@ CONFIG -= app_bundle
 
 INCLUDEPATH += include \
                ui \
-							 $$PWD/../Common \
+							 $$PWD/../Common/include \
 							 $$PWD/../Common/glm \
 							 $$INC_INSTALL_DIR
 
@@ -26,7 +26,9 @@ HEADERS += include/MainWindow.h \
            include/Camera.h \
            include/TrackballCamera.h \
            include/Shader.h \
-           include/Mesh.h \
+					 include/Mesh.h \
+					 $$PWD/../Common/include/*
+
 
 SOURCES += src/main.cpp \
            src/MainWindow.cpp \
@@ -34,7 +36,8 @@ SOURCES += src/main.cpp \
            src/Camera.cpp \
            src/TrackballCamera.cpp \
            src/Shader.cpp \
-           src/Mesh.cpp \
+					 src/Mesh.cpp \
+					 $$PWD/../Common/src/*
 
 OTHER_FILES += shaders/* \
                models/*

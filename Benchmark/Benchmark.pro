@@ -17,7 +17,7 @@ LIBS+= -L/usr/local/lib -lgtest -lpthread \
        -L/public/devel/lib -lbenchmark
 
 
-INCLUDEPATH+= $$PWD/../Common/ \
+INCLUDEPATH+= $$PWD/../Common/include/ \
                $$INC_INSTALL_DIR \
 
 

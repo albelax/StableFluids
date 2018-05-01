@@ -17,7 +17,7 @@ QMAKE_CXXFLAGS += -std=c++11 -fPIC -Wall -Wextra -pedantic
 INCLUDEPATH += include ${CUDA_PATH}/include \
                        ${CUDA_PATH}/include/cuda \
                        ${CUDA_PATH}/samples/common/inc \
-                       $$PWD/../Common \
+											 $$PWD/../Common/include \
 
 HEADERS += include/GpuSolver.h \
 					 include/rand_gpu.h \

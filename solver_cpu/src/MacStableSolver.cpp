@@ -31,22 +31,26 @@
 
 StableSolverCpu::~StableSolverCpu()
 {
-  free( m_pvx );
-  free( m_pvy );
-  free( m_density );
-  free( m_pressure );
-  free( m_divergence );
-  free( m_velocity.x );
-  free( m_velocity.y );
-  free( m_previousVelocity.x );
-  free( m_previousVelocity.y );
-  free( m_previousDensity );
+  if ( m_active )
+  {
+    free( m_pvx );
+    free( m_pvy );
+    free( m_density );
+    free( m_pressure );
+    free( m_divergence );
+    free( m_velocity.x );
+    free( m_velocity.y );
+    free( m_previousVelocity.x );
+    free( m_previousVelocity.y );
+    free( m_previousDensity );
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
 void StableSolverCpu::activate()
 {
+  m_active = true;
   m_gridSize.x = Common::gridWidth;
   m_gridSize.y = Common::gridHeight;
   m_totCell = Common::totCells; //m_gridSize.x * m_gridSize.y;
@@ -81,18 +85,18 @@ void StableSolverCpu::activate()
   m_pvx = (tuple<real> *)malloc(sizeof(tuple<real>)*m_totVelX);
   m_pvy = (tuple<real> *)malloc(sizeof(tuple<real>)*m_totVelY);
 
-  for(int i = 0; i < m_rowVelocity.x; ++i)
+  for(unsigned int i = 0; i < m_rowVelocity.x; ++i)
   {
-    for(int j = 0; j < m_columnVelocity.x; ++j)
+    for(unsigned int j = 0; j < m_columnVelocity.x; ++j)
     {
       m_pvx[vxIdx(i, j)].x = (real)i;
       m_pvx[vxIdx(i, j)].y = (real)j+0.5f;
     }
   }
 
-  for( int i = 0; i < m_rowVelocity.y; ++i )
+  for(unsigned int i = 0; i < m_rowVelocity.y; ++i )
   {
-    for( int j = 0; j < m_columnVelocity.y; ++j )
+    for(unsigned int j = 0; j < m_columnVelocity.y; ++j )
     {
       m_pvy[vyIdx(i, j)].x = (real)i+0.5f;
       m_pvy[vyIdx(i, j)].y = (real)j;
@@ -125,12 +129,12 @@ void StableSolverCpu::setVelBoundary(int flag)
   //x-axis
   if(flag == 1)
   {
-    for(int i=1; i<=m_rowVelocity.x-2; ++i)
+    for(unsigned int i=1; i<=m_rowVelocity.x-2; ++i)
     {
       m_velocity.x[vxIdx(i, 0)] = m_velocity.x[vxIdx(i, 1)];
       m_velocity.x[vxIdx(i, m_columnVelocity.x-1)] = m_velocity.x[vxIdx(i, m_columnVelocity.x-2)];
     }
-    for(int j=1; j<=m_columnVelocity.x-2; ++j)
+    for(unsigned int j=1; j<=m_columnVelocity.x-2; ++j)
     {
       m_velocity.x[vxIdx(0, j)] = -m_velocity.x[vxIdx(1, j)];
       m_velocity.x[vxIdx(m_rowVelocity.x-1, j)] = -m_velocity.x[vxIdx(m_rowVelocity.x-2, j)];
@@ -144,12 +148,12 @@ void StableSolverCpu::setVelBoundary(int flag)
   //y-axis
   if(flag == 2)
   {
-    for(int i=1; i<=m_rowVelocity.y-2; ++i)
+    for(unsigned int i=1; i<=m_rowVelocity.y-2; ++i)
     {
       m_velocity.y[vyIdx(i, 0)] = -m_velocity.y[vyIdx(i, 1)];
       m_velocity.y[vyIdx(i, m_columnVelocity.y-1)] = -m_velocity.y[vyIdx(i, m_columnVelocity.y-2)];
     }
-    for(int j=1; j<=m_columnVelocity.y-2; ++j)
+    for(unsigned int j=1; j<=m_columnVelocity.y-2; ++j)
     {
       m_velocity.y[vyIdx(0, j)] = m_velocity.y[vyIdx(1, j)];
       m_velocity.y[vyIdx(m_rowVelocity.y-1, j)] = m_velocity.y[vyIdx(m_rowVelocity.y-2, j)];
@@ -165,12 +169,12 @@ void StableSolverCpu::setVelBoundary(int flag)
 
 void StableSolverCpu::setCellBoundary(real *value)
 {
-  for(int i=1; i<=m_gridSize.x-2; ++i)
+  for(unsigned int i=1; i<=m_gridSize.x-2; ++i)
   {
     value[cIdx(i, 0)] = value[cIdx(i, 1)];
     value[cIdx(i, m_gridSize.y-1)] = value[cIdx(i, m_gridSize.y-2)];
   }
-  for(int j=1; j<=m_gridSize.y-2; ++j)
+  for(unsigned int j=1; j<=m_gridSize.y-2; ++j)
   {
     value[cIdx(0, j)] = value[cIdx(1, j)];
     value[cIdx(m_gridSize.x-1, j)] = value[cIdx(m_gridSize.x-2, j)];
@@ -187,9 +191,9 @@ void StableSolverCpu::projection()
 {
   //  int static count = 0;
   unsigned int iterations = 20;
-  for(int i=1; i<=m_gridSize.x-2; ++i)
+  for(unsigned int i=1; i<=m_gridSize.x-2; ++i)
   {
-    for(int j=1; j<=m_gridSize.y-2; ++j)
+    for(unsigned int j=1; j<=m_gridSize.y-2; ++j)
     {
       m_divergence[cIdx(i, j)] = (m_velocity.x[vxIdx(i+1, j)]-m_velocity.x[vxIdx(i, j)]+m_velocity.y[vyIdx(i, j+1)]-m_velocity.y[vyIdx(i, j)]);
       m_pressure[cIdx(i, j)] = 0.0;
@@ -202,9 +206,9 @@ void StableSolverCpu::projection()
   //projection iteration
   for(unsigned int k = 0; k < iterations; k++)
   {
-    for(int i=1; i <= m_gridSize.x-2; ++i)
+    for(unsigned int i=1; i <= m_gridSize.x-2; ++i)
     {
-      for(int j=1; j <= m_gridSize.y-2; ++j)
+      for(unsigned int j=1; j <= m_gridSize.y-2; ++j)
       {
         m_pressure[cIdx(i, j)] = (m_pressure[cIdx(i+1, j)]
             +m_pressure[cIdx(i-1, j)]
@@ -217,17 +221,17 @@ void StableSolverCpu::projection()
   }
 
   //velocity minus grad of Pressure
-  for(int i=1; i<=m_rowVelocity.x-2; ++i)
+  for(unsigned int i=1; i<=m_rowVelocity.x-2; ++i)
   {
-    for(int j=1; j<=m_columnVelocity.x-2; ++j)
+    for(unsigned int j=1; j<=m_columnVelocity.x-2; ++j)
     {
       m_velocity.x[vxIdx(i, j)] -= (m_pressure[cIdx(i, j)] -m_pressure[cIdx(i-1, j)]);
     }
   }
 
-  for(int i=1; i<=m_rowVelocity.y-2; ++i)
+  for(unsigned int i=1; i<=m_rowVelocity.y-2; ++i)
   {
-    for(int j=1; j<=m_columnVelocity.y-2; ++j)
+    for(unsigned int j=1; j<=m_columnVelocity.y-2; ++j)
     {
       m_velocity.y[vyIdx(i, j)] -= (m_pressure[cIdx(i, j)]-m_pressure[cIdx(i, j-1)]);
     }
@@ -240,9 +244,9 @@ void StableSolverCpu::projection()
 
 void StableSolverCpu::advectVel()
 {
-  for(int i=1; i<=m_rowVelocity.x-2; ++i)
+  for(unsigned int i=1; i<=m_rowVelocity.x-2; ++i)
   {
-    for(int j=1; j<=m_columnVelocity.x-2; ++j)
+    for(unsigned int j=1; j<=m_columnVelocity.x-2; ++j)
     {
       real nvx = m_previousVelocity.x[vxIdx(i, j)];
       real nvy = (m_previousVelocity.y[vyIdx(i-1, j)]+m_previousVelocity.y[vyIdx(i-1, j+1)]+m_previousVelocity.y[vyIdx(i, j)]+m_previousVelocity.y[vyIdx(i, j+1)])/4;
@@ -275,9 +279,9 @@ void StableSolverCpu::advectVel()
     }
   }
 
-  for(int i=1; i<=m_rowVelocity.y-2; ++i)
+  for(unsigned int i=1; i<=m_rowVelocity.y-2; ++i)
   {
-    for(int j=1; j<=m_columnVelocity.y-2; ++j)
+    for(unsigned int j=1; j<=m_columnVelocity.y-2; ++j)
     {
       real nvx = (
             m_previousVelocity.x[vxIdx(i, j-1)]+
@@ -332,9 +336,9 @@ void StableSolverCpu::advectCell(real *value, real *value0)
   real wB;
   real wT;
 
-  for(int i=1; i<=m_gridSize.x-2; ++i)
+  for(unsigned int i=1; i<=m_gridSize.x-2; ++i)
   {
-    for(int j=1; j<=m_gridSize.y-2; ++j)
+    for(unsigned int j=1; j<=m_gridSize.y-2; ++j)
     {
       real cvx = getCellVel(i, j).x;
       real cvy = getCellVel(i, j).y;
@@ -369,24 +373,24 @@ void StableSolverCpu::advectCell(real *value, real *value0)
 
 void StableSolverCpu::diffuseVel()
 {
-    for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0;
-    for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0;
+  for(int i=0; i<m_totVelX; ++i) m_velocity.x[i] = 0;
+  for(int i=0; i<m_totVelY; ++i) m_velocity.y[i] = 0;
   real a = m_diffusion * m_timeStep;
 
   for(int k=0; k<20; k++)
   {
     //diffuse velX
-    for(int i=1; i <= m_rowVelocity.x-2; ++i)
+    for(unsigned int i=1; i <= m_rowVelocity.x-2; ++i)
     {
-      for(int j=1; j <= m_columnVelocity.x-2; ++j)
+      for(unsigned int j=1; j <= m_columnVelocity.x-2; ++j)
       {
         m_velocity.x[vxIdx(i, j)] = (m_previousVelocity.x[vxIdx(i, j)]+a*(m_velocity.x[vxIdx(i+1, j)]+m_velocity.x[vxIdx(i-1, j)]+m_velocity.x[vxIdx(i, j+1)]+m_velocity.x[vxIdx(i, j-1)])) / (4.0f*a+1.0f);
       }
     }
     //diffuse velY
-    for(int i = 1; i <= m_rowVelocity.y-2; ++i)
+    for(unsigned int i = 1; i <= m_rowVelocity.y-2; ++i)
     {
-      for(int j = 1; j <= m_columnVelocity.y-2; ++j)
+      for(unsigned int j = 1; j <= m_columnVelocity.y-2; ++j)
       {
         m_velocity.y[vyIdx(i, j)] = (m_previousVelocity.y[vyIdx(i, j)]+
             a*(m_velocity.y[vyIdx(i+1, j)]+m_velocity.y[vyIdx(i-1, j)]+
@@ -409,9 +413,9 @@ void StableSolverCpu::diffuseCell(real *value, real *value0)
 
   for( int k = 0; k < 20; ++k )
   {
-    for( int i = 1; i <= m_gridSize.x - 2; ++i )
+    for(unsigned int i = 1; i <= m_gridSize.x - 2; ++i )
     {
-      for( int j = 1; j <= m_gridSize.y - 2; ++j )
+      for(unsigned int j = 1; j <= m_gridSize.y - 2; ++j )
       {
         value[cIdx(i, j)] = (value0[cIdx(i, j)]+a*(value[cIdx(i+1, j)]+value[cIdx(i-1, j)]+value[cIdx(i, j+1)]+value[cIdx(i, j-1)])) / (4.0f*a+1.0f);
       }
