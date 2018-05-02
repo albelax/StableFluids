@@ -326,8 +326,8 @@ __global__ void d_advectVelocity(tuple<real *> _previousVelocity, tuple<real *> 
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
-  unsigned short currentIdx = idy * c_rowVelocity[0] + idx;
-  unsigned short currentIdy = idy * c_rowVelocity[1] + idx;
+  unsigned int currentIdx = idy * c_rowVelocity[0] + idx;
+  unsigned int currentIdy = idy * c_rowVelocity[1] + idx;
 
   if ( idx > 0 && idx < c_rowVelocity[0] - 1 &&
        idy > 0 && idy < c_columnVelocity[0] - 1 )
@@ -405,7 +405,7 @@ __global__ void d_advectCell( real * _value, real * _value0, tuple<real *> _velo
 {
   int idx = threadIdx.x + blockDim.x * blockIdx.x;
   int idy = threadIdx.y + blockDim.y * blockIdx.y;
-  unsigned short currentIdx = idy * c_gridSize[0] + idx;
+  unsigned int currentIdx = idy * c_gridSize[0] + idx;
 
   if ( idx > 0 && idx < c_gridSize[0] - 1 &&
        idy > 0 && idy < c_gridSize[1] - 1 )

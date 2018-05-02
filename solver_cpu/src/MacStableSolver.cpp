@@ -27,6 +27,11 @@
 #include <time.h>
 #include "parameters.h"
 
+
+StableSolverCpu::StableSolverCpu()
+{
+
+}
 //----------------------------------------------------------------------------------------------------------------------
 
 StableSolverCpu::~StableSolverCpu()

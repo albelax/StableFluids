@@ -9,6 +9,13 @@
 #include "parameters.h"
 //----------------------------------------------------------------------------------------------------------------------
 
+GpuSolver::GpuSolver()
+{
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
 GpuSolver::~GpuSolver()
 {
   if ( m_active )
@@ -23,7 +30,6 @@ GpuSolver::~GpuSolver()
     cudaFree( m_previousVelocity.x );
     cudaFree( m_previousVelocity.y );
     cudaFree( m_previousDensity );
-
 
     free( m_cpuDensity );
     free( m_cpuPrevDensity );
@@ -63,8 +69,8 @@ void GpuSolver::setParameters()
 
 void GpuSolver::allocateArrays()
 {
-  cudaMalloc( (void **) &m_pvx, sizeof(tuple<real>) * m_totVelX );
-  cudaMalloc( (void **) &m_pvy, sizeof(tuple<real>) * m_totVelY );
+  cudaMalloc((void **) &m_pvx, sizeof(tuple<real>) * m_totVelX );
+  cudaMalloc((void **) &m_pvy, sizeof(tuple<real>) * m_totVelY );
   cudaMalloc((void **) &m_density, sizeof(real)*m_totCell );
   cudaMalloc((void **) &m_pressure, sizeof(real)*m_totCell );
   cudaMalloc((void **) &m_divergence, sizeof(real)*m_totCell );
@@ -96,7 +102,7 @@ void GpuSolver::allocateArrays()
   err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("copy Error during activation: %s\n", cudaGetErrorString(err));
   cudaDeviceSynchronize();
-  std::cout << "memory allocated \n";
+//  std::cout << "memory allocated \n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -129,7 +135,7 @@ void GpuSolver::activate()
   if ( err != cudaSuccess ) printf("activation Error: %s\n", cudaGetErrorString(err));
   cleanBuffer();
   reset();
-  std::cout << "solver activated \n";
+//  std::cout << "solver activated \n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------

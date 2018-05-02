@@ -18,7 +18,7 @@
 class GpuSolver : public Solver
 {
 public:
-  GpuSolver() = default;
+  GpuSolver();
   ~GpuSolver();
   void activate() override;
   void reset() override;
@@ -43,7 +43,10 @@ public:
   void randomizeArrays();
   const real * getDens() override;
 
+#if !TESTING
 private:
+#endif
+
   void setParameters();
   void allocateArrays();
   // cpu

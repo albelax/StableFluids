@@ -58,7 +58,7 @@ TEST( boundary, velocity_y )
   real * h_inputY = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY );
   gpuSolver.copy( gpuSolver.m_velocity.y, h_inputY, gpuSolver.m_totVelY );
 
-  for ( unsigned int i = 0; i < gpuSolver.m_totVelY; ++i )
+  for ( int i = 0; i < gpuSolver.m_totVelY; ++i )
   {
     EXPECT_FLOAT_EQ( cpuSolver.m_velocity.y[i], h_inputY[i] );
   }

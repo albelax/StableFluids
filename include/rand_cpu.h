@@ -1,3 +1,4 @@
+﻿
 #ifndef RAND_CPU_H
 #define RAND_CPU_H
 

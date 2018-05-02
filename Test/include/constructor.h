@@ -22,9 +22,9 @@ TEST( pvx, isEqual )
   cpuSolver.exportCSV( "results/cpu_pvx.csv", cpuSolver.m_pvx, cpuSolver.m_rowVelocity.x, cpuSolver.m_columnVelocity.x );
 
 
-  for ( int i = 0; i < cpuSolver.m_rowVelocity.x; ++i )
+  for ( unsigned int i = 0; i < cpuSolver.m_rowVelocity.x; ++i )
   {
-    for ( int j = 0; j < cpuSolver.m_columnVelocity.x; ++j )
+    for ( unsigned int j = 0; j < cpuSolver.m_columnVelocity.x; ++j )
     {
       int idx = j * cpuSolver.m_rowVelocity.x + i;
 
@@ -56,9 +56,9 @@ TEST( pvy, isEqual )
   gpuSolver.exportCSV( "results/gpu_pvy.csv", gpuSolver.m_pvy, gpuSolver.m_rowVelocity.y, gpuSolver.m_columnVelocity.y );
   cpuSolver.exportCSV( "results/cpu_pvy.csv", cpuSolver.m_pvy, cpuSolver.m_rowVelocity.y, cpuSolver.m_columnVelocity.y );
 
-  for ( int i = 0; i < cpuSolver.m_rowVelocity.y; ++i )
+  for ( unsigned int i = 0; i < cpuSolver.m_rowVelocity.y; ++i )
   {
-    for ( int j = 0; j < cpuSolver.m_columnVelocity.y; ++j )
+    for ( unsigned int j = 0; j < cpuSolver.m_columnVelocity.y; ++j )
     {
       int idx = j * cpuSolver.m_rowVelocity.y + i;
 
@@ -89,7 +89,7 @@ TEST( resetDensity, isZero )
   real * h_gpu_density = (real *) malloc( sizeof( real ) * gpuSolver.m_totCell);
   gpuSolver.copy( gpuSolver.m_density, h_gpu_density, gpuSolver.m_totCell );
 
-  for ( unsigned int i = 0; i < gpuSolver.m_totCell; ++i )
+  for ( int i = 0; i < gpuSolver.m_totCell; ++i )
   {
     EXPECT_FLOAT_EQ( h_gpu_density[i], zero[i] );
   }
@@ -111,7 +111,7 @@ TEST( resetVelocityX, isZero )
   real * h_gpu_density = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelX);
   gpuSolver.copy( gpuSolver.m_velocity.x, h_gpu_density, gpuSolver.m_totVelX );
 
-  for ( unsigned int i = 0; i < gpuSolver.m_totVelX; ++i )
+  for ( int i = 0; i < gpuSolver.m_totVelX; ++i )
   {
     EXPECT_FLOAT_EQ( h_gpu_density[i], zero[i] );
   }
@@ -134,7 +134,7 @@ TEST( resetVelocityY, isZero )
   real * h_gpu_density = (real *) malloc( sizeof( real ) * gpuSolver.m_totVelY);
   gpuSolver.copy( gpuSolver.m_velocity.y, h_gpu_density, gpuSolver.m_totVelY );
 
-  for ( unsigned int i = 0; i < gpuSolver.m_totVelY; ++i )
+  for ( int i = 0; i < gpuSolver.m_totVelY; ++i )
   {
     EXPECT_FLOAT_EQ( h_gpu_density[i], zero[i] );
   }

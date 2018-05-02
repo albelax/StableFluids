@@ -39,7 +39,7 @@
 class StableSolverCpu : public Solver
 {
 public:
-  StableSolverCpu() = default;
+  StableSolverCpu();
   ~StableSolverCpu();
   void activate() override;
   void reset() override;

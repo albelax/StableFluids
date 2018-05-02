@@ -25,6 +25,6 @@ INCLUDEPATH += include \
 							 $$PWD/../Common/glm \
 
 # Set up the post install script to copy the headers into the appropriate directory
-includeinstall.commands = mkdir -p $$INC_INSTALL_DIR && cp include/*.h $$INC_INSTALL_DIR
+includeinstall.commands = mkdir -p $$INC_INSTALL_DIR && cp include/*.h $$INC_INSTALL_DIR && cp $$PWD/../Common/include/*h $$INC_INSTALL_DIR
 QMAKE_EXTRA_TARGETS += includeinstall
 POST_TARGETDEPS += includeinstall
