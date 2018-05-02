@@ -38,6 +38,7 @@ public:
   int getTotCell() const { return m_totCell; }
   int getTotVelX() const { return m_totVelX; }
   int getTotVelY() const { return m_totVelY; }
+
 protected:
   bool m_active = false;
   int m_totCell;

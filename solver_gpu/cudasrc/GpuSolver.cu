@@ -24,6 +24,7 @@ GpuSolver::~GpuSolver()
     cudaFree( m_previousVelocity.y );
     cudaFree( m_previousDensity );
 
+
     free( m_cpuDensity );
     free( m_cpuPrevDensity );
     free( m_cpuPreviousVelocity.x );
@@ -62,23 +63,26 @@ void GpuSolver::setParameters()
 
 void GpuSolver::allocateArrays()
 {
-  cudaMalloc( &m_pvx, sizeof(tuple<real>) * m_totVelX );
-  cudaMalloc( &m_pvy, sizeof(tuple<real>) * m_totVelY );
-  cudaMalloc( &m_density, sizeof(real)*m_totCell );
-  cudaMalloc( &m_pressure, sizeof(real)*m_totCell );
-  cudaMalloc( &m_divergence, sizeof(real)*m_totCell );
-  cudaMalloc( &m_velocity.x, sizeof(real)*m_totVelX );
-  cudaMalloc( &m_velocity.y, sizeof(real)*m_totVelY );
-  cudaMalloc( &m_previousVelocity.x, sizeof(real)*m_totVelX );
-  cudaMalloc( &m_previousVelocity.y, sizeof(real)*m_totVelY );
-  cudaMalloc( &m_previousDensity, sizeof(real) * m_totCell );
+  cudaMalloc( (void **) &m_pvx, sizeof(tuple<real>) * m_totVelX );
+  cudaMalloc( (void **) &m_pvy, sizeof(tuple<real>) * m_totVelY );
+  cudaMalloc((void **) &m_density, sizeof(real)*m_totCell );
+  cudaMalloc((void **) &m_pressure, sizeof(real)*m_totCell );
+  cudaMalloc((void **) &m_divergence, sizeof(real)*m_totCell );
+  cudaMalloc((void **) &m_velocity.x, sizeof(real)*m_totVelX );
+  cudaMalloc((void **) &m_velocity.y, sizeof(real)*m_totVelY );
+  cudaMalloc((void **) &m_previousVelocity.x, sizeof(real)*m_totVelX );
+  cudaMalloc((void **) &m_previousVelocity.y, sizeof(real)*m_totVelY );
+  cudaMalloc((void **) &m_previousDensity, sizeof(real) * m_totCell );
+
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("malloc Error: %s\n", cudaGetErrorString(err));
 
   m_cpuDensity = (real *) calloc( m_totCell, sizeof( real ) );
   m_cpuPrevDensity = (real *) calloc( m_totCell, sizeof( real ) );
   m_cpuPreviousVelocity.x = (real *) calloc( m_totVelX, sizeof(real) );
   m_cpuPreviousVelocity.y = (real *) calloc( m_totVelY, sizeof(real) );
 
-  //   allocate constant memory
+
   unsigned int tmp_gridSize[] = { m_gridSize.x, m_gridSize.y };
   unsigned int tmp_rowVelocity[] = { m_rowVelocity.x, m_rowVelocity.y };
   unsigned int tmp_columnVelocity[] = { m_columnVelocity.x, m_columnVelocity.y };
@@ -88,6 +92,11 @@ void GpuSolver::allocateArrays()
   cudaMemcpyToSymbolAsync(c_rowVelocity, tmp_rowVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
   cudaMemcpyToSymbolAsync(c_columnVelocity, tmp_columnVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
   cudaMemcpyToSymbolAsync(c_totVelocity, tmp_totVelocity, sizeof(int)*2,  0, cudaMemcpyHostToDevice );
+
+  err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("copy Error during activation: %s\n", cudaGetErrorString(err));
+  cudaDeviceSynchronize();
+  std::cout << "memory allocated \n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -117,9 +126,10 @@ void GpuSolver::activate()
   d_setPvy<<<grid, block, 0, streams[1]>>>( m_pvy );
 
   cudaError_t err = cudaGetLastError();
-  if ( err != cudaSuccess ) printf("Error: %s\n", cudaGetErrorString(err));
+  if ( err != cudaSuccess ) printf("activation Error: %s\n", cudaGetErrorString(err));
   cleanBuffer();
   reset();
+  std::cout << "solver activated \n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -149,6 +159,9 @@ void GpuSolver::reset()
   d_reset<<<densityBlocks, threads, 0, streams[1]>>>(m_previousVelocity.y, m_totVelY);
   d_reset<<<xVelocityBlocks, threads, 0, streams[2]>>>(m_velocity.x, m_totVelX);
   d_reset<<<yVelocityBlocks, threads, 0, streams[3]>>>(m_velocity.y, m_totVelY);
+
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("reset Error: %s\n", cudaGetErrorString(err));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -174,13 +187,17 @@ void GpuSolver::cleanBuffer()
   memset( (void *) m_cpuPreviousVelocity.x, 0, sizeof(real) * m_totVelX );
   memset( (void *) m_cpuPreviousVelocity.y, 0, sizeof(real) * m_totVelY );
 
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf("clean buffer Error: %s\n", cudaGetErrorString(err));
 }
+
 
 //----------------------------------------------------------------------------------------------------------------------
 
 const real * GpuSolver::getDens()
 {
   copy( m_density, m_cpuDensity, m_totCell );
+  cudaDeviceSynchronize();
 
   return m_cpuDensity;
 }
@@ -378,8 +395,13 @@ void GpuSolver::animDen()
 
 void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
 {
-  if( cudaMemcpyAsync( _dst, _src, _size * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
+  if( cudaMemcpy( _dst, _src, _size * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
+  {
+    std::cout << "copy failed\n";
     exit(0);
+  }
+  cudaThreadSynchronize();
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -387,16 +409,32 @@ void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
 
 void GpuSolver::copy( real * _src, real * _dst, int _size )
 {
-  if( cudaMemcpyAsync( _dst, _src, _size * sizeof( real ), cudaMemcpyDeviceToHost) != cudaSuccess )
+  cudaDeviceSynchronize();
+  if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyDeviceToHost) != cudaSuccess )
+  {
+    cudaError_t err = cudaGetLastError();
+    if ( err != cudaSuccess ) printf("copy Error: %s\n", cudaGetErrorString(err));
+
+    std::cout << _size << " size\n";
+
+    std::cout << "copy failed\n";
     exit(0);
+  }
+  cudaDeviceSynchronize();
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
 void GpuSolver::copyToDevice( real * _src, real * _dst, int _size )
 {
-  if( cudaMemcpyAsync( _dst, _src, _size * sizeof( real ), cudaMemcpyHostToDevice ) != cudaSuccess )
+  if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyHostToDevice ) != cudaSuccess )
+  {
+    std::cout << "copy to device failed\n";
     exit(0);
+  }
+  cudaThreadSynchronize();
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -442,6 +480,9 @@ void GpuSolver::addSource()
   copyToDevice( m_cpuPreviousVelocity.x, m_previousVelocity.x, m_totVelX );
   copyToDevice( m_cpuPreviousVelocity.y, m_previousVelocity.y, m_totVelY );
 
+  cudaError_t err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf( "add source copy to device: %s\n", cudaGetErrorString(err) );
+
   for (auto &i : streams)
   {
     cudaStreamCreate( &i );
@@ -451,7 +492,10 @@ void GpuSolver::addSource()
   d_addVelocity_x<<<xVelocityBlocks, threads, 0, streams[1]>>>( m_previousVelocity.x, m_velocity.x );
   d_addVelocity_y<<<yVelocityBlocks, threads, 0, streams[2]>>>( m_previousVelocity.y, m_velocity.y );
 
-  //  int threads = 1024;
+  err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf( "add source kernel launch Error: %s\n", cudaGetErrorString(err) );
+
+//    int threads = 1024;
   unsigned int blocks = std::max( m_gridSize.x, m_gridSize.y ) / threads + 1;
   unsigned int blocksVelocityX = std::max( m_columnVelocity.x, m_rowVelocity.x ) / threads + 1;
   unsigned int blocksVelocityY = std::max( m_columnVelocity.y, m_rowVelocity.y ) / threads + 1;
@@ -459,9 +503,10 @@ void GpuSolver::addSource()
   d_setCellBoundary<<< blocks, threads>>>( m_density );
   d_setVelBoundaryX<<< blocksVelocityX, threads, 0, streams[1]>>>( m_velocity.x );
   d_setVelBoundaryY<<< blocksVelocityY, threads, 0, streams[2]>>>( m_velocity.y );
+  cudaDeviceSynchronize();
 
-  cudaError_t err = cudaGetLastError();
-  if ( err != cudaSuccess ) printf("add source Error: %s\n", cudaGetErrorString(err));
+  err = cudaGetLastError();
+  if ( err != cudaSuccess ) printf( "add source Error: %s\n", cudaGetErrorString(err) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------

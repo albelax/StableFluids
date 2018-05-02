@@ -30,8 +30,9 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
     m_activeSolver = std::unique_ptr<Solver>( &m_solver );
   else if ( m_solverType == solverType::GPU )
     m_activeSolver = std::unique_ptr<Solver>( &m_solverGpu );
-
   m_activeSolver->activate();
+
+  m_active = true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -68,7 +69,8 @@ GLWindow::~GLWindow()
 
 void GLWindow::mouseMove( QMouseEvent * _event )
 {
-  m_activeSolver->cleanBuffer();
+  if ( m_active )
+    m_activeSolver->cleanBuffer();
   m_camera.handleMouseMove( _event->pos().x() * Common::multiplier, _event->pos().y() * Common::multiplier );
 
   float posx = _event->pos().x() / static_cast<float>(width()) *  Common::gridWidth-1 * Common::multiplier;
@@ -80,12 +82,13 @@ void GLWindow::mouseMove( QMouseEvent * _event )
   if ( x < 1 ) x = 1;
   if ( y < 1 ) y = 1;
 
-  if ( _event->buttons() == Qt::RightButton )
+  if ( _event->buttons() == Qt::RightButton && m_active )
     m_activeSolver->setVel0(x, y, _event->pos().x() - prevX, _event->pos().y() - prevY );
 
-  else if ( _event->buttons() == Qt::LeftButton )
+  else if ( _event->buttons() == Qt::LeftButton && m_active )
     m_activeSolver->setD0(x, y);
-  m_activeSolver->addSource();
+  if ( m_active )
+    m_activeSolver->addSource();
 
   update();
 }
@@ -94,11 +97,12 @@ void GLWindow::mouseMove( QMouseEvent * _event )
 
 void GLWindow::mouseClick(QMouseEvent * _event)
 {
-  m_activeSolver->cleanBuffer();
+  if ( m_active )
+    m_activeSolver->cleanBuffer();
   prevX = _event->pos().x();
   prevY = _event->pos().y();
 
-  if ( _event->buttons() == Qt::LeftButton )
+  if ( _event->buttons() == Qt::LeftButton && m_active )
     m_activeSolver->setD0(prevX, prevY);
 
   update();
@@ -178,9 +182,12 @@ void GLWindow::paintGL()
   glClearColor( 1, 1, 1, 1.0f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  m_activeSolver->animVel();
-  m_activeSolver->animDen();
-  draw( m_activeSolver->getDens(), m_activeSolver->getRowCell() );
+  if ( m_active )
+  {
+    m_activeSolver->animVel();
+    m_activeSolver->animDen();
+    draw( m_activeSolver->getDens(), m_activeSolver->getRowCell() );
+  }
 
   auto m_glImage = QGLWidget::convertToGLFormat( m_image );
   if(m_glImage.isNull())
@@ -221,15 +228,16 @@ void GLWindow::renderScene()
 
 void GLWindow::reset()
 {
-  m_activeSolver->reset();
+  if ( m_active )
+    m_activeSolver->reset();
 }
 //------------------------------------------------------------------------------------------------------------------------------
 
-void GLWindow::draw( const real *_density, int _size )
+void GLWindow::draw( const real * _density, int _size )
 {
-  for ( int i = 0; i < m_image.height(); ++i )
+  for ( int i = 1; i < m_image.height(); ++i )
   {
-    for ( int j = 0; j < m_image.width(); ++j )
+    for ( int j = 1; j < m_image.width(); ++j )
     {
       float density = (_density[(j - 1) * _size + (i - 1)] +
           _density[(j - 1) * _size + i] +

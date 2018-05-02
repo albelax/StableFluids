@@ -19,22 +19,6 @@
 #include "MacStableSolver.h"
 #include <GpuSolver.h>
 
-//class Base
-//{
-//public:
-//  Base() {}
-//  ~Base() {}
-//  virtual void p() = 0;
-//};
-
-//class AA : public Base
-//{
-//public:
-//  AA(){}
-//  ~AA(){}
-//  void p() override { std::cout << "a\n"; }
-//};
-
 enum solverType { CPU, GPU };
 
 class GLWindow : public QOpenGLWidget
@@ -75,6 +59,7 @@ protected:
 
 private:
   enum solverType m_solverType;
+  bool m_active = false;
   int prevX;
   int prevY;
   int m_amountVertexData;

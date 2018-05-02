@@ -3,16 +3,16 @@
 
 namespace Common 
 {
-  int multiplier = 2;
-  int gridWidth = 128 * multiplier;
+  int multiplier = 4;
+  int gridWidth =  128 * multiplier;
   int gridHeight = 128 * multiplier;
 
   int totCells = gridWidth * gridHeight;
 
   int rowVelocityX = gridWidth + 1;
-  int rowVelocityY = gridWidth + 1;
+  int rowVelocityY = gridWidth;
 
-  int columnVelocityX = gridHeight + 1;
+  int columnVelocityX = gridHeight;
   int columnVelocityY = gridHeight + 1;
 
   int totHorizontalVelocity = rowVelocityX * columnVelocityX;
