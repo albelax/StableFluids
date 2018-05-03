@@ -82,8 +82,9 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 
 
 ## Results
-<p align="center">
+
 ### 64x64
+
 | Benchmark             |        Time   |     CPU      |   Iterations | 
 | ----------------------|---------------|--------------|--------------| 
 | Creation_of_a_string  |        0 ns   |        0 ns  |  1000000000  | 
@@ -107,5 +108,3 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 | GPU_animateDensity    |   117858 ns   |   117849 ns  |       11661  | 
 | CPU_addSource         |    37362 ns   |    37359 ns  |       18710  | 
 | GPU_addSource         |   348491 ns   |   348081 ns  |        2053  | 
-
-<\p>
