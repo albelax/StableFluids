@@ -28,22 +28,17 @@ In order to compile and run the application:
 ### Project Structure
 The project is divided in a parts:
 
-#### solver_cpu 
-the serial implementation of the solver, slightly changed from the original version,
+* solver_cpu: the serial implementation of the solver, slightly changed from the original version,
 the subProject compiles into a shared library
 
-#### solver_gpu
-the parallel version of the solver, 
+* solver_gpu: the parallel version of the solver, 
 the subProject compiles into a shared library 
 
-#### application
-The OpenGL project that uses the two libraries and runs the simulation
+* application: The OpenGL project that uses the two libraries and runs the simulation
 
-#### Test
-This project's sole purpose is to check that every component works correctly
+* Test: This project's sole purpose is to check that every component works correctly
 
-#### Benchmark
-This small project is used to measure the speedups
+* Benchmark: This small project is used to measure the speedups
 
 #### Common
 Common contains libraries and headers that the solvers and the applications need:
