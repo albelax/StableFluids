@@ -85,26 +85,25 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 
 ### 64x64
 
-| Benchmark             |        Time   |     CPU      |   Iterations | 
-| ----------------------|---------------|--------------|--------------| 
-| Creation_of_a_string  |        0 ns   |        0 ns  |  1000000000  | 
-| CPU_solverCreation    |       24 ns   |       24 ns  |    31348493  | 
-| GPU_solverCreation    |       24 ns   |       24 ns  |    28930681  | 
-| CPU_solverActivation  |   102237 ns   |   102229 ns  |        6826  | 
-| GPU_solverActivation  |  1122034 ns   |  1115693 ns  |         636  | 
-| CPU_projection        |  1687347 ns   |  1687212 ns  |         414  | 
-| GPU_projection        |  1811452 ns   |  1811300 ns  |         478  | 
-| CPU_advectVelocity    |   433016 ns   |   432981 ns  |        1620  | 
-| GPU_advectVelocity    |   232544 ns   |   232526 ns  |        4207  | 
-| CPU_advectCell        |   318658 ns   |   318634 ns  |        2111  | 
-| GPU_advectCell        |   117705 ns   |   117690 ns  |       11662  | 
-| CPU_diffuseVelocity   |  3216789 ns   |  3216502 ns  |         217  | 
-| GPU_diffuseVelocity   |  2222757 ns   |  2222577 ns  |        1000  | 
-| CPU_diffuseDensity    |  1488659 ns   |  1488532 ns  |         469  | 
-| GPU_diffuseDensity    |  3024257 ns   |  3024020 ns  |       10000  | 
-| CPU_animateVelocity   |  3846763 ns   |  3846440 ns  |         181  | 
-| GPU_animateVelocity   |  3816887 ns   |  3816581 ns  |         195  | 
-| CPU_animateDensity    |   334304 ns   |   334278 ns  |        2270  | 
-| GPU_animateDensity    |   117858 ns   |   117849 ns  |       11661  | 
-| CPU_addSource         |    37362 ns   |    37359 ns  |       18710  | 
-| GPU_addSource         |   348491 ns   |   348081 ns  |        2053  | 
+|      Benchmark       |      Time      |     CPU Iterations      |
+| ---------------------|----------------|-------------------------|
+| CPU_solverCreation   |        17 ns   |        17 ns   40403571 |
+| GPU_solverCreation   |        19 ns   |        19 ns   36194377 |
+| CPU_solverActivation |     80724 ns   |     80697 ns       8521 |
+| GPU_solverActivation |    649797 ns   |    644707 ns       1157 |
+| CPU_projection       |   1365934 ns   |   1365945 ns        513 |
+| GPU_projection       |    547331 ns   |    547332 ns       1000 |
+| CPU_advectVelocity   |    360546 ns   |    360548 ns       1767 |
+| GPU_advectVelocity   |     68330 ns   |     68331 ns      10000 |
+| CPU_advectCell       |    240370 ns   |    240371 ns       2818 |
+| GPU_advectCell       |     31872 ns   |     31873 ns      22616 |
+| CPU_diffuseVelocity  |   2665851 ns   |   2665869 ns        263 |
+| GPU_diffuseVelocity  |    595574 ns   |    595581 ns       1000 |
+| CPU_diffuseDensity   |   1171699 ns   |   1171712 ns        597 |
+| GPU_diffuseDensity   |    770841 ns   |    770832 ns      10000 |
+| CPU_animateVelocity  |   3079318 ns   |   3078935 ns        229 |
+| GPU_animateVelocity  |   1119373 ns   |   1119329 ns        685 |
+| CPU_animateDensity   |    240566 ns   |    240569 ns       2912 |
+| GPU_animateDensity   |     31930 ns   |     31929 ns      22686 |
+| CPU_addSource        |     28556 ns   |     28555 ns      24572 |
+| GPU_addSource        |    147887 ns   |    147715 ns       4914 |
