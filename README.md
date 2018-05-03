@@ -69,6 +69,12 @@ I would write the test before implementing new components, once implemented, tes
 ### Structure
 The solver inherits from Solver.h, in the common folder, the class is defined in the [GpuSolver.h](https://github.com/albelax/StableFluids/blob/master/solver_gpu/include/GpuSolver.h) and the class is implemented in [GpuSolver.cu](https://github.com/albelax/StableFluids/blob/master/solver_gpu/cudasrc/GpuSolver.cu), which looks like a normal c++ class, however all the functionalities are implemented in [GPUSolverKernels.cu] (https://github.com/albelax/StableFluids/blob/master/solver_gpu/cudasrc/GpuSolverKernels.cu), this meant that I could write cuda kernels and wrap them up in methods of a class, allowing me to take advantage of CUDA's performance while keeping a high level interface.
 
+### Micro Optimisations
+Moving the solver from serial to Parallel provided a significant speedup, however I decided to adapt a few techniques to reduce hoverheads whenever possible:
+* Constant memory, something similar to an L2 cache, slower than L1 cache but way faster than global memory, I decided to store data that was commonly used in global memory so I could avoid launching a kernel with the same data every time.
+
+* Streams, usually kernels are launched asyncronously, but once launched they get queued up and they execute one at the time,
+whenever possible I used multiple streams to launch and execute kernels in parallel, of course this was rarely possible as most of the components are interdependent.
 
 ### Future Improvements
 
