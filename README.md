@@ -2,7 +2,7 @@
 <p align="center">
   <img width="256" height="256" src="README_IMAGES/smoke.gif">
 </p>
-![gif](README_IMAGES/smoke.gif)
+
 
 Parallel implementation of Jos Stam's Stable Fluids
 
