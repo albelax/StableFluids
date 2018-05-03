@@ -253,7 +253,7 @@ void GLWindow::draw( const real * _density, int _size )
     }
   }
   std::string n = "frames/frame_" + std::to_string(count) + ".png";
-  if ( count > 400 && save )
+  if ( count > 700 && save )
     m_image.save(n.c_str(), 0, -1);
   ++count;
 }
