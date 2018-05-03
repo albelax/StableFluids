@@ -115,7 +115,7 @@ void GpuSolver::activate()
 
   // 1024 -> max threads per block, in this case it will fire 16 blocks
   int nBlocks = m_totVelX / 1024;
-  int blockDim = 1024 / m_gridSize.x + 2; // 9 threads per block
+  int blockDim = 1024 / m_gridSize.x + 1; // 9 threads per block
 
   dim3 block(blockDim, blockDim); // block of (X,Y) threads
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks

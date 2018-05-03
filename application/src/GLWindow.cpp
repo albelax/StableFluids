@@ -24,7 +24,7 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
   m_image = QPixmap( Common::gridWidth, Common::gridHeight ).toImage();
   m_image.fill(Qt::white);
 
-  m_solverType = solverType::CPU;
+  m_solverType = solverType::GPU;
 
   if ( m_solverType == solverType::CPU )
     m_activeSolver = std::unique_ptr<Solver>( &m_solver );
@@ -235,6 +235,8 @@ void GLWindow::reset()
 
 void GLWindow::draw( const real * _density, int _size )
 {
+  static int count = 0;
+  bool save = false;
   for ( int i = 1; i < m_image.height(); ++i )
   {
     for ( int j = 1; j < m_image.width(); ++j )
@@ -250,6 +252,10 @@ void GLWindow::draw( const real * _density, int _size )
       m_image.setPixel(i, j, qRgb(r, r, r) );
     }
   }
+  std::string n = "frames/frame_" + std::to_string(count) + ".png";
+  if ( count > 400 && save )
+    m_image.save(n.c_str(), 0, -1);
+  ++count;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

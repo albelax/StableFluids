@@ -1,6 +1,6 @@
 # Stable Fluids
 
-![gif](README_IMAGES/gif.gif)
+![gif](README_IMAGES/smoke.gif)
 
 Parallel implementation of Jos Stam's Stable Fluids
 

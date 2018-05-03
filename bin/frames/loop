@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+for i in * .png
+do
+	# echo Filename:${i}
+	BASE=`basename $i .png`
+    ffmpeg -i ${i} -pix_fmt rgba tiffs/$BASE.tiff
+	echo $BASE
+done
