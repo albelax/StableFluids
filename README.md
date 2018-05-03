@@ -82,7 +82,7 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 
 
 ## Results
-
+<p align="center">
 ### 64x64
 | Benchmark             |        Time   |     CPU      |   Iterations | 
 | ----------------------|---------------|--------------|--------------| 
@@ -108,3 +108,4 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 | CPU_addSource         |    37362 ns   |    37359 ns  |       18710  | 
 | GPU_addSource         |   348491 ns   |   348081 ns  |        2053  | 
 
+<\p>
