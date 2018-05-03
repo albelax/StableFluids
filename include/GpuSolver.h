@@ -15,26 +15,66 @@
 #include <gtest/gtest.h>
 #endif // TESTING
 
+/// \brief The GpuSolver class. inherits from Solver.h in common, all of it's methods
+/// internally make calls to cuda kernels
+
 class GpuSolver : public Solver
 {
 public:
   GpuSolver();
   ~GpuSolver();
+
+  /// \brief activate allocates memory
   void activate() override;
+
+  /// \brief reset, resets density and velocities
   void reset() override;
+
+  /// \brief cleanBuffer, resets previous density and previous velocities
   void cleanBuffer() override;
 
+  /// \brief setVelBoundary, sets the values at the boundaries
+  /// \param flag, 1 for x, 2 for y
   void setVelBoundary( int flag );
+
+  /// \brief setCellBoundary, sets the values at the boundaries for divergence, pressure and density
+  /// \param value, either divergence, pressure or density
   void setCellBoundary( real * _value, tuple<unsigned int> & _size );
+
+  /// \brief setVel0, sets the velocity from the mouse input
+  /// \param i, destination index
+  /// \param j, destination index
+  /// \param _vx0, previous mouse position in the x
+  /// \param _vy0 previous mouse position in the y
   void setVel0(int i, int j, real _vx0, real _vy0) override;
+
+  /// \brief setD0, sset density from mouse input
+  /// \param i, destination index
+  /// \param j, destination index
   void setD0(int i, int j ) override;
+
+  /// \brief addSource, adds density and velocity after the user input
   void addSource() override;
+
+  /// \brief animVel, velocity step
   void animVel() override;
+
+  /// \brief animDen, density step
   void animDen() override;
+
+  /// \brief projection, calculates divergence and pressure
   void projection();
+
+  /// \brief advectVelocity, advection of the velocity
   void advectVelocity();
+
+  /// \brief advectCell, advection of the density
   void advectCell();
+
+  /// \brief diffuseVelocity, diffuse velocity
   void diffuseVelocity();
+
+  /// \brief diffuseCell, diffuse Density
   void diffuseCell();
   void exportCSV( std::string _file, tuple<real> * _t, int _sizeX , int _sizeY );
 

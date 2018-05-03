@@ -83,7 +83,7 @@ void GLWindow::mouseMove( QMouseEvent * _event )
   if ( y < 1 ) y = 1;
 
   if ( _event->buttons() == Qt::RightButton && m_active )
-    m_activeSolver->setVel0(x, y, _event->pos().x() - prevX, _event->pos().y() - prevY );
+    m_activeSolver->setVel0(x, y, _event->pos().x() - m_prevX, _event->pos().y() - m_prevY );
 
   else if ( _event->buttons() == Qt::LeftButton && m_active )
     m_activeSolver->setD0(x, y);
@@ -99,11 +99,11 @@ void GLWindow::mouseClick(QMouseEvent * _event)
 {
   if ( m_active )
     m_activeSolver->cleanBuffer();
-  prevX = _event->pos().x();
-  prevY = _event->pos().y();
+  m_prevX = _event->pos().x();
+  m_prevY = _event->pos().y();
 
   if ( _event->buttons() == Qt::LeftButton && m_active )
-    m_activeSolver->setD0(prevX, prevY);
+    m_activeSolver->setD0(m_prevX, m_prevY);
 
   update();
 }
@@ -186,7 +186,7 @@ void GLWindow::paintGL()
   {
     m_activeSolver->animVel();
     m_activeSolver->animDen();
-    draw( m_activeSolver->getDens(), m_activeSolver->getRowCell() );
+    draw( m_activeSolver->getDens(), m_activeSolver->getRowCell(), false );
   }
 
   auto m_glImage = QGLWidget::convertToGLFormat( m_image );
@@ -233,10 +233,8 @@ void GLWindow::reset()
 }
 //------------------------------------------------------------------------------------------------------------------------------
 
-void GLWindow::draw( const real * _density, int _size )
+void GLWindow::draw( const real * _density, int _size, bool _save )
 {
-  static int count = 0;
-  bool save = false;
   for ( int i = 1; i < m_image.height(); ++i )
   {
     for ( int j = 1; j < m_image.width(); ++j )
@@ -245,17 +243,23 @@ void GLWindow::draw( const real * _density, int _size )
           _density[(j - 1) * _size + i] +
           _density[j * _size + (i - 1)] +
           _density[j * _size + i])/4.0f;
-
+      // we want a black and white smoke, so I will take take away 255 from the density,
+      // this way we will always start with a white background and the smoke will be dark
       float r = 255 - ( density > 255 ? 255 : density );
       if ( i == 0 || j == 0 || i == m_image.height()-1 || j == m_image.width()-1 )
         r = 255;
       m_image.setPixel(i, j, qRgb(r, r, r) );
     }
   }
-  std::string n = "frames/frame_" + std::to_string(count) + ".png";
-  if ( count > 700 && save )
+  // in case we want to save the frames
+  if ( _save )
+  {
+    static int count = 0;
+
+    std::string n = "frames/frame_" + std::to_string(count) + ".png";
     m_image.save(n.c_str(), 0, -1);
-  ++count;
+    ++count;
+  }
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

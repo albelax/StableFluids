@@ -10,7 +10,7 @@ Parallel implementation of Jos Stam's Stable Fluids
 This Project was developed as a third year programming assignment,
 The brief required to get a working algorithm and write it in parallel using CUDA.
 I chose the [original solver](https://github.com/finallyjustice/stablefluids) 
-because it was a really efficient and performant implemtation that uses a Data Oriented approach.
+because it was a really efficient and fast implementation that uses a Data Oriented approach.
 
 ### Configuration
 The following environment variables are needed to compile this out of the box:
@@ -28,7 +28,7 @@ In order to compile and run the application:
 * [CUDA](https://developer.nvidia.com/cuda-toolkit) - used to accelerate the Solver in parallel
 * [OpenGL](https://www.opengl.org/) ( 4.0 ) - used to draw the smoke simulation
 * [Google Test](https://github.com/google/googletest) - used to test the correctness of the implementation
-* [Google Benchmark](https://github.com/google/benchmark) - used to measure the speedups
+* [Google Benchmark](https://github.com/google/benchmark) - used to measure the speed-ups
 
 ### Project Structure
 The project is divided in:
@@ -43,11 +43,11 @@ the subProject compiles into a shared library
 
 * Test: This project's sole purpose is to check that every component works correctly
 
-* Benchmark: This small project is used to measure the speedups
+* Benchmark: This small project is used to measure the speed-ups
 
 ##### Common
 Common contains libraries and headers that the solvers and the applications need:
-* [glm](https://glm.g-truc.net/0.9.8/index.html) - used in the aplication
+* [glm](https://glm.g-truc.net/0.9.8/index.html) - used in the application
 * [parameters](https://github.com/albelax/StableFluids/blob/master/Common/include/parameters.h) - used to tweak the parameters of both solvers
 * [Solver](https://github.com/albelax/StableFluids/blob/master/Common/include/Solver.h) - base class for both solvers, perhaps not the best decision but made it easy to swap between the two from the application side
 * [tuple](https://github.com/albelax/StableFluids/blob/master/Common/include/tuple.h) - a simple generic container, also defines the type "real", used to swap easyly between floats and doubles
@@ -58,11 +58,11 @@ The first task of the project was to detect the most expensive components of the
 
 ![Callgrind](README_IMAGES/Callgrind.png)
 
-As showed in the image above the most expensive part of the solver was the velocity step ( animVel ), the second most expensive call is the projection, which caluclates the pressure,
+As showed in the image above the most expensive part of the solver was the velocity step ( animVel ), the second most expensive call is the projection, which calculates the pressure,
 and it's run two times in the velocity step, so I knew that the pressure was going to be the most important function to speed up on the GPU.
 
 ### Implementation
-Due to the nature of the project I knew I had to define my own workflow to minimize errors and make sure I was proceeding in the right direction.
+Due to the nature of the project I knew I had to define my own work flow to minimize errors and make sure I was proceeding in the right direction.
 My approach similar to [test driven development](https://en.wikipedia.org/wiki/Test-driven_development), 
 I would write the test before implementing new components, once implemented, tested against the original solver, and made sure the test passed I would benchmark that component.
 
@@ -72,10 +72,10 @@ I would write the test before implementing new components, once implemented, tes
 The solver inherits from Solver.h, in the common folder, the class is defined in the [GpuSolver.h](https://github.com/albelax/StableFluids/blob/master/solver_gpu/include/GpuSolver.h) and the class is implemented in [GpuSolver.cu](https://github.com/albelax/StableFluids/blob/master/solver_gpu/cudasrc/GpuSolver.cu), which looks like a normal c++ class, however all the functionalities are implemented in [GPUSolverKernels.cu] (https://github.com/albelax/StableFluids/blob/master/solver_gpu/cudasrc/GpuSolverKernels.cu), this meant that I could write cuda kernels and wrap them up in methods of a class, allowing me to take advantage of CUDA's performance while keeping a high level interface.
 
 ### Micro Optimisations
-Moving the solver from serial to Parallel provided a significant speedup, however I decided to adapt a few techniques to reduce hoverheads whenever possible:
+Moving the solver from serial to Parallel provided a significant speed-up, however I decided to adapt a few techniques to reduce overheads whenever possible:
 * Constant memory, something similar to an L2 cache, slower than L1 cache but way faster than global memory, I decided to store data that was commonly used in global memory so I could avoid launching a kernel with the same data every time.
 
-* Streams, usually kernels are launched asyncronously, but once launched they get queued up and they execute one at the time,
+* Streams, usually kernels are launched asynchronously, but once launched they get queued up and they execute one at the time,
 whenever possible I used multiple streams to launch and execute kernels in parallel, of course this was rarely possible as most of the components are interdependent.
 
 ### Future Improvements
@@ -192,5 +192,8 @@ Benchmarked on NVIDIA GTX 1080
 ### Projection speedup
 ![velStep](README_IMAGES/projectionSpeedup.png)
 
-### Velocity Advection speedup
+### Velocity Advection speed-up
 ![velStep](README_IMAGES/advectVel.png)
+
+### Conclusion
+The speed-up seems to spike up when the resolution is equal to 256x256, after that it seems to reach a plateau.

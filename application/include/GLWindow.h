@@ -55,13 +55,13 @@ protected:
   void paintGL();
   void renderScene();
   void renderTexture();
-  void draw(const real * _density, int _size );
+  void draw(const real * _density, int _size , bool _save);
 
 private:
   enum solverType m_solverType;
   bool m_active = false;
-  int prevX;
-  int prevY;
+  int m_prevX;
+  int m_prevY;
   int m_amountVertexData;
   GLuint m_vao;
   GLuint m_vbo;
@@ -81,10 +81,18 @@ private:
   glm::mat4 m_projection;
   glm::mat4 m_view;
   glm::mat4 m_MV; 
-  glm::mat4 m_MVP; 
+  glm::mat4 m_MVP;
+
+  /// \brief m_solver, cpu solver
   StableSolverCpu m_solver;
+
+  /// \brief m_solverGpu, gpu solver
   GpuSolver m_solverGpu;
+
+  /// \brief m_activeSolver, pointer to the active solver, it will be set in the constructor
   std::unique_ptr<Solver> m_activeSolver;
+
+  /// \brief m_image, image used to draw on the screen
   QImage m_image; 
   std::vector<GLuint> m_textures; 
   void addTexture();  

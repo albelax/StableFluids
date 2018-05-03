@@ -58,15 +58,15 @@ void StableSolverCpu::activate()
   m_active = true;
   m_gridSize.x = Common::gridWidth;
   m_gridSize.y = Common::gridHeight;
-  m_totCell = Common::totCells; //m_gridSize.x * m_gridSize.y;
+  m_totCell = Common::totCells;
   m_rowVelocity.x = Common::rowVelocityX;
   m_rowVelocity.y = Common::rowVelocityY;
 
   m_columnVelocity.x = Common::columnVelocityX;
   m_columnVelocity.y = Common::columnVelocityY;
 
-  m_totVelX = Common::totHorizontalVelocity; //m_rowVelocity.x * m_columnVelocity.x;
-  m_totVelY = Common::totVerticalVelocity; //m_rowVelocity.y * m_columnVelocity.y;
+  m_totVelX = Common::totHorizontalVelocity;
+  m_totVelY = Common::totVerticalVelocity;
 
   m_min.x = 0.0f;
   m_max.x = (real) m_gridSize.x;
@@ -529,26 +529,6 @@ void StableSolverCpu::randomizeArrays()
   }
   //-----------
 
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-
-QImage StableSolverCpu::draw( const QImage & _image ) const
-{
-  QImage result = _image.copy();
-  for ( int i = 0; i < _image.height(); ++i )
-  {
-    for ( int j = 0; j < _image.width(); ++j )
-    {
-      float r,g,b = 0;
-
-      r = 255 - ( getDens(i, j) > 255 ? 255 : getDens(i, j) );
-      g = 255 - ( getDens(i, j) > 255 ? 255 : getDens(i, j) );
-      b = 255 - ( getDens(i, j) > 255 ? 255 : getDens(i, j) );
-      result.setPixel(i,j,qRgb(r,g,b) );
-    }
-  }
-  return result;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
