@@ -24,7 +24,7 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
   m_image = QPixmap( Common::gridWidth, Common::gridHeight ).toImage();
   m_image.fill(Qt::white);
 
-  m_solverType = solverType::GPU;
+  m_solverType = solverType::CPU;
 
   if ( m_solverType == solverType::CPU )
     m_activeSolver = std::unique_ptr<Solver>( &m_solver );
