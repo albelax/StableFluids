@@ -40,8 +40,7 @@ the subProject compiles into a shared library
 
 * Benchmark: This small project is used to measure the speedups
 
-#### Common
-Common contains libraries and headers that the solvers and the applications need:
+* Common: contains libraries and headers that the solvers and the applications need:
 * [glm](https://glm.g-truc.net/0.9.8/index.html) - used in the aplication
 * [parameters](https://github.com/albelax/StableFluids/blob/master/Common/include/parameters.h) - used to tweak the parameters of both solvers
 * [Solver](https://github.com/albelax/StableFluids/blob/master/Common/include/Solver.h) - base class for both solvers, perhaps not the best decision but made it easy to swap between the two from the application side
