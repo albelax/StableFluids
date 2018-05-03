@@ -16,26 +16,7 @@ public:
 
 #endif // __TUPLE
 
-| ---------------------|----------------|-------------------------|
-|      Benchmark       |      Time      |     CPU Iterations      |
-| ---------------------|----------------|-------------------------|
-| CPU_solverCreation   |        17 ns   |        17 ns   40403571 |
-| GPU_solverCreation   |        19 ns   |        19 ns   36194377 |
-| CPU_solverActivation |     80724 ns   |     80697 ns       8521 |
-| GPU_solverActivation |    649797 ns   |    644707 ns       1157 |
-| CPU_projection       |   1365934 ns   |   1365945 ns        513 |
-| GPU_projection       |    547331 ns   |    547332 ns       1000 |
-| CPU_advectVelocity   |    360546 ns   |    360548 ns       1767 |
-| GPU_advectVelocity   |     68330 ns   |     68331 ns      10000 |
-| CPU_advectCell       |    240370 ns   |    240371 ns       2818 |
-| GPU_advectCell       |     31872 ns   |     31873 ns      22616 |
-| CPU_diffuseVelocity  |   2665851 ns   |   2665869 ns        263 |
-| GPU_diffuseVelocity  |    595574 ns   |    595581 ns       1000 |
-| CPU_diffuseDensity   |   1171699 ns   |   1171712 ns        597 |
-| GPU_diffuseDensity   |    770841 ns   |    770832 ns      10000 |
-| CPU_animateVelocity  |   3079318 ns   |   3078935 ns        229 |
-| GPU_animateVelocity  |   1119373 ns   |   1119329 ns        685 |
-| CPU_animateDensity   |    240566 ns   |    240569 ns       2912 |
-| GPU_animateDensity   |     31930 ns   |     31929 ns      22686 |
-| CPU_addSource        |     28556 ns   |     28555 ns      24572 |
-| GPU_addSource        |    147887 ns   |    147715 ns       4914 |
+/*
+animVel speedup: 2.7, 18, 44, 21
+projection speedup: 2.4, 11, 27, 17
+advect vel: 5, 18, 30, 35

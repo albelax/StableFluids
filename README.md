@@ -82,6 +82,7 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 
 
 ## Results
+Benchmarked on NVIDIA GTX 1080
 
 ### 64x64
 
@@ -184,3 +185,12 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 |GPU_animateDensity    |    358652 ns  |    358656 ns  |       3394 |
 |CPU_addSource         |    927384 ns  |    927391 ns  |        753 |
 |GPU_addSource         |    808545 ns  |    808486 ns  |        863 |
+
+### velocity Step speedup
+![velStep](README_IMAGES/velocityStepSpeedup.png)
+
+### Projection speedup
+![velStep](README_IMAGES/projectionSpeedup.png)
+
+### Velocity Advection speedup
+![velStep](README_IMAGES/advectVel.png)
