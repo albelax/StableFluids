@@ -101,7 +101,7 @@ void GpuSolver::allocateArrays()
 
   err = cudaGetLastError();
   if ( err != cudaSuccess ) printf("copy Error during activation: %s\n", cudaGetErrorString(err));
-  cudaDeviceSynchronize();
+//  cudaDeviceSynchronize();
 //  std::cout << "memory allocated \n";
 }
 
@@ -115,7 +115,7 @@ void GpuSolver::activate()
 
   // 1024 -> max threads per block, in this case it will fire 16 blocks
   int nBlocks = m_totVelX / 1024;
-  int blockDim = 1024 / m_gridSize.x + 1; // 9 threads per block
+  int blockDim = 1024 / m_gridSize.x + 2; // 9 threads per block
 
   dim3 block(blockDim, blockDim); // block of (X,Y) threads
   dim3 grid(nBlocks, nBlocks); // grid 2x2 blocks
@@ -203,7 +203,7 @@ void GpuSolver::cleanBuffer()
 const real * GpuSolver::getDens()
 {
   copy( m_density, m_cpuDensity, m_totCell );
-  cudaDeviceSynchronize();
+//  cudaDeviceSynchronize();
 
   return m_cpuDensity;
 }
@@ -332,7 +332,7 @@ void GpuSolver::diffuseCell()
 
   dim3 block(blockDim, blockDim);
   dim3 grid(nBlocks, nBlocks);
-  cudaMemset( (void *)m_density, 0, sizeof(real)*m_totCell );
+  cudaMemsetAsync( (void *)m_density, 0, sizeof(real)*m_totCell );
   d_diffuseCell<<<grid, block, bins>>>( m_previousDensity, m_density, m_timeStep, m_viscosity );
 
   cudaError_t err = cudaGetLastError();
@@ -406,8 +406,6 @@ void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
     std::cout << "copy failed\n";
     exit(0);
   }
-  cudaThreadSynchronize();
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -415,7 +413,7 @@ void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
 
 void GpuSolver::copy( real * _src, real * _dst, int _size )
 {
-  cudaDeviceSynchronize();
+//  cudaDeviceSynchronize();
   if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyDeviceToHost) != cudaSuccess )
   {
     cudaError_t err = cudaGetLastError();
@@ -426,7 +424,7 @@ void GpuSolver::copy( real * _src, real * _dst, int _size )
     std::cout << "copy failed\n";
     exit(0);
   }
-  cudaDeviceSynchronize();
+//  cudaDeviceSynchronize();
 
 }
 

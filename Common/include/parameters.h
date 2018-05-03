@@ -3,7 +3,7 @@
 
 namespace Common 
 {
-  int multiplier = 3;
+  int multiplier = 2;
   int gridWidth = 128 * multiplier;
   int gridHeight = 128 * multiplier;
 

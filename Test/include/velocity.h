@@ -195,7 +195,7 @@ TEST( advect, velocity_y )
   int x = cpuSolver.m_totVelY;
   for ( int i = 0; i < x; ++i )
   {
-    ASSERT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i],0.5);
+    EXPECT_NEAR( cpuSolver.m_velocity.y[i], h_velocity_y[i], 0.5);
   }
   free( h_velocity_y );
 }

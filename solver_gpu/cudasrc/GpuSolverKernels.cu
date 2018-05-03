@@ -581,7 +581,7 @@ __global__ void d_diffuseCell( real * _previousDensity, real * _density, real _t
       _density[idy * c_gridSize[0] + idx] = local_density[sIdx];
     }
 
-    // TODO: boundary
+    // boundary
     if ( idx > 0 && idx < c_gridSize[0] - 1 )
     {
       _density[idx] = _density[idx + c_gridSize[0]];
