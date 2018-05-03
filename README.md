@@ -31,7 +31,7 @@ In order to compile and run the application:
 * [Google Benchmark](https://github.com/google/benchmark) - used to measure the speedups
 
 ### Project Structure
-The project is divided in a parts:
+The project is divided in:
 
 * solver_cpu: the serial implementation of the solver, slightly changed from the original version,
 the subProject compiles into a shared library
@@ -82,3 +82,29 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 
 
 ## Results
+
+### 64x64
+------------------------------------------------------------
+Benchmark                     Time           CPU Iterations
+------------------------------------------------------------
+Creation_of_a_string          0 ns          0 ns 1000000000
+CPU_solverCreation           24 ns         24 ns   31348493
+GPU_solverCreation           24 ns         24 ns   28930681
+CPU_solverActivation     102237 ns     102229 ns       6826
+GPU_solverActivation    1122034 ns    1115693 ns        636
+CPU_projection          1687347 ns    1687212 ns        414
+GPU_projection          1811452 ns    1811300 ns        478
+CPU_advectVelocity       433016 ns     432981 ns       1620
+GPU_advectVelocity       232544 ns     232526 ns       4207
+CPU_advectCell           318658 ns     318634 ns       2111
+GPU_advectCell           117705 ns     117690 ns      11662
+CPU_diffuseVelocity     3216789 ns    3216502 ns        217
+GPU_diffuseVelocity     2222757 ns    2222577 ns       1000
+CPU_diffuseDensity      1488659 ns    1488532 ns        469
+GPU_diffuseDensity      3024257 ns    3024020 ns      10000
+CPU_animateVelocity     3846763 ns    3846440 ns        181
+GPU_animateVelocity     3816887 ns    3816581 ns        195
+CPU_animateDensity       334304 ns     334278 ns       2270
+GPU_animateDensity       117858 ns     117849 ns      11661
+CPU_addSource             37362 ns      37359 ns      18710
+GPU_addSource            348491 ns     348081 ns       2053
