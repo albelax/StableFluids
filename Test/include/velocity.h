@@ -182,9 +182,10 @@ TEST( advect, velocity_y )
   cpuSolver.activate();
 
   gpuSolver.copy( gpuSolver.m_previousVelocity.y, cpuSolver.m_previousVelocity.y, gpuSolver.m_totVelY );
+  gpuSolver.copy( gpuSolver.m_previousVelocity.x, cpuSolver.m_previousVelocity.x, gpuSolver.m_totVelX );
+
   gpuSolver.copy( gpuSolver.m_velocity.y, cpuSolver.m_velocity.y, gpuSolver.m_totVelY );
   gpuSolver.copy( gpuSolver.m_velocity.x, cpuSolver.m_velocity.x, gpuSolver.m_totVelX );
-
 
   gpuSolver.advectVelocity();
   cpuSolver.advectVel();
