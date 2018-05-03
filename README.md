@@ -40,8 +40,9 @@ the subProject compiles into a shared library
 
 * Benchmark: This small project is used to measure the speedups
 
-* Common: contains libraries and headers that the solvers and the applications need:
-- [glm](https://glm.g-truc.net/0.9.8/index.html) - used in the aplication
+##### Common
+Common contains libraries and headers that the solvers and the applications need:
+* [glm](https://glm.g-truc.net/0.9.8/index.html) - used in the aplication
 * [parameters](https://github.com/albelax/StableFluids/blob/master/Common/include/parameters.h) - used to tweak the parameters of both solvers
 * [Solver](https://github.com/albelax/StableFluids/blob/master/Common/include/Solver.h) - base class for both solvers, perhaps not the best decision but made it easy to swap between the two from the application side
 * [tuple](https://github.com/albelax/StableFluids/blob/master/Common/include/tuple.h) - a simple generic container, also defines the type "real", used to swap easyly between floats and doubles
