@@ -54,11 +54,12 @@ Common contains libraries and headers that the solvers and the applications need
 
 ## Workflow
 ### Analysis - Profiling
-The first task of the project was to detect the most expensive components of the solver, I did that using [Callgrind](http://valgrind.org/docs/manual/cl-manual.html)
+The first task of the project was to detect the most expensive components of the solver, I did that using [Callgrind](http://valgrind.org/docs/manual/cl-manual.html) embedded in QtCreator
 
 ![Callgrind](README_IMAGES/Callgrind.png)
-Format: ![Callgrind](url)
 
+As showed in the image above the most expensive part of the solver was the velocity step ( animVel ), the second most expensive call is the projection, which caluclates the pressure,
+and it's run two times in the velocity step, so I knew that the pressure was going to be the most important function to speed up on the GPU.
 
 ### Implementation
 Due to the nature of the project I knew I had to define my own workflow to minimize errors and make sure I was proceeding in the right direction.
