@@ -19,11 +19,11 @@ In order to compile and run the application:
 * run $$PWD/bin/Application
 
 ### Dependencies
-* [Qt] ( https://www.qt.io/ ) - QtCreator was my IDE of choice, I also used [QWidget](http://doc.qt.io/qt-5/qwidget.html) and [QImage](http://doc.qt.io/qt-5/qimage.html)
-* [CUDA] (https://developer.nvidia.com/cuda-toolkit) - used to accelerate the Solver in parallel
-* [OpenGL] (https://www.opengl.org/) ( 4.0 ) - used to draw the smoke simulation
-* [Google Test] (https://github.com/google/googletest) - used to test the correctness of the implementation
-* [Google Benchmark] (https://github.com/google/benchmark) - used to measure the speedups
+* [Qt]( https://www.qt.io/ ) - QtCreator was my IDE of choice, I also used [QWidget](http://doc.qt.io/qt-5/qwidget.html) and [QImage](http://doc.qt.io/qt-5/qimage.html)
+* [CUDA](https://developer.nvidia.com/cuda-toolkit) - used to accelerate the Solver in parallel
+* [OpenGL](https://www.opengl.org/) ( 4.0 ) - used to draw the smoke simulation
+* [Google Test](https://github.com/google/googletest) - used to test the correctness of the implementation
+* [Google Benchmark](https://github.com/google/benchmark) - used to measure the speedups
 
 ### Project Structure
 The project is divided in a parts:
