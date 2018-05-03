@@ -1,6 +1,8 @@
 # Stable Fluids
-Parallel implementation of Jos Stam's Stable Fluids
+
 ![gif](README_IMAGES/gif.gif)
+
+Parallel implementation of Jos Stam's Stable Fluids
 
 ## Project Overview
 This Project was developed as a third year programming assignment,
