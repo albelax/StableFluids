@@ -1,5 +1,6 @@
 # Stable Fluids
 Parallel implementation of Jos Stam's Stable Fluids
+![gif](README_IMAGES/gif.gif)
 
 ## Project Overview
 This Project was developed as a third year programming assignment,
@@ -61,3 +62,13 @@ Due to the nature of the project I knew I had to define my own workflow to minim
 My approach similar to [test driven development](https://en.wikipedia.org/wiki/Test-driven_development), 
 I would write the test before implementing new components, once implemented, tested against the original solver, and made sure the test passed I would benchmark that component.
 
+## The GPU Solver
+
+### Structure
+The solver inherits from Solver.h, in the common folder, the class is defined in the [GpuSolver.h](https://github.com/albelax/StableFluids/blob/master/solver_gpu/include/GpuSolver.h) and the class is implemented in [GpuSolver.cu](https://github.com/albelax/StableFluids/blob/master/solver_gpu/cudasrc/GpuSolver.cu), which looks like a normal c++ class, however all the functionalities are implemented in [GPUSolverKernels.cu] (https://github.com/albelax/StableFluids/blob/master/solver_gpu/cudasrc/GpuSolverKernels.cu), this meant that I could write cuda kernels and wrap them up in methods of a class, allowing me to take advantage of CUDA's performance while keeping a high level interface.
+
+
+### Future Improvements
+
+
+## Results
