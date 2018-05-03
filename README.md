@@ -159,3 +159,28 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 | GPU_animateDensity    |     92921 ns   |     92915 ns  |      10000  |
 | CPU_addSource         |    415360 ns   |    415351 ns  |       1682  |
 | GPU_addSource         |    435225 ns   |    435059 ns  |       1620  |
+
+### 512x512
+
+|Benchmark             |         Time  |          CPU  | Iterations |
+|----------------------|---------------|---------------|------------|
+|CPU_solverCreation    |        17 ns  |        17 ns  |   40436539 |
+|GPU_solverCreation    |        19 ns  |        19 ns  |   36814170 |
+|CPU_solverActivation  |   2773967 ns  |   2774004 ns  |        252 |
+|GPU_solverActivation  |   2257457 ns  |   2241661 ns  |        316 |
+|CPU_projection        |  73668478 ns  |  73669022 ns  |          9 |
+|GPU_projection        |   4235135 ns  |   4235172 ns  |        173 |
+|CPU_advectVelocity    |  22364119 ns  |  22364411 ns  |         31 |
+|GPU_advectVelocity    |    623548 ns  |    623555 ns  |       1000 |
+|CPU_advectCell        |   9752254 ns  |   9751313 ns  |         71 |
+|GPU_advectCell        |    358102 ns  |    358105 ns  |       3381 |
+|CPU_diffuseVelocity   | 117031137 ns  | 117032585 ns  |          6 |
+|GPU_diffuseVelocity   |  11642810 ns  |  11642845 ns  |       1000 |
+|CPU_diffuseDensity    |  58518501 ns  |  58519198 ns  |         12 |
+|GPU_diffuseDensity    |   3629575 ns  |   3629614 ns  |       1000 |
+|CPU_animateVelocity   | 203896799 ns  | 203899402 ns  |          4 |
+|GPU_animateVelocity   |   9435029 ns  |   9434779 ns  |        100 |
+|CPU_animateDensity    |   9752684 ns  |   9752804 ns  |         71 |
+|GPU_animateDensity    |    358652 ns  |    358656 ns  |       3394 |
+|CPU_addSource         |    927384 ns  |    927391 ns  |        753 |
+|GPU_addSource         |    808545 ns  |    808486 ns  |        863 |
