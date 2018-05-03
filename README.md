@@ -108,7 +108,7 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 | CPU_addSource        |     28556 ns   |     28555 ns  |      24572 |
 | GPU_addSource        |    147887 ns   |    147715 ns  |       4914 |
 
-###128
+### 128x128
 
 |      Benchmark         |       Time       |      CPU      |  Iterations  |
 |------------------------|----------------- |---------------|--------------|
@@ -133,3 +133,29 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 |  GPU_animateDensity    |      39247 ns    |     39088 ns  |       18368  |
 |  CPU_addSource         |     108270 ns    |    107843 ns  |        6476  |
 |  GPU_addSource         |     205904 ns    |    205107 ns  |        3409  |
+
+
+### 256x256
+
+| Benchmark             |         Time   |          CPU  | Iterations  |
+|-----------------------|----------------|---------------|-------------|
+| CPU_solverCreation    |        17 ns   |        17 ns  |   40430214  |
+| GPU_solverCreation    |        19 ns   |        19 ns  |   37751948  |
+| CPU_solverActivation  |   1307306 ns   |   1307305 ns  |        539  |
+| GPU_solverActivation  |   1132863 ns   |   1125006 ns  |        648  |
+| CPU_projection        |  32270398 ns   |  32263586 ns  |         22  |
+| GPU_projection        |   1184480 ns   |   1184185 ns  |        641  |
+| CPU_advectVelocity    |   6153712 ns   |   6153789 ns  |        114  |
+| GPU_advectVelocity    |    198935 ns   |    198928 ns  |       4975  |
+| CPU_advectCell        |   4283895 ns   |   4283607 ns  |        163  |
+| GPU_advectCell        |     95228 ns   |     95226 ns  |      10000  |
+| CPU_diffuseVelocity   |  48446876 ns   |  48439043 ns  |         14  |
+| GPU_diffuseVelocity   |   2195355 ns   |   2195217 ns  |       1000  |
+| CPU_diffuseDensity    |  25586086 ns   |  25586407 ns  |         27  |
+| GPU_diffuseDensity    |    783454 ns   |    783346 ns  |       1000  |
+| CPU_animateVelocity   | 122734220 ns   | 122680635 ns  |          8  |
+| GPU_animateVelocity   |   2739802 ns   |   2738564 ns  |        292  |
+| CPU_animateDensity    |   4281516 ns   |   4280389 ns  |        163  |
+| GPU_animateDensity    |     92921 ns   |     92915 ns  |      10000  |
+| CPU_addSource         |    415360 ns   |    415351 ns  |       1682  |
+| GPU_addSource         |    435225 ns   |    435059 ns  |       1620  |
