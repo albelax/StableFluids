@@ -94,7 +94,7 @@ Communication between threads was achieved by using shared memory and most of th
 
 ### Future Improvements
 The parallel implementation of the solver definetly faster than the serial version, however is not perfect.
-In order to make it even better it would be necessary to increase GPU occupancy, which is still low, this could be achieved launching kernels with bigger blocks, launching more kernels in parallel using more streams, something that I did whenever was possible but I did not try to do even further. The Algotithm could be improved as well, however, for this assignment I decided not to improve the algorithm to present a fair comparison between the serial and the parallel implementations.
+In order to make it even better it would be necessary to increase GPU occupancy, which is now roughly at 40%, this could be achieved launching kernels with bigger blocks, launching more kernels in parallel using more streams, something that I did whenever was possible but I did not try to do even further. The Algotithm could be improved as well, however, for this assignment I decided not to improve the algorithm to present a fair comparison between the serial and the parallel implementations.
 
 
 ## Results
@@ -214,4 +214,4 @@ Benchmarked on:
 ![velStep](README_IMAGES/advectVel.png)
 
 ### Conclusion
-The speed-up seems to spike up when the resolution is equal to 256x256, after that it seems to reach a plateau.
+The speedup is small, sometimes the CPU seems to outperform the GPU, whenever the dataset is small, since the communication overhead between cpu and gpu is higher than the speedups( Benchmark 64x64, column 1 in the graphs above ), it then spikes up ( Benchmark 256x256, column 3 in the graphs above), and then after the optimal size of the dataset the acceleration seems to to reach a plateau or even decrease ( Benchmark 512x512, or last column of the graphs above ). This seems to confirm the laws expressed in graph below.
