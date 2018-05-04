@@ -82,6 +82,7 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 
 
 ## Results
+Benchmarked on:
 * GPU: NVIDIA GTX 1080
 * CPU: Intel® Core™ i7-7700K CPU @ 4.20GHz × 8 
 
