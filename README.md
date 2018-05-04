@@ -207,7 +207,9 @@ Benchmarked on:
 
 ### velocity Step speedup
 ![velStep](README_IMAGES/velocityStepSpeedup.png)
+<p align="center">
 1 = 64x64, 2 = 128x128, 3 = 256x256, 4 = 512x512
+</p>
 
 ### Projection speedup
 ![velStep](README_IMAGES/projectionSpeedup.png)
@@ -219,5 +221,5 @@ Benchmarked on:
 The speedup is small, sometimes the CPU seems to outperform the GPU, whenever the dataset is small, since the communication overhead between cpu and gpu is higher than the speedups( Benchmark 64x64, column 1 in the graphs above ), it then spikes up ( Benchmark 256x256, column 3 in the graphs above), and then after the optimal size of the dataset the acceleration seems to to reach a plateau or even decrease ( Benchmark 512x512, or last column of the graphs above ). This seems to confirm the laws expressed in graph below.
 
 <p align="center">
-  <img width="256" height="256" src="README_IMAGES/Amdhal.png">
+  <img width="822" height="447" src="README_IMAGES/Amdhal.png">
 </p>
