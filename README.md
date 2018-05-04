@@ -66,6 +66,17 @@ Due to the nature of the project I knew I had to define my own work flow to mini
 My approach similar to [test driven development](https://en.wikipedia.org/wiki/Test-driven_development), 
 I would write the test before implementing new components, once implemented, tested against the original solver, and made sure the test passed I would benchmark that component.
 
+### Coding Standard
+The coding standard I followed is the **NCCA** coding Standard:
+* [Code Layout](https://nccastaff.bournemouth.ac.uk/jmacey/NCCACodingStandard/CodeLayout.html)
+* [Style and Practices](https://nccastaff.bournemouth.ac.uk/jmacey/NCCACodingStandard/StyleAndPractice.html)
+* [Class Layout](https://nccastaff.bournemouth.ac.uk/jmacey/NCCACodingStandard/ClassLayout.html)
+
+However I took some freedom in naming the kernels, which I defined using **d_** before the name of the kernel
+```
+__global__ void d_projection( real * _pressure, real * _divergence );
+```
+
 ## The GPU Solver
 
 ### Structure
