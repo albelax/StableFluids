@@ -89,7 +89,12 @@ Moving the solver from serial to Parallel provided a significant speed-up, howev
 * Streams, usually kernels are launched asynchronously, but once launched they get queued up and they execute one at the time,
 whenever possible I used multiple streams to launch and execute kernels in parallel, of course this was rarely possible as most of the components are interdependent.
 
+### Communication between threads
+Communication between threads was achieved by using shared memory and most of the times I got away with using a simple gather between neighbor cells; I tried to avoid mutexes and atomic adds as much as possible as they could slow down the algorithm ( I had to use mutexes anyway to calculate the boundary conditions, which unavoidable ).
+
 ### Future Improvements
+The parallel implementation of the solver definetly faster than the serial version, however is not perfect.
+In order to make it even better it would be necessary to increase GPU occupancy, which is still low, this could be achieved launching kernels with bigger blocks, launching more kernels in parallel using more streams, something that I did whenever was possible but I did not try to do even further. The Algotithm could be improved as well, however, for this assignment I decided not to improve the algorithm to present a fair comparison between the serial and the parallel implementations.
 
 
 ## Results
