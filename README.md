@@ -82,8 +82,8 @@ whenever possible I used multiple streams to launch and execute kernels in paral
 
 
 ## Results
-GPU: NVIDIA GTX 1080
-CPU: Intel® Core™ i7-7700K CPU @ 4.20GHz × 8 
+* GPU: NVIDIA GTX 1080
+* CPU: Intel® Core™ i7-7700K CPU @ 4.20GHz × 8 
 
 ### 64x64
 
