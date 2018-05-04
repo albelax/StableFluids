@@ -1,7 +1,6 @@
 #ifndef OPENGLSCENE_H_
 #define OPENGLSCENE_H_
 
-
 #include "Shader.h"
 #include "TrackballCamera.h"
 #include "Mesh.h"

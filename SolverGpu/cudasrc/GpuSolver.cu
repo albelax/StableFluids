@@ -401,7 +401,7 @@ void GpuSolver::animDen()
 
 void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
 {
-  if( cudaMemcpy( _dst, _src, _size * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
+  if( cudaMemcpyAsync( _dst, _src, _size * sizeof(tuple<real>), cudaMemcpyDeviceToHost) != cudaSuccess )
   {
     std::cout << "copy failed\n";
     exit(0);
@@ -414,7 +414,7 @@ void GpuSolver::copy( tuple<real> * _src, tuple<real> * _dst, int _size )
 void GpuSolver::copy( real * _src, real * _dst, int _size )
 {
 //  cudaDeviceSynchronize();
-  if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyDeviceToHost) != cudaSuccess )
+  if( cudaMemcpyAsync( _dst, _src, _size * sizeof( real ), cudaMemcpyDeviceToHost) != cudaSuccess )
   {
     cudaError_t err = cudaGetLastError();
     if ( err != cudaSuccess ) printf("copy Error: %s\n", cudaGetErrorString(err));
@@ -432,7 +432,7 @@ void GpuSolver::copy( real * _src, real * _dst, int _size )
 
 void GpuSolver::copyToDevice( real * _src, real * _dst, int _size )
 {
-  if( cudaMemcpy( _dst, _src, _size * sizeof( real ), cudaMemcpyHostToDevice ) != cudaSuccess )
+  if( cudaMemcpyAsync( _dst, _src, _size * sizeof( real ), cudaMemcpyHostToDevice ) != cudaSuccess )
   {
     std::cout << "copy to device failed\n";
     exit(0);
