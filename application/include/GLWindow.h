@@ -45,7 +45,7 @@ public slots:
   void setDiffusion( double _diffusion ) { m_activeSolver->setDiffusion( static_cast<float>( _diffusion ) ); }
   void setViscosity( double _viscosity ) { m_activeSolver->setViscosity( static_cast<float>( _viscosity ) ); }
   void setDensity( double _density ) { m_activeSolver->setDensity( static_cast<float>( _density ) ); }
-
+  void SaveFrames( bool _save ){ m_saveFrames = _save; }
 protected:
   /// @brief  The following methods must be implimented in the sub class
   /// this is called when the window is created
@@ -53,13 +53,12 @@ protected:
 
   /// @brief this is the main gl drawing routine which is called whenever the window needs to be re-drawn
   void paintGL();
-  void renderScene();
   void renderTexture();
   void draw(const real * _density, int _size , bool _save);
 
 private:
   enum solverType m_solverType;
-  bool m_active = false;
+  bool m_saveFrames = false;
   int m_prevX;
   int m_prevY;
   int m_amountVertexData;

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_GLWindow_t {
-    QByteArrayData data[12];
-    char stringdata0[111];
+    QByteArrayData data[14];
+    char stringdata0[128];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,13 +40,15 @@ QT_MOC_LITERAL(7, 56, 10), // "_diffusion"
 QT_MOC_LITERAL(8, 67, 12), // "setViscosity"
 QT_MOC_LITERAL(9, 80, 10), // "_viscosity"
 QT_MOC_LITERAL(10, 91, 10), // "setDensity"
-QT_MOC_LITERAL(11, 102, 8) // "_density"
+QT_MOC_LITERAL(11, 102, 8), // "_density"
+QT_MOC_LITERAL(12, 111, 10), // "SaveFrames"
+QT_MOC_LITERAL(13, 122, 5) // "_save"
 
     },
     "GLWindow\0init\0\0reset\0setTimestep\0"
     "_timeStep\0setDiffusion\0_diffusion\0"
     "setViscosity\0_viscosity\0setDensity\0"
-    "_density"
+    "_density\0SaveFrames\0_save"
 };
 #undef QT_MOC_LITERAL
 
@@ -56,7 +58,7 @@ static const uint qt_meta_data_GLWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,12 +66,13 @@ static const uint qt_meta_data_GLWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   44,    2, 0x0a /* Public */,
-       3,    0,   45,    2, 0x0a /* Public */,
-       4,    1,   46,    2, 0x0a /* Public */,
-       6,    1,   49,    2, 0x0a /* Public */,
-       8,    1,   52,    2, 0x0a /* Public */,
-      10,    1,   55,    2, 0x0a /* Public */,
+       1,    0,   49,    2, 0x0a /* Public */,
+       3,    0,   50,    2, 0x0a /* Public */,
+       4,    1,   51,    2, 0x0a /* Public */,
+       6,    1,   54,    2, 0x0a /* Public */,
+       8,    1,   57,    2, 0x0a /* Public */,
+      10,    1,   60,    2, 0x0a /* Public */,
+      12,    1,   63,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -78,6 +81,7 @@ static const uint qt_meta_data_GLWindow[] = {
     QMetaType::Void, QMetaType::Double,    7,
     QMetaType::Void, QMetaType::Double,    9,
     QMetaType::Void, QMetaType::Double,   11,
+    QMetaType::Void, QMetaType::Bool,   13,
 
        0        // eod
 };
@@ -94,6 +98,7 @@ void GLWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 3: _t->setDiffusion((*reinterpret_cast< double(*)>(_a[1]))); break;
         case 4: _t->setViscosity((*reinterpret_cast< double(*)>(_a[1]))); break;
         case 5: _t->setDensity((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 6: _t->SaveFrames((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -124,13 +129,13 @@ int GLWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }

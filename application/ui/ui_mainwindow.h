@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
@@ -41,17 +42,18 @@ public:
     QSpacerItem *horizontalSpacer_3;
     QGroupBox *s_transformGB;
     QGridLayout *gridLayout;
-    QLabel *DensityLabel;
-    QSpacerItem *horizontalSpacer_4;
+    QDoubleSpinBox *Viscosity;
+    QLabel *ViscosityLabel;
     QDoubleSpinBox *timestep;
+    QLabel *DensityLabel;
     QLabel *TimestepLabel;
     QDoubleSpinBox *Diffusion;
     QLabel *label;
     QPushButton *reset;
-    QDoubleSpinBox *Viscosity;
-    QLabel *DiffusionLabel;
-    QLabel *ViscosityLabel;
     QDoubleSpinBox *Density;
+    QLabel *DiffusionLabel;
+    QSpacerItem *horizontalSpacer_4;
+    QCheckBox *saveFrames;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -98,14 +100,17 @@ public:
         s_transformGB->setObjectName(QStringLiteral("s_transformGB"));
         gridLayout = new QGridLayout(s_transformGB);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        DensityLabel = new QLabel(s_transformGB);
-        DensityLabel->setObjectName(QStringLiteral("DensityLabel"));
+        Viscosity = new QDoubleSpinBox(s_transformGB);
+        Viscosity->setObjectName(QStringLiteral("Viscosity"));
+        Viscosity->setMaximum(10);
+        Viscosity->setSingleStep(0.1);
 
-        gridLayout->addWidget(DensityLabel, 7, 2, 1, 1);
+        gridLayout->addWidget(Viscosity, 6, 2, 1, 1);
 
-        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        ViscosityLabel = new QLabel(s_transformGB);
+        ViscosityLabel->setObjectName(QStringLiteral("ViscosityLabel"));
 
-        gridLayout->addItem(horizontalSpacer_4, 0, 4, 1, 1);
+        gridLayout->addWidget(ViscosityLabel, 5, 2, 1, 1);
 
         timestep = new QDoubleSpinBox(s_transformGB);
         timestep->setObjectName(QStringLiteral("timestep"));
@@ -114,6 +119,11 @@ public:
         timestep->setValue(1);
 
         gridLayout->addWidget(timestep, 2, 2, 1, 1);
+
+        DensityLabel = new QLabel(s_transformGB);
+        DensityLabel->setObjectName(QStringLiteral("DensityLabel"));
+
+        gridLayout->addWidget(DensityLabel, 7, 2, 1, 1);
 
         TimestepLabel = new QLabel(s_transformGB);
         TimestepLabel->setObjectName(QStringLiteral("TimestepLabel"));
@@ -137,23 +147,6 @@ public:
 
         gridLayout->addWidget(reset, 0, 2, 1, 1);
 
-        Viscosity = new QDoubleSpinBox(s_transformGB);
-        Viscosity->setObjectName(QStringLiteral("Viscosity"));
-        Viscosity->setMaximum(10);
-        Viscosity->setSingleStep(0.1);
-
-        gridLayout->addWidget(Viscosity, 6, 2, 1, 1);
-
-        DiffusionLabel = new QLabel(s_transformGB);
-        DiffusionLabel->setObjectName(QStringLiteral("DiffusionLabel"));
-
-        gridLayout->addWidget(DiffusionLabel, 3, 2, 1, 1);
-
-        ViscosityLabel = new QLabel(s_transformGB);
-        ViscosityLabel->setObjectName(QStringLiteral("ViscosityLabel"));
-
-        gridLayout->addWidget(ViscosityLabel, 5, 2, 1, 1);
-
         Density = new QDoubleSpinBox(s_transformGB);
         Density->setObjectName(QStringLiteral("Density"));
         Density->setMaximum(1000);
@@ -161,6 +154,20 @@ public:
         Density->setValue(200);
 
         gridLayout->addWidget(Density, 8, 2, 1, 1);
+
+        DiffusionLabel = new QLabel(s_transformGB);
+        DiffusionLabel->setObjectName(QStringLiteral("DiffusionLabel"));
+
+        gridLayout->addWidget(DiffusionLabel, 3, 2, 1, 1);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_4, 0, 4, 1, 1);
+
+        saveFrames = new QCheckBox(s_transformGB);
+        saveFrames->setObjectName(QStringLiteral("saveFrames"));
+
+        gridLayout->addWidget(saveFrames, 9, 2, 1, 1);
 
 
         s_mainWindowGridLayout->addWidget(s_transformGB, 0, 5, 1, 1);
@@ -181,12 +188,13 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stable Fluids", 0));
         s_drawGB->setTitle(QString());
         s_transformGB->setTitle(QString());
+        ViscosityLabel->setText(QApplication::translate("MainWindow", "Viscosity", 0));
         DensityLabel->setText(QApplication::translate("MainWindow", "Density", 0));
         TimestepLabel->setText(QApplication::translate("MainWindow", "TimeStep", 0));
         label->setText(QString());
         reset->setText(QApplication::translate("MainWindow", "Reset", 0));
         DiffusionLabel->setText(QApplication::translate("MainWindow", "Diffusion", 0));
-        ViscosityLabel->setText(QApplication::translate("MainWindow", "Viscosity", 0));
+        saveFrames->setText(QApplication::translate("MainWindow", "Save Frames", 0));
     } // retranslateUi
 
 };

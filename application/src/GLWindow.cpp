@@ -31,8 +31,6 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
   else if ( m_solverType == solverType::GPU )
     m_activeSolver = std::unique_ptr<Solver>( &m_solverGpu );
   m_activeSolver->activate();
-
-  m_active = true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -69,8 +67,8 @@ GLWindow::~GLWindow()
 
 void GLWindow::mouseMove( QMouseEvent * _event )
 {
-  if ( m_active )
-    m_activeSolver->cleanBuffer();
+
+  m_activeSolver->cleanBuffer();
   m_camera.handleMouseMove( _event->pos().x() * Common::multiplier, _event->pos().y() * Common::multiplier );
 
   float posx = _event->pos().x() / static_cast<float>(width()) *  Common::gridWidth-1 * Common::multiplier;
@@ -82,13 +80,13 @@ void GLWindow::mouseMove( QMouseEvent * _event )
   if ( x < 1 ) x = 1;
   if ( y < 1 ) y = 1;
 
-  if ( _event->buttons() == Qt::RightButton && m_active )
+  if ( _event->buttons() == Qt::RightButton  )
     m_activeSolver->setVel0(x, y, _event->pos().x() - m_prevX, _event->pos().y() - m_prevY );
 
-  else if ( _event->buttons() == Qt::LeftButton && m_active )
+  else if ( _event->buttons() == Qt::LeftButton )
     m_activeSolver->setD0(x, y);
-  if ( m_active )
-    m_activeSolver->addSource();
+
+  m_activeSolver->addSource();
 
   update();
 }
@@ -97,12 +95,12 @@ void GLWindow::mouseMove( QMouseEvent * _event )
 
 void GLWindow::mouseClick(QMouseEvent * _event)
 {
-  if ( m_active )
-    m_activeSolver->cleanBuffer();
+
+  m_activeSolver->cleanBuffer();
   m_prevX = _event->pos().x();
   m_prevY = _event->pos().y();
 
-  if ( _event->buttons() == Qt::LeftButton && m_active )
+  if ( _event->buttons() == Qt::LeftButton )
     m_activeSolver->setD0(m_prevX, m_prevY);
 
   update();
@@ -182,12 +180,10 @@ void GLWindow::paintGL()
   glClearColor( 1, 1, 1, 1.0f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  if ( m_active )
-  {
-    m_activeSolver->animVel();
-    m_activeSolver->animDen();
-    draw( m_activeSolver->getDens(), m_activeSolver->getRowCell(), false );
-  }
+
+  m_activeSolver->animVel();
+  m_activeSolver->animDen();
+  draw( m_activeSolver->getDens(), m_activeSolver->getRowCell(), m_saveFrames );
 
   auto m_glImage = QGLWidget::convertToGLFormat( m_image );
   if(m_glImage.isNull())
@@ -202,34 +198,9 @@ void GLWindow::paintGL()
 
 //------------------------------------------------------------------------------------------------------------------------------
 
-void GLWindow::renderScene()
-{
-  glViewport( 0, 0, width()*devicePixelRatio(), height()*devicePixelRatio() ); //fix for retina screens
-  glClearColor( 1, 1, 1, 1.0f );
-  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-  m_camera.update();
-  m_projection = glm::perspective( glm::radians( 60.0f ),
-                                   static_cast<float>( width() ) / static_cast<float>( height() ), 0.1f, 100.0f );
-  m_view = glm::lookAt( glm::vec3( 0.0f, 0.0f, 5.0f ), glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
-
-  m_MVP = m_projection * m_camera.viewMatrix() * m_MV;
-  glm::mat3 N = glm::mat3( glm::inverse( glm::transpose( m_MV ) ) );
-
-  glUniformMatrix4fv( m_MVPAddress, 1, GL_FALSE, glm::value_ptr( m_MVP ) );
-  glUniformMatrix4fv( m_MVAddress, 1, GL_FALSE, glm::value_ptr( m_MV ) );
-
-  glUniformMatrix3fv( m_NAddress, 1, GL_FALSE, glm::value_ptr( N ) );
-
-  glDrawArrays( GL_TRIANGLES, 0 , ( m_amountVertexData / 3 ) );
-}
-
-//------------------------------------------------------------------------------------------------------------------------------
-
 void GLWindow::reset()
 {
-  if ( m_active )
-    m_activeSolver->reset();
+  m_activeSolver->reset();
 }
 //------------------------------------------------------------------------------------------------------------------------------
 
@@ -251,6 +222,7 @@ void GLWindow::draw( const real * _density, int _size, bool _save )
       m_image.setPixel(i, j, qRgb(r, r, r) );
     }
   }
+
   // in case we want to save the frames
   if ( _save )
   {

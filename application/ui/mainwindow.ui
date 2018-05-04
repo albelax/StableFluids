@@ -108,25 +108,22 @@
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="7" column="2">
-        <widget class="QLabel" name="DensityLabel">
-         <property name="text">
-          <string>Density</string>
+       <item row="6" column="2">
+        <widget class="QDoubleSpinBox" name="Viscosity">
+         <property name="maximum">
+          <double>10.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="5" column="2">
+        <widget class="QLabel" name="ViscosityLabel">
+         <property name="text">
+          <string>Viscosity</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
        <item row="2" column="2">
         <widget class="QDoubleSpinBox" name="timestep">
@@ -138,6 +135,13 @@
          </property>
          <property name="value">
           <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="DensityLabel">
+         <property name="text">
+          <string>Density</string>
          </property>
         </widget>
        </item>
@@ -172,30 +176,6 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
-        <widget class="QDoubleSpinBox" name="Viscosity">
-         <property name="maximum">
-          <double>10.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLabel" name="DiffusionLabel">
-         <property name="text">
-          <string>Diffusion</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <widget class="QLabel" name="ViscosityLabel">
-         <property name="text">
-          <string>Viscosity</string>
-         </property>
-        </widget>
-       </item>
        <item row="8" column="2">
         <widget class="QDoubleSpinBox" name="Density">
          <property name="maximum">
@@ -206,6 +186,33 @@
          </property>
          <property name="value">
           <double>200.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLabel" name="DiffusionLabel">
+         <property name="text">
+          <string>Diffusion</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="9" column="2">
+        <widget class="QCheckBox" name="saveFrames">
+         <property name="text">
+          <string>Save Frames</string>
          </property>
         </widget>
        </item>
