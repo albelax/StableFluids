@@ -3,9 +3,9 @@
 
 namespace Common 
 {
-  int multiplier = 1;
-  int gridWidth = 32 * multiplier;
-  int gridHeight = 32 * multiplier;
+  int multiplier = 2;
+  int gridWidth = 128 * multiplier;
+  int gridHeight = 128 * multiplier;
 
   int totCells = gridWidth * gridHeight;
 
