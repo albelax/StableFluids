@@ -6,7 +6,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include "rand_gpu.h"
-#include "parameters.h"
+#include "Parameters.h"
 //----------------------------------------------------------------------------------------------------------------------
 
 GpuSolver::GpuSolver()

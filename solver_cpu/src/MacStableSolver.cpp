@@ -25,7 +25,7 @@
 #include <fstream>
 #include <sys/time.h>
 #include <time.h>
-#include "parameters.h"
+#include "Parameters.h"
 
 
 StableSolverCpu::StableSolverCpu()

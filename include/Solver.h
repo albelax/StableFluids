@@ -1,7 +1,7 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
-#include "tuple.h"
+#include "Tuple.h"
 
 #define TESTING 1
 

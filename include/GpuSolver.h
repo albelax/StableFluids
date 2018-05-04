@@ -5,7 +5,7 @@
 #include <time.h>
 #include <string.h>
 #include <iostream>
-#include "tuple.h"
+#include "Tuple.h"
 #include "Solver.h"
 
 // friends the test functions with this class

@@ -6,9 +6,9 @@
 #include <QImage>
 #include <QScreen>
 #include <unistd.h>
-#include "parameters.h"
+#include "Parameters.h"
 
-const std::string address = "../application/"; // if the program is fired from the bin folder
+const std::string address = "../Application/"; // if the program is fired from the bin folder
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ GLWindow::GLWindow( QWidget *_parent ) : QOpenGLWidget( _parent )
   m_image = QPixmap( Common::gridWidth, Common::gridHeight ).toImage();
   m_image.fill(Qt::white);
 
-  m_solverType = solverType::GPU;
+  m_solverType = solverType::CPU;
 
   if ( m_solverType == solverType::CPU )
     m_activeSolver = std::unique_ptr<Solver>( &m_solver );

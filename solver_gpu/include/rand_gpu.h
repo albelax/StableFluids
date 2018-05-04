@@ -2,7 +2,7 @@
 #define _RAND_GPU_H
 
 #include <vector>
-#include <tuple.h>
+#include <Tuple.h>
 namespace Rand_GPU
 {
     /// Fill up a vector on the device with n floats. Memory is arrumed to have been preallocated.

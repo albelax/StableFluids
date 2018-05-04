@@ -10,7 +10,7 @@
 #include <cuda_runtime_api.h>
 #include <device_functions.h>
 
-#include "tuple.h"
+#include "Tuple.h"
 
 // constant memory is a small chunk of memory off chip,
 // slower than registers and L1 cache, but a lot faster than global memory

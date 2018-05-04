@@ -2,7 +2,7 @@
 #ifndef RAND_CPU_H
 #define RAND_CPU_H
 
-#include "tuple.h"
+#include "Tuple.h"
 #include <vector>
 
 namespace Rand_CPU

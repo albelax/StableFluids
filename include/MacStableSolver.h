@@ -24,7 +24,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <iostream>
-#include "tuple.h"
+#include "Tuple.h"
 #include "rand_cpu.h"
 #include <QImage>
 #include "Solver.h"
